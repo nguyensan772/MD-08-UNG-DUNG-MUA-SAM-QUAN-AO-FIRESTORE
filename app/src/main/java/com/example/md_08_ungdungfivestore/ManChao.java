@@ -20,6 +20,6 @@ public class ManChao extends AppCompatActivity {
             public void run() {
                 Intent intent=new Intent(ManChao.this, DangNhap.class);
             }
-        },3000);
+        },5000);
     }
 }
