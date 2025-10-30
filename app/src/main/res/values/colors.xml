@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="background">#FF0C0F14</color>
+    <color name="light_gray">#FF262B33</color>
+    <color name="light_gray_2">#FFBDBDBD</color>
+    <color name="peru">#FFD17842</color>
 </resources>
