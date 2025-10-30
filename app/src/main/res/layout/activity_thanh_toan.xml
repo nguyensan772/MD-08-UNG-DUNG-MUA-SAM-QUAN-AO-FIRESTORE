@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:padding="12dp"
-            android:background="@drawable/graident_den_xam"
+            android:background="@drawable/nen_item_chu_de"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
