@@ -13,4 +13,5 @@ public class ManThongTin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thong_tin);
     }
+
 }

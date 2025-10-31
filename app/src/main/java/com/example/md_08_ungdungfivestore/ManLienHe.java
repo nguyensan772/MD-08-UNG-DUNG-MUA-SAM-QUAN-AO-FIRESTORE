@@ -9,4 +9,5 @@ public class ManLienHe extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lien_he);
     }
+
 }
