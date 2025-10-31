@@ -5,6 +5,121 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ManDonHang">
+    tools:context=".ManDonHang"
+    android:background="@color/mauNen">
 
+    <TextView
+        android:id="@+id/choXacNhanTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chờ xác nhận"
+        android:textColor="@color/white"
+        android:fontFamily="@font/poppins_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/dangGiaoTextView"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <TextView
+        android:id="@+id/dangGiaoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đang giao"
+        android:textColor="@color/white"
+        android:fontFamily="@font/poppins_medium"
+        app:layout_constraintStart_toEndOf="@+id/choXacNhanTextView"
+        app:layout_constraintEnd_toStartOf="@id/daGiaoTextView"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <TextView
+        android:id="@+id/daGiaoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đang giao"
+        android:textColor="@color/white"
+        android:fontFamily="@font/poppins_medium"
+        app:layout_constraintStart_toStartOf="@+id/dangGiaoTextView"
+        app:layout_constraintEnd_toEndOf="@id/daHuyTextView"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <TextView
+        android:id="@+id/daHuyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đang giao"
+        android:textColor="@color/white"
+        android:fontFamily="@font/poppins_medium"
+        app:layout_constraintStart_toEndOf="@+id/daGiaoTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="10dp"
+        android:background="@drawable/nen_item_chu_de"
+        app:layout_constraintTop_toBottomOf="@id/dangGiaoTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+        <ImageView
+            android:id="@+id/anhDonHangImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@color/XamNhat"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <TextView
+            android:id="@+id/aoTreEmTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Áo trẻ em"
+            android:textColor="@color/white"
+            android:fontFamily="@font/poppins_regular"
+            android:textSize="17dp"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintStart_toEndOf="@id/anhDonHangImageView"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <TextView
+            android:id="@+id/tongTienTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tổng tiền: 199"
+            android:textColor="@color/white"
+            android:fontFamily="@font/poppins_regular"
+            android:textSize="12dp"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintStart_toEndOf="@id/anhDonHangImageView"
+            app:layout_constraintTop_toBottomOf="@id/aoTreEmTextView"
+            />
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VND"
+            android:textColor="@color/ChuDe"
+            android:fontFamily="@font/poppins_regular"
+            android:textSize="12dp"
+            android:layout_marginLeft="5dp"
+            app:layout_constraintStart_toEndOf="@id/tongTienTextView"
+            app:layout_constraintTop_toBottomOf="@id/aoTreEmTextView"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chờ xác nhận"
+            android:textColor="@color/ChuDe"
+            android:fontFamily="@font/poppins_regular"
+            android:textSize="12dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
