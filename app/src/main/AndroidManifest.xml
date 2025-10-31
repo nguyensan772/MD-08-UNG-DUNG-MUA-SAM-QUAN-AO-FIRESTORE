@@ -25,6 +25,21 @@
             android:name=".ManDatHang"
             android:exported="false" />
         <activity
+            android:name=".MatKhauMoi"
+            android:exported="false" />
+        <activity
+            android:name=".GuiMaXacNhan"
+            android:exported="false" />
+        <activity
+            android:name=".MatKhauSai"
+            android:exported="false" />
+        <activity
+            android:name=".DangNhap"
+            android:exported="false" /> <!-- Màn hình chào -->
+        <activity
+            android:name=".ManChao"
+            android:exported="true"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

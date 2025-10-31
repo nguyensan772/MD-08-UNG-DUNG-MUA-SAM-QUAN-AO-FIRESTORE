@@ -1,0 +1,185 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0F0E0E"
+    tools:context=".DangNhap">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/imgLogoDangNhap"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:src="@drawable/logo"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to PROSOTE !!"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login to Continue"
+            android:textColor="#A8A8A8"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Email -->
+        <EditText
+            android:id="@+id/edtEmailDangNhap"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Email Address"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#999999"
+            android:textSize="15sp"
+            android:background="@drawable/bg_login"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Password -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_login"
+            android:layout_marginBottom="12dp">
+
+            <EditText
+                android:id="@+id/edtPasswordDangNhap"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Password"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#999999"
+
+                android:inputType="textPassword"
+                android:padding="12dp"
+                android:paddingEnd="45dp"
+                android:textSize="15sp"
+                android:background="@android:color/transparent" />
+
+            <ImageView
+                android:id="@+id/imgShowHidePassword"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/mat"
+                android:contentDescription="Show/Hide Password" />
+        </RelativeLayout>
+
+
+        <!-- Nút Sign In -->
+        <Button
+            android:id="@+id/btnSignInDangNhap"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Sign In"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:background="@drawable/button_otp_bg"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Nút Sign in with Google -->
+        <LinearLayout
+            android:id="@+id/btnGoogleDangNhap"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/bg_google"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/google" />
+
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_marginRight="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:text="Sign in with Google"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <!-- Dòng đăng ký -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Don’t have account? "
+                android:textColor="#A8A8A8"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvRegisterDangNhap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Register"
+                android:textColor="#E48F45"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+
+        <!-- Dòng quên mật khẩu -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Forget Password? "
+                android:textColor="#A8A8A8"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvResetDangNhap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reset"
+                android:textColor="#E48F45"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>
