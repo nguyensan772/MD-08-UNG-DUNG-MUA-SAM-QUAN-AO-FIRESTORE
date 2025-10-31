@@ -25,6 +25,15 @@
             android:name=".MatKhauMoi"
             android:exported="false" />
         <activity
+            android:name=".ManThongTin"
+            android:exported="false"/>
+        <activity
+            android:name=".ManLienHe"
+            android:exported="false"/>
+        <activity
+            android:name=".ManChat"
+            android:exported="false"/>
+        <activity
             android:name=".GuiMaXacNhan"
             android:exported="false" />
         <activity
