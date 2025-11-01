@@ -13,7 +13,7 @@
         android:theme="@style/Theme.MD08_UngDungFiveStore"
         tools:targetApi="31">
         <activity
-            android:name=".TrangCaNhanActivity"
+
             android:exported="false" />
         <activity
             android:name=".CaiDatActivity"
@@ -25,7 +25,7 @@
             android:name=".ManDatHang"
             android:exported="false" />
         <activity
-            android:name=".MatKhauMoi"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".GuiMaXacNhan"
@@ -38,9 +38,9 @@
             android:exported="false" /> <!-- Màn hình chào -->
         <activity
             android:name=".ManChao"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ManDangKy"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
