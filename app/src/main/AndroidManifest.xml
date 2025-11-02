@@ -13,7 +13,10 @@
         android:theme="@style/Theme.MD08_UngDungFiveStore"
         tools:targetApi="31">
         <activity
-
+            android:name=".ManTrangChu"
+            android:exported="false" />
+        <activity
+            android:name=".ManDanhGiaSanPham"
             android:exported="false" />
         <activity
             android:name=".CaiDatActivity"
@@ -25,17 +28,17 @@
             android:name=".ManDatHang"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ManLienHe"
             android:exported="false" />
         <activity
             android:name=".ManThongTin"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
-            android:name=".ManLienHe"
-            android:exported="false"/>
+            android:name=".ManDangKy"
+            android:exported="false" />
         <activity
             android:name=".ManChat"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".GuiMaXacNhan"
             android:exported="false" />
@@ -49,7 +52,7 @@
             android:name=".ManChao"
             android:exported="true" />
         <activity
-            android:name=".ManDangKy"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
