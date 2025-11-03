@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#0F0E0E"
     android:padding="24dp"
@@ -33,19 +33,38 @@
 
 
 
-    <EditText
-        android:layout_marginTop="50dp"
-        android:id="@+id/edtEmailMatKhauMoi"
+<!--    <EditText-->
+<!--        android:layout_marginTop="50dp"-->
+<!--        android:id="@+id/edtEmailMatKhauMoi"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:hint="Email Address"-->
+<!--        android:inputType="textEmailAddress"-->
+<!--        android:padding="12dp"-->
+<!--        android:textColor="#FFFFFF"-->
+<!--        android:textColorHint="#999999"-->
+<!--        android:textSize="15sp"-->
+<!--        android:background="#373535"-->
+<!--        android:layout_marginBottom="12dp" />-->
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Email Address"
-        android:inputType="textEmailAddress"
-        android:padding="12dp"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#999999"
-        android:textSize="15sp"
-        android:background="#373535"
-        android:layout_marginBottom="12dp" />
+        android:layout_height="match_parent"
+        app:passwordToggleEnabled="true">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/edtEmailMatKhauMoi"
+            android:hint="Mật khẩu mới"
+            android:inputType="textPassword"
+            android:padding="12dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#999999"
+            android:textSize="15sp"
+            android:background="@drawable/bg_login"
+            android:layout_marginBottom="12dp"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
 
