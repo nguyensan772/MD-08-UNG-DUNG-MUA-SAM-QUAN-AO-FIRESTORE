@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -10,7 +10,33 @@
     tools:context=".ManDatHang">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/quayLaiBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:src="@drawable/quay_lai_img" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="Đặt hàng"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:fontFamily="@font/poppins_bold" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -18,42 +44,71 @@
         android:background="@drawable/nen_item_chu_de"
         android:orientation="vertical"
         android:paddingHorizontal="10dp"
-        android:paddingVertical="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingVertical="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
             android:text="Địa chỉ nhận hàng"
+            android:textSize="18sp"
             android:textColor="@color/white" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Xóm 1, Xã Giao Hà, Giao Thủy, Nam Định"
-            android:textColor="@color/white" />
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_location_pin" />
+
+            <TextView
+                android:id="@+id/diaChiTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Xóm 1, Xã Giao Hà, Giao Thủy, Nam Định"
+                android:textColor="@color/white" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
             android:text="Thông tin người nhận"
+            android:textSize="16sp"
             android:textColor="@color/white" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/hoTenKhachHangTxt"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
-            android:text="Họ tên: Nguyễn Văn A\nSĐT: 095846834\nEmail: hoangson23045@gmail.com"
+            android:text="Họ tên: Nguyễn Văn A"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/soDienThoaiTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="SĐT: 095846834"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/emailKhachHangTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Email: hoangson23045@gmail.com"
             android:textColor="@color/white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/poppins_semibold"
             android:text="Phương thức thanh toán"
             android:textColor="@color/white" />
@@ -63,6 +118,7 @@
             android:layout_height="match_parent">
 
             <RadioButton
+                android:id="@+id/thanhToanRadioBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semibold"
@@ -70,6 +126,7 @@
                 android:textColor="@color/white" />
 
             <RadioButton
+                android:id="@+id/thanhToanTruocRadioBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semibold"
@@ -79,8 +136,10 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/danhSachMuaRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +156,7 @@
         android:paddingVertical="5dp">
 
         <TextView
-            android:id="@+id/tongCongTV"
+            android:id="@+id/tongCongTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
@@ -107,6 +166,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tongSoTienTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
@@ -115,9 +175,10 @@
             android:text="1.000.900 VNĐ"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tongCongTV" />
+            app:layout_constraintTop_toBottomOf="@id/tongCongTxt" />
 
         <TextView
+            android:id="@+id/nutThanhToanTxt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Thanh toán"
@@ -125,11 +186,9 @@
             android:fontFamily="@font/poppins_semibold"
             android:textColor="@color/white"
             android:background="@drawable/nen_nut"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
