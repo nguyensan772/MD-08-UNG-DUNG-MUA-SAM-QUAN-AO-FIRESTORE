@@ -25,6 +25,9 @@
             android:name=".ManDatHang"
             android:exported="false" />
         <activity
+            android:name=".ManDonHang"
+            android:exported="false" />
+        <activity
             android:name=".ManLienHe"
             android:exported="false" />
         <activity

@@ -12,6 +12,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.md_08_ungdungfivestore.fragments.GioHangFragment;
+import com.example.md_08_ungdungfivestore.fragments.TrangCaNhanFragment;
 import com.example.md_08_ungdungfivestore.fragments.TrangChuFragment;
 import com.example.md_08_ungdungfivestore.fragments.YeuThichFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -46,14 +48,16 @@ public class MainActivity extends AppCompatActivity {
                 taiFragment(new YeuThichFragment());
                 tieuDe.setText("Yêu thích");
             }
+            if (item.getItemId() == R.id.navGioHang) {
+                taiFragment(new GioHangFragment());
+                tieuDe.setText("Giỏ hàng");
+            }
+            if (item.getItemId() == R.id.navNguoiDung) {
+                taiFragment(new TrangCaNhanFragment());
+                tieuDe.setText("Trang cá nhân");
+            }
             return true;
         });
-
-
-
-
-
-
     }
 
 
@@ -65,8 +69,7 @@ public class MainActivity extends AppCompatActivity {
         tieuDe = findViewById(R.id.tieuDeTextView);
     }
 
-    public void  taiFragment (Fragment fragment){
+    public void taiFragment (Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.trangChuFrameLayout,fragment).commit();
-
     }
 }
