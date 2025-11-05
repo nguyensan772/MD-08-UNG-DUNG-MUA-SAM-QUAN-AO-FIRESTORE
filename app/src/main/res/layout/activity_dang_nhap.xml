@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="0dp"
-                android:hint="Mật khẩu"
+                android:hint="Password"
                 android:textColorHint="#999999"
                 android:inputType="textPassword"
                 android:background="@drawable/bg_login"/>
