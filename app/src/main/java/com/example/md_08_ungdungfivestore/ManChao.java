@@ -18,7 +18,11 @@ public class ManChao extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent(ManChao.this, DangNhap.class);
+                Intent intent=new Intent
+                        (ManChao.this, DangNhap.class);
+                startActivity(intent); // 👉 Thực hiện chuyển màn
+                finish(); // 👉 Đóng màn hình chào để không quay lại khi nhấn Back
+
             }
         },5000);
     }

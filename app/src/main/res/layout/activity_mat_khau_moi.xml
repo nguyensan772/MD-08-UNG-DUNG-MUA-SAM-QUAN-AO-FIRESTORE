@@ -7,6 +7,7 @@
     android:background="#0F0E0E"
     android:orientation="vertical"
     android:padding="24dp"
+    android:id="@+id/main"
     tools:context=".MatKhauMoi">
 
     <!-- Nút quay lại -->
