@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.md_08_ungdungfivestore.fragments.GioHangFragment;
 import com.example.md_08_ungdungfivestore.fragments.TrangChuFragment;
 import com.example.md_08_ungdungfivestore.fragments.YeuThichFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,19 +34,30 @@ public class MainActivity extends AppCompatActivity {
         });
         anhXa();
         setSupportActionBar(toolbar);
-//        if (savedInstanceState == null ){
-//            taiFragment(new TrangChuFragment());
-//        }
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (savedInstanceState==null){
+    taiFragment(new TrangChuFragment());
+}
+
 
 
         menu.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.navTrangChu){
                 taiFragment(new TrangChuFragment());
+                tieuDe.setText("Trang chủ");
             }
             if (item.getItemId() == R.id.navYeuThich){
                 taiFragment(new YeuThichFragment());
                 tieuDe.setText("Yêu thích");
             }
+            if (item.getItemId() == R.id.navGioHang){
+                taiFragment(new GioHangFragment());
+                tieuDe.setText("Giỏ hàng");
+            }
+//            if (item.getItemId() == R.id.navNguoiDung){
+//                taiFragment(new YeuThichFragment());
+//                tieuDe.setText("Yêu thích");
+//            }
             return true;
         });
 
