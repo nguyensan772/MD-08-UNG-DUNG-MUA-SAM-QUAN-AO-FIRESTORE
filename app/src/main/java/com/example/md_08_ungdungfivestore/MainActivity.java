@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         tieuDe = findViewById(R.id.tieuDeTextView);
     }
 
+
+
     public void  taiFragment (Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.trangChuFrameLayout,fragment).commit();
 
