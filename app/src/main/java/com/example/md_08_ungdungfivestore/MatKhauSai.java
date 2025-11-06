@@ -2,10 +2,10 @@ package com.example.md_08_ungdungfivestore;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,26 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MatKhauSai extends AppCompatActivity {
 
     private ImageButton BtnQuayLaiSMK;
-    private EditText edtEmail;
-    private EditText edtMatKhau;
+    private EditText edtEmail, edtMatKhau;
     private ImageView imgShowHidePassword;
     private TextView nutDangNhapSaiMKTextView, tvRegister, tvReset;
-
-import android.text.InputType;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.material.textfield.TextInputEditText;
-
-public class MatKhauSai extends AppCompatActivity {
-
-    private EditText edtEmail;
-    private TextInputEditText matKhauDangNhapSaiMKTextInputEditText;
-    private TextView nutDangNhapSaiMKTextView, tvRegister, tvReset;
-    private ImageView imgShowHidePassword;
 
     private boolean isPasswordVisible = false;
 
@@ -43,17 +26,15 @@ public class MatKhauSai extends AppCompatActivity {
 
         initUI();
 
-        // ✅ Nút quay lại → quay về màn đăng nhập
-        BtnQuayLaiSMK.setOnClickListener(v -> {
-            finish(); // quay lại màn trước
-        });
+        // ✅ Nút quay lại
+        BtnQuayLaiSMK.setOnClickListener(v -> finish());
 
-        // ✅ Toggle show/hide mật khẩu
+        // ✅ Toggle show/hide password
         imgShowHidePassword.setOnClickListener(v -> togglePassword());
 
-        // ✅ Nhấn Sign In → sang màn chính (MainActivity)
+        // ✅ Nhấn Sign In → quay về màn đăng nhập
         nutDangNhapSaiMKTextView.setOnClickListener(v -> {
-            Intent i = new Intent(MatKhauSai.this, MainActivity.class);
+            Intent i = new Intent(MatKhauSai.this, DangNhap.class);
             startActivity(i);
             finish();
         });
@@ -64,9 +45,9 @@ public class MatKhauSai extends AppCompatActivity {
             startActivity(i);
         });
 
-        // ✅ Reset password → sang màn Reset
+        // ✅ Reset password → sang màn gửi mã
         tvReset.setOnClickListener(v -> {
-            Intent i = new Intent(MatKhauSai.this, MatKhauMoi.class);
+            Intent i = new Intent(MatKhauSai.this, GuiMaXacNhan.class);
             startActivity(i);
         });
     }
@@ -84,45 +65,18 @@ public class MatKhauSai extends AppCompatActivity {
     private void togglePassword() {
         if (isPasswordVisible) {
             edtMatKhau.setInputType(
-                    android.text.InputType.TYPE_CLASS_TEXT |
-                            android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                    InputType.TYPE_CLASS_TEXT |
+                            InputType.TYPE_TEXT_VARIATION_PASSWORD
             );
-            imgShowHidePassword.setImageResource(R.drawable.mat); // icon mắt đóng
+            imgShowHidePassword.setImageResource(R.drawable.mat); // mắt đóng
         } else {
             edtMatKhau.setInputType(
-                    android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                    InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
             );
-            imgShowHidePassword.setImageResource(R.drawable.mat); // icon mắt mở
+            imgShowHidePassword.setImageResource(R.drawable.mat); // mắt mở
         }
+
         edtMatKhau.setSelection(edtMatKhau.length());
         isPasswordVisible = !isPasswordVisible;
     }
-}
-
-        // 🔹 Ánh xạ view
-        edtEmail = findViewById(R.id.edtEmail);
-        matKhauDangNhapSaiMKTextInputEditText = findViewById(R.id.matKhauDangNhapSaiMKTextInputEditText);
-        nutDangNhapSaiMKTextView = findViewById(R.id.nutDangNhapSaiMKTextView);
-        tvRegister = findViewById(R.id.tvRegister);
-        tvReset = findViewById(R.id.tvReset);
-        imgShowHidePassword = findViewById(R.id.imgShowHidePassword);
-
-        // 🔹 Khi bấm “Sign In” → quay lại màn đăng nhập
-        nutDangNhapSaiMKTextView.setOnClickListener(v -> {
-            Intent intent = new Intent(MatKhauSai.this, DangNhap.class);
-            startActivity(intent);
-            finish();
-        });
-
-        // 🔹 Khi bấm “Register” → chuyển qua màn đăng ký
-        tvRegister.setOnClickListener(v -> {
-            Intent intent = new Intent(MatKhauSai.this, ManDangKy.class);
-            startActivity(intent);
-        });
-
-        // 🔹 Khi bấm “Reset” → chuyển qua màn gửi mã xác nhận
-        tvReset.setOnClickListener(v -> {
-            Intent intent = new Intent(MatKhauSai.this, GuiMaXacNhan.class);
-            startActivity(intent);
-        });}
 }
