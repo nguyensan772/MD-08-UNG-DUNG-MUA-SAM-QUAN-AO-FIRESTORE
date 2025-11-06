@@ -24,6 +24,6 @@ public class ManChao extends AppCompatActivity {
                 finish(); // 👉 Đóng màn hình chào để không quay lại khi nhấn Back
 
             }
-        },3000);
+        },5000);
     }
 }
