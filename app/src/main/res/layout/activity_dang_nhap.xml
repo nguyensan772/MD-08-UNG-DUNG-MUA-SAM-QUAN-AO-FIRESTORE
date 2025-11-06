@@ -64,7 +64,7 @@
             android:layout_marginBottom="12dp">
 
             <EditText
-                android:id="@+id/edtPasswordDangNhap"
+                android:id="@+id/matKhauDangNhapTextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Mật khẩu"
@@ -94,7 +94,7 @@
             android:id="@+id/nutDangnhapTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Đăng ký"
+            android:text="Sign In"
             android:textColor="@color/white"
             android:background="@drawable/nen_nut"
             android:padding="20dp"
