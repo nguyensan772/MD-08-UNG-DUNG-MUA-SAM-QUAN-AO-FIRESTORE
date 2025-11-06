@@ -7,16 +7,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 public class DangNhap extends AppCompatActivity {
-
 
     private ImageView imgLogoDangNhap, imgShowHidePassword;
     private EditText edtEmailDangNhap;
@@ -26,69 +21,68 @@ public class DangNhap extends AppCompatActivity {
 
     private boolean isPasswordVisible = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_dang_nhap);
 
+        initUI();
 
-        imgLogoDangNhap = findViewById(R.id.imgLogoDangNhap);
-        edtEmailDangNhap = findViewById(R.id.edtEmailDangNhap);
-        matKhauDangNhapTextInputEditText = findViewById(R.id.matKhauDangNhapTextInputEditText);
-        imgShowHidePassword = findViewById(R.id.imgShowHidePassword);
-        nutSignInDangNhapTextView = findViewById(R.id.nutSignInDangNhapTextView);
-        btnGoogleDangNhap = findViewById(R.id.btnGoogleDangNhap);
-        tvRegisterDangNhap = findViewById(R.id.tvRegisterDangNhap);
-        tvResetDangNhap = findViewById(R.id.tvResetDangNhap);
-
-
+        // ======= SHOW/HIDE PASSWORD =======
         imgShowHidePassword.setOnClickListener(v -> {
             if (isPasswordVisible) {
-                // Ẩn mật khẩu
                 matKhauDangNhapTextInputEditText.setInputType(
                         android.text.InputType.TYPE_CLASS_TEXT |
                                 android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
                 );
-                imgShowHidePassword.setImageResource(R.drawable.mat); // icon con mắt đóng
+                imgShowHidePassword.setImageResource(R.drawable.mat);
                 isPasswordVisible = false;
             } else {
-                // Hiện mật khẩu
                 matKhauDangNhapTextInputEditText.setInputType(
                         android.text.InputType.TYPE_CLASS_TEXT |
                                 android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
                 );
-                imgShowHidePassword.setImageResource(R.drawable.mat); // icon con mắt mở
+                imgShowHidePassword.setImageResource(R.drawable.mat);
                 isPasswordVisible = true;
             }
-            // Đưa con trỏ về cuối dòng
             matKhauDangNhapTextInputEditText.setSelection(
                     matKhauDangNhapTextInputEditText.getText().length()
             );
         });
 
-        // ======= NÚT SIGN IN =======
+        // ======= SIGN IN =======
         nutSignInDangNhapTextView.setOnClickListener(v -> {
-            String email = edtEmailDangNhap.getText().toString().trim();
-            String password = matKhauDangNhapTextInputEditText.getText().toString().trim();
-            Intent intent = new Intent(DangNhap.this, MatKhauSai.class);
-            startActivity(intent);
-
+            Intent i = new Intent(DangNhap.this, MatKhauSai.class);
+            startActivity(i);
         });
 
-        // ======= NÚT GOOGLE SIGN IN =======
+        // ======= GOOGLE SIGN IN =======
         btnGoogleDangNhap.setOnClickListener(v -> {
-
-            Intent intent=new Intent(DangNhap.this,DangNhap.class);
-            startActivity(intent);
+            Intent i = new Intent(DangNhap.this, MainActivity.class);
+            startActivity(i);
         });
 
-        // ======= NÚT ĐĂNG KÝ =======
-        tvRegisterDangNhap.setOnClickListener(v -> {});
+        // ======= REGISTER =======
+        tvRegisterDangNhap.setOnClickListener(v -> {
+            Intent i = new Intent(DangNhap.this, ManDangKy.class);
+            startActivity(i);
+        });
 
-        // ======= NÚT QUÊN MẬT KHẨU =======
+        // ======= RESET PASSWORD =======
         tvResetDangNhap.setOnClickListener(v -> {
+            Intent i = new Intent(DangNhap.this, GuiMaXacNhan.class);
+            startActivity(i);
         });
+    }
+
+    private void initUI() {
+        imgLogoDangNhap = findViewById(R.id.imgLogoDangNhap);
+        edtEmailDangNhap = findViewById(R.id.edtEmailDangNhap);
+        matKhauDangNhapTextInputEditText = findViewById(R.id.matKhauDangNhapTextInputEditText);
+        imgShowHidePassword = findViewById(R.id.imgShowHidePassword);
+        nutSignInDangNhapTextView = findViewById(R.id.nutDangnhapSignInTextView);
+        btnGoogleDangNhap = findViewById(R.id.btnGoogleDangNhap);
+        tvRegisterDangNhap = findViewById(R.id.tvRegisterDangNhap);
+        tvResetDangNhap = findViewById(R.id.tvResetDangNhap);
     }
 }
