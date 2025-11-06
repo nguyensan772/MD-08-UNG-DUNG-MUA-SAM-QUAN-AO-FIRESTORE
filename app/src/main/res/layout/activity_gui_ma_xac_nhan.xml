@@ -118,16 +118,16 @@
 
     <!-- Nút xác nhận -->
 
-<!--    <Button-->
+    <!--    <Button-->
 
-<!--        android:id="@+id/btnXacNhan"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="55dp"-->
-<!--        android:text="Xác nhận"-->
-<!--        android:textColor="#FFFFFF"-->
-<!--        android:textSize="16sp"-->
-<!--        android:background="@drawable/button_otp_bg"-->
-<!--        android:layout_marginTop="80dp"/>-->
+    <!--        android:id="@+id/btnXacNhan"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="55dp"-->
+    <!--        android:text="Xác nhận"-->
+    <!--        android:textColor="#FFFFFF"-->
+    <!--        android:textSize="16sp"-->
+    <!--        android:background="@drawable/button_otp_bg"-->
+    <!--        android:layout_marginTop="80dp"/>-->
 
     <TextView
         android:id="@+id/nutXacNhanTextView"

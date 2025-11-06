@@ -1,3 +1,4 @@
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -63,19 +64,6 @@
             android:background="@drawable/bg_login"
             android:layout_marginBottom="12dp">
 
-<!--            <EditText-->
-<!--                android:id="@+id/edtPasswordDangNhap"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:hint="Mật khẩu"-->
-<!--                android:textColor="#FFFFFF"-->
-<!--                android:textColorHint="#999999"-->
-
-<!--                android:inputType="textPassword"-->
-<!--                android:padding="12dp"-->
-<!--                android:paddingEnd="45dp"-->
-<!--                android:textSize="15sp"-->
-<!--                android:background="@android:color/transparent" />-->
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/matKhauDangNhapTextInputEditText"
@@ -97,17 +85,6 @@
                 android:contentDescription="Show/Hide Password" />
         </RelativeLayout>
 
-
-        <!-- Nút Sign In -->
-<!--        <Button-->
-<!--            android:id="@+id/btnSignInDangNhap"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="55dp"-->
-<!--            android:text="Sign In"-->
-<!--            android:textColor="#FFFFFF"-->
-<!--            android:textSize="16sp"-->
-<!--            android:background="@drawable/button_otp_bg"-->
-<!--            android:layout_marginBottom="12dp" />-->
 
         <TextView
             android:id="@+id/nutSignInDangNhapTextView"

@@ -84,15 +84,15 @@
 
 
         <!-- Nút Sign In -->
-<!--        <Button-->
-<!--            android:id="@+id/btnSignIn"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="55dp"-->
-<!--            android:text="Sign In"-->
-<!--            android:textColor="#FFFFFF"-->
-<!--            android:textSize="16sp"-->
-<!--            android:background="@drawable/button_otp_bg"-->
-<!--            android:layout_marginBottom="12dp" />-->
+        <!--        <Button-->
+        <!--            android:id="@+id/btnSignIn"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="55dp"-->
+        <!--            android:text="Sign In"-->
+        <!--            android:textColor="#FFFFFF"-->
+        <!--            android:textSize="16sp"-->
+        <!--            android:background="@drawable/button_otp_bg"-->
+        <!--            android:layout_marginBottom="12dp" />-->
 
         <TextView
             android:id="@+id/nutDangNhapSaiMKTextView"
