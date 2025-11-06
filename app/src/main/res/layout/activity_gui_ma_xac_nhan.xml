@@ -118,22 +118,11 @@
 
     <!-- Nút xác nhận -->
 
-    <!--    <Button-->
-
-    <!--        android:id="@+id/btnXacNhan"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="55dp"-->
-    <!--        android:text="Xác nhận"-->
-    <!--        android:textColor="#FFFFFF"-->
-    <!--        android:textSize="16sp"-->
-    <!--        android:background="@drawable/button_otp_bg"-->
-    <!--        android:layout_marginTop="80dp"/>-->
-
     <TextView
         android:id="@+id/nutXacNhanTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Đăng ký"
+        android:text="Xác Nhận "
         android:textColor="@color/white"
         android:background="@drawable/nen_nut"
         android:padding="20dp"

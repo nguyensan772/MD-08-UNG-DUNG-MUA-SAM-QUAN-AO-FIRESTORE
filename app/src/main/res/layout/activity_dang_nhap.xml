@@ -86,11 +86,12 @@
         </RelativeLayout>
 
 
+        <!-- Nút Sign In -->
         <TextView
-            android:id="@+id/nutSignInDangNhapTextView"
+            android:id="@+id/nutDangnhapTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign In"
+            android:text="Đăng ký"
             android:textColor="@color/white"
             android:background="@drawable/nen_nut"
             android:padding="20dp"

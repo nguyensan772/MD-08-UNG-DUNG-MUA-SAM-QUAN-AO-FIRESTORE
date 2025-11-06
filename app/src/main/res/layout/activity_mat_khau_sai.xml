@@ -84,21 +84,11 @@
 
 
         <!-- Nút Sign In -->
-        <!--        <Button-->
-        <!--            android:id="@+id/btnSignIn"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="55dp"-->
-        <!--            android:text="Sign In"-->
-        <!--            android:textColor="#FFFFFF"-->
-        <!--            android:textSize="16sp"-->
-        <!--            android:background="@drawable/button_otp_bg"-->
-        <!--            android:layout_marginBottom="12dp" />-->
-
         <TextView
-            android:id="@+id/nutDangNhapSaiMKTextView"
+            android:id="@+id/nutDangKyTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign In"
+            android:text="Sign in"
             android:textColor="@color/white"
             android:background="@drawable/nen_nut"
             android:padding="20dp"
