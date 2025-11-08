@@ -1,10 +1,8 @@
 package com.example.md_08_ungdungfivestore;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,140 +14,121 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ManLienHe extends AppCompatActivity {
 
-    private ImageButton btnBack;
     private EditText edtHoTen, edtSDT, edtEmail, edtDiaChi, edtNoiDung;
     private Button btnGui;
     private TextView tvPhone, tvEmail, tvAddress;
 
+    // Thông tin liên hệ hiển thị dưới cùng
+    private static final String PHONE_NUMBER = "0909999888";
+    private static final String EMAIL_TO     = "lienhe@quancaphe.com";
+    private static final String ADDRESS_TXT  = "123 Lê Lợi, Quận 1, TP.HCM";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // ⚠️ Đổi cho đúng tên file layout:
-        setContentView(R.layout.activity_lien_he);
+        setContentView(R.layout.activity_lien_he); // Đổi đúng tên file layout XML của bạn
 
-        bindViews();
-        wireBasicActions();
-    }
+        // Ánh xạ view
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        edtHoTen   = findViewById(R.id.edtHoTen);
+        edtSDT     = findViewById(R.id.edtSDT);
+        edtEmail   = findViewById(R.id.edtEmail);
+        edtDiaChi  = findViewById(R.id.edtDiaChi);
+        edtNoiDung = findViewById(R.id.edtNoiDung);
+        btnGui     = findViewById(R.id.btnGui);
 
-    private void bindViews() {
-        btnBack     = findViewById(R.id.btnBack);
-        edtHoTen    = findViewById(R.id.edtHoTen);
-        edtSDT      = findViewById(R.id.edtSDT);
-        edtEmail    = findViewById(R.id.edtEmail);
-        edtDiaChi   = findViewById(R.id.edtDiaChi);
-        edtNoiDung  = findViewById(R.id.edtNoiDung);
-        btnGui      = findViewById(R.id.btnGui);
-        tvPhone     = findViewById(R.id.tvPhone);
-        tvEmail     = findViewById(R.id.tvEmail);
-        tvAddress   = findViewById(R.id.tvAddress);
-    }
+        tvPhone   = findViewById(R.id.tvPhone);
+        tvEmail   = findViewById(R.id.tvEmail);
+        tvAddress = findViewById(R.id.tvAddress);
 
-    private void wireBasicActions() {
-        // Nút quay lại
-        btnBack.setOnClickListener(v -> onBackPressed());
+        // NÚT QUAY LẠI -> về ManCaiDat
+        btnBack.setOnClickListener(v -> {
+            Intent intent = new Intent(ManLienHe.this, CaiDatActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            // (tuỳ chọn) hiệu ứng chuyển trang nếu có file anim
+            // overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            finish(); // đóng trang Liên hệ
+        });
 
-        // Gửi Email
-        btnGui.setOnClickListener(v -> onSendContact());
+        // NÚT GỬI (chưa cần backend)
+        btnGui.setOnClickListener(v -> {
+            if (!validate()) return;
+            Toast.makeText(this, "Gửi liên hệ thành công! Cảm ơn bạn.", Toast.LENGTH_SHORT).show();
+            clearForm();
+        });
 
-        // Gọi điện
+        // Chạm để gọi điện
         tvPhone.setOnClickListener(v -> {
-            String phone = extractPhone(tvPhone.getText().toString());
-            if (!TextUtils.isEmpty(phone)) {
-                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone)));
-            }
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse("tel:" + PHONE_NUMBER));
+            startActivity(callIntent);
         });
 
-        // Gửi mail
+        // Chạm để mở email
         tvEmail.setOnClickListener(v -> {
-            String to = extractEmail(tvEmail.getText().toString());
-            openEmailApp(to, "[Hỏi đáp] Từ màn Liên hệ", "");
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+            emailIntent.setData(Uri.parse("mailto:" + EMAIL_TO));
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Liên hệ từ ứng dụng");
+            emailIntent.putExtra(Intent.EXTRA_TEXT,
+                    "Họ tên: " + edtHoTen.getText().toString().trim() + "\n" +
+                            "SĐT: " + edtSDT.getText().toString().trim() + "\n" +
+                            "Email: " + edtEmail.getText().toString().trim() + "\n" +
+                            "Địa chỉ: " + edtDiaChi.getText().toString().trim() + "\n" +
+                            "Nội dung: " + edtNoiDung.getText().toString().trim());
+            startActivity(Intent.createChooser(emailIntent, "Chọn ứng dụng Email"));
         });
 
-        // Mở bản đồ
+        // Chạm để mở Google Maps
         tvAddress.setOnClickListener(v -> {
-            String addr = tvAddress.getText().toString().replace("Địa chỉ:", "").trim();
-            Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + Uri.encode(addr));
+            Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + Uri.encode(ADDRESS_TXT));
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");
-            try {
-                startActivity(mapIntent);
-            } catch (ActivityNotFoundException e) {
-                startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://www.google.com/maps/search/?api=1&query=" + Uri.encode(addr))));
-            }
+            startActivity(mapIntent);
         });
     }
 
-    // ====== HÀM GỬI LIÊN HỆ ======
-    private void onSendContact() {
-        String hoTen   = edtHoTen.getText().toString().trim();
-        String sdt     = edtSDT.getText().toString().trim();
-        String email   = edtEmail.getText().toString().trim();
-        String diaChi  = edtDiaChi.getText().toString().trim();
-        String noiDung = edtNoiDung.getText().toString().trim();
+    // ====== Helpers ======
+    private boolean validate() {
+        String hoTen = edtHoTen.getText().toString().trim();
+        String sdt   = edtSDT.getText().toString().trim();
+        String email = edtEmail.getText().toString().trim();
+        String nd    = edtNoiDung.getText().toString().trim();
 
-        if (TextUtils.isEmpty(hoTen)) {
+        if (hoTen.isEmpty()) {
             edtHoTen.setError("Vui lòng nhập họ tên");
             edtHoTen.requestFocus();
-            return;
+            return false;
         }
-        if (!isValidPhone(sdt)) {
+
+        if (sdt.isEmpty() || !sdt.matches("^(0|\\+84)[0-9]{9,10}$")) {
             edtSDT.setError("Số điện thoại không hợp lệ");
             edtSDT.requestFocus();
-            return;
+            return false;
         }
-        if (!isValidEmail(email)) {
+
+        if (!email.isEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             edtEmail.setError("Email không hợp lệ");
             edtEmail.requestFocus();
-            return;
+            return false;
         }
-        if (TextUtils.isEmpty(noiDung)) {
-            edtNoiDung.setError("Vui lòng nhập nội dung liên hệ");
+
+        if (nd.length() < 10) {
+            edtNoiDung.setError("Nội dung tối thiểu 10 ký tự");
             edtNoiDung.requestFocus();
-            return;
+            return false;
         }
 
-        String to = extractEmail(tvEmail.getText().toString());
-        if (TextUtils.isEmpty(to)) to = "lienhe@quancaphe.com";
-
-        String subject = "[Liên hệ] " + hoTen + " - " + sdt;
-        String body = "Họ tên: " + hoTen + "\nSĐT: " + sdt + "\nEmail: " + email +
-                "\nĐịa chỉ: " + diaChi + "\n--------------------------\nNội dung:\n" + noiDung;
-
-        openEmailApp(to, subject, body);
+        return true;
     }
 
-    private boolean isValidEmail(String email) {
-        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
-    private boolean isValidPhone(String phone) {
-        String digits = phone.replaceAll("[^0-9]", "");
-        return digits.length() >= 9 && digits.length() <= 11;
-    }
-
-    private String extractPhone(String text) {
-        return text.replaceAll("[^0-9]", "");
-    }
-
-    private String extractEmail(String text) {
-        text = text.trim();
-        int idx = text.indexOf(':');
-        String maybe = (idx >= 0) ? text.substring(idx + 1).trim() : text;
-        if (Patterns.EMAIL_ADDRESS.matcher(maybe).matches()) return maybe;
-        java.util.regex.Matcher m = Patterns.EMAIL_ADDRESS.matcher(text);
-        return m.find() ? m.group() : "";
-    }
-
-    private void openEmailApp(String to, String subject, String body) {
-        try {
-            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-            emailIntent.setData(Uri.parse("mailto:" + Uri.encode(to)));
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
-            emailIntent.putExtra(Intent.EXTRA_TEXT, body);
-            startActivity(Intent.createChooser(emailIntent, "Chọn ứng dụng Email"));
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, "Không tìm thấy ứng dụng Email trên máy", Toast.LENGTH_LONG).show();
-        }
+    private void clearForm() {
+        edtHoTen.setText("");
+        edtSDT.setText("");
+        edtEmail.setText("");
+        edtDiaChi.setText("");
+        edtNoiDung.setText("");
+        edtHoTen.clearFocus();
+        edtNoiDung.clearFocus();
     }
 }
