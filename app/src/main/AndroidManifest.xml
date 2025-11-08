@@ -13,7 +13,7 @@
         android:theme="@style/Theme.MD08_UngDungFiveStore"
         tools:targetApi="31">
         <activity
-            android:name=".DanhGia"
+            android:name=".ManTrangChu"
             android:exported="false" />
         <activity
             android:name=".ManDanhGiaSanPham"
@@ -26,9 +26,6 @@
             android:exported="false" />
         <activity
             android:name=".ManDatHang"
-            android:exported="false" />
-        <activity
-            android:name=".ManDonHang"
             android:exported="false" />
         <activity
             android:name=".ManLienHe"
