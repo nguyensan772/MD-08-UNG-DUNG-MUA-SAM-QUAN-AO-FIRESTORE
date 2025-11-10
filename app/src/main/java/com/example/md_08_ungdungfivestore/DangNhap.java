@@ -19,7 +19,6 @@ public class DangNhap extends AppCompatActivity {
     private TextView nutSignInDangNhapTextView, tvRegisterDangNhap, tvResetDangNhap;
     private LinearLayout btnGoogleDangNhap;
 
-    private boolean isPasswordVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,27 +27,7 @@ public class DangNhap extends AppCompatActivity {
 
         initUI();
 
-        // ======= SHOW/HIDE PASSWORD =======
-        imgShowHidePassword.setOnClickListener(v -> {
-            if (isPasswordVisible) {
-                matKhauDangNhapTextInputEditText.setInputType(
-                        android.text.InputType.TYPE_CLASS_TEXT |
-                                android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-                );
-                imgShowHidePassword.setImageResource(R.drawable.mat);
-                isPasswordVisible = false;
-            } else {
-                matKhauDangNhapTextInputEditText.setInputType(
-                        android.text.InputType.TYPE_CLASS_TEXT |
-                                android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                );
-                imgShowHidePassword.setImageResource(R.drawable.mat);
-                isPasswordVisible = true;
-            }
-            matKhauDangNhapTextInputEditText.setSelection(
-                    matKhauDangNhapTextInputEditText.getText().length()
-            );
-        });
+
 
         // ======= SIGN IN =======
         nutSignInDangNhapTextView.setOnClickListener(v -> {
@@ -73,6 +52,9 @@ public class DangNhap extends AppCompatActivity {
             Intent i = new Intent(DangNhap.this, GuiMaXacNhan.class);
             startActivity(i);
         });
+
+
+
     }
 
     private void initUI() {
@@ -80,7 +62,7 @@ public class DangNhap extends AppCompatActivity {
         edtEmailDangNhap = findViewById(R.id.edtEmailDangNhap);
         matKhauDangNhapTextInputEditText = findViewById(R.id.matKhauDangNhapTextInputEditText);
         imgShowHidePassword = findViewById(R.id.imgShowHidePassword);
-        nutSignInDangNhapTextView = findViewById(R.id.nutDangnhapSignInTextView);
+        nutSignInDangNhapTextView = findViewById(R.id.nutDangnhapvSignInTextView);
         btnGoogleDangNhap = findViewById(R.id.btnGoogleDangNhap);
         tvRegisterDangNhap = findViewById(R.id.tvRegisterDangNhap);
         tvResetDangNhap = findViewById(R.id.tvResetDangNhap);
