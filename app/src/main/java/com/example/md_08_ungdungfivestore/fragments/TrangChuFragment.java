@@ -19,9 +19,7 @@ public class TrangChuFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_man_trang_chu, container ,false);
-
-        return view;
+        return inflater.inflate(R.layout.activity_man_trang_chu, container ,false);
     }
 
     @Override
