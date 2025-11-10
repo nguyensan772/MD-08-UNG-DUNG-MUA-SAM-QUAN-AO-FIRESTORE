@@ -1,41 +1,58 @@
 package com.example.md_08_ungdungfivestore.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
+import com.example.md_08_ungdungfivestore.MainActivity;
 import com.example.md_08_ungdungfivestore.R;
+import com.example.md_08_ungdungfivestore.ThanhToanActivity;
 
 public class GioHangFragment extends Fragment {
-    RecyclerView listSanPham ;
-    TextView tongTien , nutThanhToan;
+    private RecyclerView gioHangRecyclerView;
+    private TextView tongSoTienTxt;
+    private AppCompatButton thanhToanBtn;
 
-    @Nullable
+    public GioHangFragment() {}
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return  inflater.inflate(R.layout.fragment_gio_hang,container,false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_gio_hang, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         anhXa(view);
-        nutThanhToan.setOnClickListener(view1 -> {
-            Toast.makeText(view.getContext(), "Hello", Toast.LENGTH_SHORT).show();
+
+        thanhToanBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent thanhToanIntent = new Intent(getContext(), ThanhToanActivity.class);
+                startActivity(thanhToanIntent);
+            }
         });
     }
 
-    public void anhXa(View view){
-        listSanPham = view.findViewById(R.id.gioHangRecyclerView);
-        tongTien = view.findViewById(R.id.tongSoTienTextView);
-        nutThanhToan = view.findViewById(R.id.nutThanhToanTextView);
+    private void anhXa(View view) {
+        gioHangRecyclerView = view.findViewById(R.id.gioHangRecyclerView);
+        tongSoTienTxt = view.findViewById(R.id.tongSoTienTxt);
+        thanhToanBtn = view.findViewById(R.id.thanhToanBtn);
     }
 }

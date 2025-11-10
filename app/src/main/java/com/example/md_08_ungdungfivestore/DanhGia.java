@@ -2,8 +2,11 @@ package com.example.md_08_ungdungfivestore;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -11,19 +14,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
-public class ManDatHang extends AppCompatActivity {
-    private TextView diaChiTxt, hoTenKhachHangTxt, soDienThoaiTxt, emailKhachHangTxt, tongSoTienTxt, nutThanhToanTxt;
+public class DanhGia extends AppCompatActivity {
+    private ImageView anhSanPhamImg;
+    private TextView tenSanPhamTextView, giaTienTextView, tenKhachHangTextView, diaChiTextView;
+    private RatingBar danhGiaRatingBar;
+    private EditText nhanXetEditText;
+    private Button guiDanhGiaButton;
     private ImageButton quayLaiBtn;
-    private RadioButton thanhToanRadioBtn, thanhToanTruocRadioBtn;
-    private RecyclerView danhSachMuaRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_man_dat_hang);
+        setContentView(R.layout.activity_danh_gia);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -38,18 +42,24 @@ public class ManDatHang extends AppCompatActivity {
                 finish();
             }
         });
+
+        guiDanhGiaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void anhXa() {
-        diaChiTxt = findViewById(R.id.diaChiTxt);
-        hoTenKhachHangTxt = findViewById(R.id.hoTenKhachHangTxt);
-        soDienThoaiTxt = findViewById(R.id.soDienThoaiTxt);
-        emailKhachHangTxt = findViewById(R.id.emailKhachHangTxt);
-        tongSoTienTxt = findViewById(R.id.tongSoTienTxt);
-        nutThanhToanTxt = findViewById(R.id.nutThanhToanTxt);
+        anhSanPhamImg = findViewById(R.id.anhSanPhamImg);
+        tenSanPhamTextView = findViewById(R.id.tenSanPhamTextView);
+        giaTienTextView = findViewById(R.id.giaTienTextView);
+        tenKhachHangTextView = findViewById(R.id.tenKhachHangTextView);
+        diaChiTextView = findViewById(R.id.diaChiTextView);
+        danhGiaRatingBar = findViewById(R.id.danhGiaRatingBar);
+        nhanXetEditText = findViewById(R.id.nhanXetEditText);
+        guiDanhGiaButton = findViewById(R.id.guiDanhGiaButton);
         quayLaiBtn = findViewById(R.id.quayLaiBtn);
-        thanhToanRadioBtn = findViewById(R.id.thanhToanRadioBtn);
-        thanhToanTruocRadioBtn = findViewById(R.id.thanhToanTruocRadioBtn);
-        danhSachMuaRecyclerView = findViewById(R.id.danhSachMuaRecyclerView);
     }
 }
