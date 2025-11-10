@@ -40,4 +40,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Thư viện Retrofit chính
+    implementation(libs.retrofit)
+
+    // Gson Converter (Bắt buộc để xử lý JSON)
+    implementation(libs.converter.gson)
 }
