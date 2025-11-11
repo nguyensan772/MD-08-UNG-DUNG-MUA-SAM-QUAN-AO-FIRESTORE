@@ -33,9 +33,12 @@
                     android:id="@+id/btnBack"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:background="@drawable/bg_btn_round_dark"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:contentDescription="@string/app_name"
                     app:srcCompat="@drawable/quay_lai_img" />
+
 
                 <TextView
                     android:layout_width="wrap_content"
