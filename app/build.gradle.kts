@@ -45,5 +45,6 @@ dependencies {
     implementation(libs.retrofit)
 
     // Gson Converter (Bắt buộc để xử lý JSON)
+    implementation(libs.gson)
     implementation(libs.converter.gson)
 }
