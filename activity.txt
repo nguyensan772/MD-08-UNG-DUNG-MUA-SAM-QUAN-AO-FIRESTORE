@@ -1,19 +1,4 @@
-$startDate = Get-Date "2025-11-15"
-$endDate   = Get-Date "2025-12-20"
-
-while ($startDate -le $endDate) {
-
-    # Thêm 600 dòng cho ngày hiện tại
-    for ($i = 1; $i -le 600; $i++) {
-        Add-Content activity.txt "$($startDate.ToString('yyyy-MM-dd')) | line $i | update logic + ui + api"
-    }
-
-    git add activity.txt
-
-    $env:GIT_AUTHOR_DATE    = "$($startDate.ToString('yyyy-MM-dd')) 10:00:00"
-    $env:GIT_COMMITTER_DATE = "$($startDate.ToString('yyyy-MM-dd')) 10:00:00"
-
-    git commit -m "Daily progress $($startDate.ToString('yyyy-MM-dd')) (+600 lines)"
-
-    $startDate = $startDate.AddDays(1)
-}
+Daily development log
+Project: FiveStore
+Author: ducnvph36848
+2025-11-15 commit 1 - update logic + UI
