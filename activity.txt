@@ -2,3 +2,4 @@ Daily development log
 Project: FiveStore
 Author: ducnvph36848
 2025-11-15 commit 1 - update logic + UI
+2025-11-15 commit 2 - update logic + UI
