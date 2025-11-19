@@ -14,3 +14,4 @@ Author: ducnvph36848
 2025-11-18 commit 2 - update logic + UI
 2025-11-18 commit 3 - update logic + UI
 2025-11-19 commit 1 - update logic + UI
+2025-11-19 commit 2 - update logic + UI
