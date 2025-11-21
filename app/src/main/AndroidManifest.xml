@@ -49,10 +49,10 @@
             android:name=".DangNhap"
             android:exported="false" /> <!-- Màn hình chào -->
         <activity
-            android:name=".ManChao"
+            android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ManChao"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

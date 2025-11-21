@@ -43,8 +43,6 @@ public class ManDatHang extends AppCompatActivity {
     private void anhXa() {
         diaChiTxt = findViewById(R.id.diaChiTxt);
         hoTenKhachHangTxt = findViewById(R.id.hoTenKhachHangTxt);
-        soDienThoaiTxt = findViewById(R.id.soDienThoaiTxt);
-        emailKhachHangTxt = findViewById(R.id.emailKhachHangTxt);
         tongSoTienTxt = findViewById(R.id.tongSoTienTxt);
         nutThanhToanTxt = findViewById(R.id.nutThanhToanTxt);
         quayLaiBtn = findViewById(R.id.quayLaiBtn);
