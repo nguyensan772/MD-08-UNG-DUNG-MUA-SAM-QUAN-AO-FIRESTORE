@@ -34,9 +34,10 @@ public class MainActivity extends AppCompatActivity {
         anhXa();
 
         setSupportActionBar(toolbar);
-//        if (savedInstanceState == null ){
-//            taiFragment(new TrangChuFragment());
-//        }
+        if (savedInstanceState == null ){
+            taiFragment(new TrangChuFragment());
+        }
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
         menu.setOnItemSelectedListener(item -> {
@@ -46,6 +47,14 @@ public class MainActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.navYeuThich){
                 taiFragment(new YeuThichFragment());
                 tieuDe.setText("Yêu thích");
+            }
+            if (item.getItemId() == R.id.navGioHang){
+                taiFragment(new YeuThichFragment());
+                tieuDe.setText("Giỏ hàng");
+            }
+            if (item.getItemId() == R.id.navNguoiDung){
+                taiFragment(new YeuThichFragment());
+                tieuDe.setText("Người dùng");
             }
             return true;
         });

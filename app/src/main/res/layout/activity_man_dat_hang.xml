@@ -31,6 +31,8 @@
             android:textColor="@color/white" />
 
         <TextView
+            android:id="@+id/diaChiTxt"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
@@ -45,6 +47,7 @@
             android:textColor="@color/white" />
 
         <TextView
+            android:id="@+id/hoTenKhachHangTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
@@ -63,6 +66,7 @@
             android:layout_height="match_parent">
 
             <RadioButton
+                android:id="@+id/thanhToanRadioBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semibold"
@@ -70,6 +74,7 @@
                 android:textColor="@color/white" />
 
             <RadioButton
+                android:id="@+id/thanhToanTruocRadioBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semibold"
@@ -79,6 +84,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/danhSachMuaRecyclerView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -118,6 +124,7 @@
             app:layout_constraintTop_toBottomOf="@id/tongCongTV" />
 
         <TextView
+            android:id="@+id/nutThanhToanTxt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Thanh toán"
