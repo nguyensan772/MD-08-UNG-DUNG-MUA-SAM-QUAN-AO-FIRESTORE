@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         anhXa();
+
         setSupportActionBar(toolbar);
         if (savedInstanceState == null ){
             taiFragment(new TrangChuFragment());
