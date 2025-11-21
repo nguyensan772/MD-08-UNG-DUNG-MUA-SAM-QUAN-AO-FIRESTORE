@@ -42,8 +42,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     // Thư viện Retrofit chính
-    implementation(libs.retrofit)
-
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
     // Gson Converter (Bắt buộc để xử lý JSON)
     implementation(libs.gson)
     implementation(libs.converter.gson)
