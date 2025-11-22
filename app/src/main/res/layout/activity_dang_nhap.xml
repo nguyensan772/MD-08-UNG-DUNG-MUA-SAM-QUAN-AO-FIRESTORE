@@ -1,10 +1,10 @@
-
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#0F0E0E"
+    android:background="#0C0F14"
     android:id="@+id/main"
     tools:context=".DangNhap">
 
@@ -13,7 +13,9 @@
         android:gravity="center"
         android:padding="24dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:divider="?android:attr/dividerVertical"
+        android:showDividers="none">
 
         <!-- Logo -->
         <ImageView
@@ -24,7 +26,6 @@
             android:layout_marginBottom="24dp" />
 
         <!-- Title -->
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,37 +44,6 @@
             android:layout_marginBottom="16dp" />
 
         <!-- Email -->
-
-        <!-- Password -->
-
-<!--        <RelativeLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:background="@drawable/bg_login"-->
-<!--            android:layout_marginBottom="12dp">-->
-
-
-
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:id="@+id/matKhauDangNhapTextInputEditText"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:padding="0dp"-->
-<!--                android:hint="Password"-->
-<!--                android:textColorHint="#999999"-->
-<!--                android:inputType="textPassword"-->
-<!--                android:background="@drawable/bg_login"/>-->
-<!--            <ImageView-->
-<!--                android:id="@+id/imgShowHidePassword"-->
-<!--                android:layout_width="24dp"-->
-<!--                android:layout_height="24dp"-->
-<!--                android:layout_alignParentEnd="true"-->
-<!--                android:layout_centerVertical="true"-->
-<!--                android:layout_marginEnd="12dp"-->
-<!--                android:src="@drawable/mat"-->
-<!--                android:contentDescription="Show/Hide Password" />-->
-<!--        </RelativeLayout>-->
-
         <EditText
             android:id="@+id/edtEmailDangNhap"
             android:layout_width="match_parent"
@@ -87,17 +57,15 @@
             android:textColorHint="#999999"
             android:textSize="15sp" />
 
+        <!-- Password -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/matKhauTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:layout_constraintTop_toBottomOf="@id/edtEmailDangNhap"
             app:passwordToggleEnabled="true"
             app:hintEnabled="false"
-            android:layout_marginTop="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            >
+            android:layout_marginTop="10dp">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/matKhauDangNhapTextInputEditText"
                 android:layout_width="match_parent"
@@ -108,7 +76,6 @@
                 android:textColorHint="#999999"
                 android:inputType="textPassword"
                 android:background="@drawable/bg_login"/>
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Nút Sign In -->
@@ -116,57 +83,49 @@
             android:id="@+id/nutDangnhapvSignInTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Đăng nhập"
-            android:textColor="@color/white"
-            android:background="@drawable/nen_nut"
-            android:padding="20dp"
-            android:textAlignment="center"
-            android:fontFamily="@font/poppins_semibold"
-            android:textSize="14dp"
             android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/nhapLaiMatKhauTextInputLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
+            android:background="@drawable/nen_nut"
+            android:fontFamily="@font/poppins_semibold"
+            android:padding="15dp"
+            android:text="Đăng nhập"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="14dp" />
 
         <!-- Nút Sign in with Google -->
         <LinearLayout
-
             android:id="@+id/btnGoogleDangNhap"
             android:layout_width="match_parent"
             android:layout_height="55dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/bg_google"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="10dp">
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/google" />
 
-
             <TextView
-                android:layout_width="150dp"
-                android:layout_marginRight="20dp"
-                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Sign in with Google"
                 android:textColor="#000000"
                 android:textSize="15sp"
                 android:textStyle="bold" />
-
-
         </LinearLayout>
 
         <!-- Dòng đăng ký -->
         <LinearLayout
+            android:id="@+id/llRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginTop="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -175,6 +134,16 @@
                 android:textColor="#A8A8A8"
                 android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/tvRegisterDangNhap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Register"
+                android:textColor="#E48F45"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:clickable="true"
+                android:focusable="true"/>
         </LinearLayout>
 
         <!-- Dòng quên mật khẩu -->
@@ -204,18 +173,5 @@
                 android:focusable="true" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvRegisterDangNhap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="Register"
-            android:textColor="#E48F45"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-
     </LinearLayout>
-
 </ScrollView>

@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         menu.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.navTrangChu){
                 taiFragment(new TrangChuFragment());
+                tieuDe.setText("Trang Chủ");
             }
             if (item.getItemId() == R.id.navYeuThich){
                 taiFragment(new YeuThichFragment());
