@@ -1,4 +1,4 @@
-package com.example.md_08_ungdungfivestore.model;
+package com.example.md_08_ungdungfivestore.models;
 
 
 
