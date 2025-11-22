@@ -1,6 +1,6 @@
 package com.example.md_08_ungdungfivestore.services;
 
-import com.example.md_08_ungdungfivestore.model.Comment;
+import com.example.md_08_ungdungfivestore.models.Comment;
 
 import java.util.List;
 
