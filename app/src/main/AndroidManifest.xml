@@ -24,7 +24,9 @@
         <activity
             android:name=".ManLienHe"
             android:exported="false" />
-
+        <activity
+            android:name=".ManDonHang"
+            android:exported="false" />
         <activity
             android:name=".ManDangKy"
             android:exported="false" />
@@ -42,6 +44,9 @@
             android:exported="false" /> <!-- Màn hình chào -->
         <activity
             android:name=".ManThongTinCaNhan"
+            android:exported="true" />
+        <activity
+            android:name=".CaiDatActivity"
             android:exported="true" />
 
         <!-- MainActivity -->
