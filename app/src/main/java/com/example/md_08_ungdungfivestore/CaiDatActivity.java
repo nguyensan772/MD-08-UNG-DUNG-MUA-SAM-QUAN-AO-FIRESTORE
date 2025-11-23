@@ -43,7 +43,7 @@ public class CaiDatActivity extends AppCompatActivity {
 
         // 5. Mở trang cá nhân
         thongTinCaNhanLayout.setOnClickListener(v -> {
-            Intent i = new Intent(CaiDatActivity.this, TrangCaNhanActivity.class);
+            Intent i = new Intent(CaiDatActivity.this, ManThongTinCaNhan.class);
             startActivity(i);
         });
 
