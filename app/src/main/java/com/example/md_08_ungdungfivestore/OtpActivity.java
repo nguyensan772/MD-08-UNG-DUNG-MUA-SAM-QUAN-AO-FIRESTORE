@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +21,7 @@ import retrofit2.Response;
 public class OtpActivity extends AppCompatActivity {
 
     EditText edtOtp;
-    Button btnVerify;
+    TextView btnVerify;
 
     String email, fullName, password;
 

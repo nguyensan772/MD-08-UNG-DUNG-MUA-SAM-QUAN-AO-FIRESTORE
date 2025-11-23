@@ -6,9 +6,8 @@
     android:background="#111111"
     android:orientation="vertical"
     android:paddingTop="16dp"
-    tools:context=".ui.home.TrangChuFragment">
+    tools:context=".fragments.TrangChuFragment">
 
-    <!-- SUBTITLE -->
     <TextView
         android:id="@+id/tvSubtitle"
         android:layout_width="wrap_content"
@@ -16,97 +15,26 @@
         android:text="Tìm quần áo yêu thích nhất của bạn"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
-        android:fontFamily="@font/poppins_semibold"
-        android:layout_marginTop="12dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
+        android:layout_margin="16dp"
+        android:fontFamily="@font/poppins_semibold" />
 
-    <!-- SEARCH BAR -->
     <EditText
-        android:id="@+id/etSearch"
+        android:id="@+id/timKiemEditText"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:hint="Tìm quần áo của bạn..."
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:padding="16dp"
         android:layout_margin="16dp"
         android:background="@drawable/bg_search"
         android:textColor="#FFFFFF"
         android:textColorHint="#777777"
         android:drawableStart="@drawable/ic_search" />
 
-    <!-- TABS -->
-    <LinearLayout
-        android:id="@+id/layoutTabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="12dp"
-        android:weightSum="4">
-
-        <TextView
-            android:id="@+id/tabAll"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="All"
-            android:gravity="center"
-            android:padding="8dp"
-            android:textSize="16sp"
-            android:background="@drawable/bg_tab_active"
-            android:textColor="#D17842"
-            android:fontFamily="@font/poppins_medium"
-            android:layout_marginEnd="8dp" />
-
-        <TextView
-            android:id="@+id/tabNam"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Nam"
-            android:gravity="center"
-            android:padding="8dp"
-            android:textSize="16sp"
-            android:background="@drawable/bg_tab"
-            android:textColor="#FFFFFF"
-            android:layout_marginEnd="8dp" />
-
-        <TextView
-            android:id="@+id/tabNu"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Nữ"
-            android:gravity="center"
-            android:padding="8dp"
-            android:textSize="16sp"
-            android:background="@drawable/bg_tab"
-            android:textColor="#FFFFFF"
-            android:layout_marginEnd="8dp" />
-
-        <TextView
-            android:id="@+id/tabTreEm"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Trẻ em"
-            android:gravity="center"
-            android:padding="8dp"
-            android:textSize="16sp"
-            android:background="@drawable/bg_tab"
-            android:textColor="#FFFFFF" />
-    </LinearLayout>
-
-    <!-- RECYCLER VIEW -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvProducts"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:clipToPadding="false" />
-
+        android:clipToPadding="false"
+        android:padding="16dp" />
 </LinearLayout>

@@ -1,8 +1,9 @@
 package com.example.md_08_ungdungfivestore.models;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Product {
+public class Product implements Serializable {
     private String id;
     private String name;
     private String image;
@@ -20,7 +21,9 @@ public class Product {
     private String createdAt;
     private String updatedAt;
 
+    public Product() { }
 
+    // Getter/Setter
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -69,11 +72,12 @@ public class Product {
     public String getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(String updatedAt) { this.updatedAt = updatedAt; }
 
-    // -------------------------
-    // Inner Classes
-    public static class Description {
+    // Inner classes
+    public static class Description implements Serializable {
         private String field;
         private String value;
+
+        public Description() { }
 
         public Description(String field, String value) {
             this.field = field;
@@ -87,10 +91,12 @@ public class Product {
         public void setValue(String value) { this.value = value; }
     }
 
-    public static class Variation {
+    public static class Variation implements Serializable {
         private String color;
         private String size;
         private int quantity;
+
+        public Variation() { }
 
         public Variation(String color, String size, int quantity) {
             this.color = color;
