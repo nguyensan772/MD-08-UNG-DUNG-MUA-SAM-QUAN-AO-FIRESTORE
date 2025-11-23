@@ -11,19 +11,22 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="110dp"
         android:paddingStart="10dp"
-        android:paddingEnd="10dp"
+        android:paddingEnd="50dp"
         android:orientation="horizontal">
-        
+
         <ImageButton
             android:id="@+id/quayLaiBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center_vertical"
-            android:background="@android:color/transparent"
-            android:src="@drawable/quay_lai_img" />
-
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:src="@drawable/thoat"
+            android:scaleType="centerInside"
+            android:contentDescription="@string/quay_lai"
+            app:tint="#fe9700" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -38,9 +41,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp"
-        android:orientation="vertical">
+        android:layout_height="1260dp"
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <LinearLayout
             android:id="@+id/donHangLayout"
@@ -56,13 +59,13 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins_medium"
                 android:paddingStart="10dp"
                 android:text="Đơn hàng"
-                android:textSize="16sp"
                 android:textColor="@color/white"
-                android:fontFamily="@font/poppins_medium" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -86,13 +89,13 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins_medium"
                 android:paddingStart="10dp"
                 android:text="Thẻ ngân hàng"
-                android:textSize="16sp"
                 android:textColor="@color/white"
-                android:fontFamily="@font/poppins_medium" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -116,13 +119,13 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins_medium"
                 android:paddingStart="10dp"
                 android:text="Thông tin cá nhân"
-                android:textSize="16sp"
                 android:textColor="@color/white"
-                android:fontFamily="@font/poppins_medium" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -146,13 +149,13 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins_medium"
                 android:paddingStart="10dp"
                 android:text="Liên hệ"
-                android:textSize="16sp"
                 android:textColor="@color/white"
-                android:fontFamily="@font/poppins_medium" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -176,13 +179,13 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins_medium"
                 android:paddingStart="10dp"
                 android:text="Đăng xuất"
-                android:textSize="16sp"
                 android:textColor="@color/white"
-                android:fontFamily="@font/poppins_medium" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
