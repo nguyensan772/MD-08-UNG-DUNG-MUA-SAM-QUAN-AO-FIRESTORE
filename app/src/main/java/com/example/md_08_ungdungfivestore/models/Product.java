@@ -1,7 +1,11 @@
 package com.example.md_08_ungdungfivestore.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 public class Product implements Serializable {
     private String id;
@@ -11,7 +15,7 @@ public class Product implements Serializable {
     private List<Description> description;
     private double importPrice;
     private double price;
-    private int quantity = 0;
+    private int quantity = 0; // tổng số lượng sản phẩm (tạm thời)
     private int sold = 0;
     private String category;
     private String brand;
@@ -23,7 +27,8 @@ public class Product implements Serializable {
 
     public Product() { }
 
-    // Getter/Setter
+    // Getter/Setter các trường hiện có
+
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -72,7 +77,63 @@ public class Product implements Serializable {
     public String getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(String updatedAt) { this.updatedAt = updatedAt; }
 
+    // -------------------------------
+    // Phương thức tiện ích cho SelectOptionsActivity
+
+    /** Trả về danh sách size có sẵn không trùng lặp */
+    public List<String> getAvailableSizes() {
+        HashSet<String> sizes = new HashSet<>();
+        if (variations != null) {
+            for (Variation v : variations) {
+                if (v.getSize() != null) {
+                    sizes.add(v.getSize());
+                }
+            }
+        }
+        return new ArrayList<>(sizes);
+    }
+
+    /** Trả về danh sách màu có sẵn không trùng lặp */
+    public List<String> getAvailableColors() {
+        HashSet<String> colors = new HashSet<>();
+        if (variations != null) {
+            for (Variation v : variations) {
+                if (v.getColor() != null) {
+                    colors.add(v.getColor());
+                }
+            }
+        }
+        return new ArrayList<>(colors);
+    }
+
+    /** Trả về map key="size-color", value = số lượng */
+    public Map<String, Integer> getQuantityMap() {
+        Map<String, Integer> map = new HashMap<>();
+        if (variations != null) {
+            for (Variation v : variations) {
+                String size = v.getSize() != null ? v.getSize() : "";
+                String color = v.getColor() != null ? v.getColor() : "";
+                String key = size + "-" + color;
+                map.put(key, v.getQuantity());
+            }
+        }
+        return map;
+    }
+
+    /** Tổng số lượng trong kho (tổng quantity tất cả variations) */
+    public int getTotalQuantity() {
+        int total = 0;
+        if (variations != null) {
+            for (Variation v : variations) {
+                total += v.getQuantity();
+            }
+        }
+        return total;
+    }
+
+    // -------------------------------
     // Inner classes
+
     public static class Description implements Serializable {
         private String field;
         private String value;
