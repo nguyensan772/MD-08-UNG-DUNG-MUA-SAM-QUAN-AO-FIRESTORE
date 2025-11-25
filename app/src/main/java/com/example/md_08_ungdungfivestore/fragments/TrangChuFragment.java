@@ -1,5 +1,6 @@
 package com.example.md_08_ungdungfivestore.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.md_08_ungdungfivestore.R;
+import com.example.md_08_ungdungfivestore.XemChiTiet;
 import com.example.md_08_ungdungfivestore.adapters.ProductAdapter;
 import com.example.md_08_ungdungfivestore.models.Product;
 import com.example.md_08_ungdungfivestore.services.ProductApiService;
@@ -33,36 +35,40 @@ public class TrangChuFragment extends Fragment {
     private RecyclerView rcvProducts;
     private ProductAdapter adapter;
     private List<Product> productList = new ArrayList<>();
-
     private ProductApiService apiService;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_trangchu, container, false);
 
         timKiemEditText = view.findViewById(R.id.timKiemEditText);
         rcvProducts = view.findViewById(R.id.rcvProducts);
-
-        // 2 cột
         rcvProducts.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
         adapter = new ProductAdapter(requireContext(), productList, new ProductAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Product product) {
-                Toast.makeText(requireContext(), "Click vào: " + product.getName(), Toast.LENGTH_SHORT).show();
+                if (product != null) {
+                    // Truyền cả object Product sang XemChiTiet
+                    Intent intent = new Intent(requireContext(), XemChiTiet.class);
+                    intent.putExtra("product", product);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(requireContext(), "Sản phẩm không tồn tại", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onAddClick(Product product) {
-                Toast.makeText(requireContext(), "Thêm vào giỏ: " + product.getName(), Toast.LENGTH_SHORT).show();
+                if (product != null) {
+                    Toast.makeText(requireContext(), "Đã thêm: " + product.getName(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         rcvProducts.setAdapter(adapter);
-
         setupApiService();
         fetchProducts();
 
@@ -74,7 +80,6 @@ public class TrangChuFragment extends Fragment {
                 .baseUrl("http://10.0.2.2:5001/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         apiService = retrofit.create(ProductApiService.class);
     }
 
@@ -84,12 +89,8 @@ public class TrangChuFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (!isAdded()) return;
-
                 if (response.isSuccessful() && response.body() != null) {
                     productList.clear();
-                    for (Product p : response.body()) {
-                        android.util.Log.d("API_IMAGE", "Tên: " + p.getName() + ", Ảnh: " + p.getImage());
-                    }
                     productList.addAll(response.body());
                     adapter.notifyDataSetChanged();
                 } else {
