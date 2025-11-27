@@ -3,21 +3,17 @@ package com.example.md_08_ungdungfivestore.services;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiClient {
-    private static final String BASE_URL = "http://10.0.2.2:5001/api/auth/";
+public class APIClient {
+    private static final String BASE_URL = "http://localhost:5002/";
     private static Retrofit retrofit;
 
     public static Retrofit getClient() {
-        if (retrofit == null) {
+        if (retrofit == null){
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
         return retrofit;
-    }
-    // Trả về instance của YeuThichService
-    public static YeuThichService getYeuThichService() {
-        return getClient().create(YeuThichService.class);
     }
 }
