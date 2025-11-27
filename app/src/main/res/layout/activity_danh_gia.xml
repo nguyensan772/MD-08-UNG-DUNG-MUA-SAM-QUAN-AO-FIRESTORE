@@ -143,7 +143,6 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:background="@drawable/bg_google"
-            android:gravity="top"
             android:padding="8dp"
             android:hint="Hãy chia sẻ nhận xét về sản phẩm này nhé"
             android:fontFamily="@font/poppins_regular"

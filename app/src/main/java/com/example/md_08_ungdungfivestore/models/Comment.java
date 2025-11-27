@@ -3,7 +3,7 @@ package com.example.md_08_ungdungfivestore.models;
 
 
 public class Comment {
-    private String _id;
+    private String id;
     private String productId;
     private String userName;
     private String content;
@@ -12,8 +12,8 @@ public class Comment {
 
     public Comment() {}
 
-    public Comment(String _id, String productId, String userName, String content, float rating, String date) {
-        this._id = _id;
+    public Comment(String id, String productId, String userName, String content, float rating, String date) {
+        this.id = id;
         this.productId = productId;
         this.userName = userName;
         this.content = content;
@@ -21,20 +21,13 @@ public class Comment {
         this.date = date;
     }
 
-    public Comment(String productId, String userName, String content, float rating) {
-        this.productId = productId;
-        this.userName = userName;
-        this.content = content;
-        this.rating = rating;
-    }
-
     // Getters và Setters
-    public String get_id() {
-        return _id;
+    public String getId() {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getProductId() {
