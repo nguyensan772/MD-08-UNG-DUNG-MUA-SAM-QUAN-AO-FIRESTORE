@@ -82,29 +82,49 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
     }
 
     // Load ảnh từ URL hoặc drawable trong project
+// SelectOptionsBottomSheetFragment.java
+// ...
+// Load ảnh từ URL hoặc drawable trong project
     private void loadProductImage(String imagePath) {
         if (imagePath == null || imagePath.isEmpty()) {
             ivProductImage.setImageResource(R.drawable.ic_launcher_background);
             return;
         }
 
+        // 💡 Thêm Base URL cho Local Upload images
+        String fullUrl;
+
+        // Giả định bạn có BASE_URL được định nghĩa trong một file Constants
+        // Thay BASE_URL bằng địa chỉ Server của bạn, ví dụ: "http://10.0.2.2:5001" (cho emulator)
+        final String BASE_URL = "http://10.0.2.2:5001"; // <<< CẦN THAY ĐỔI DÒNG NÀY
+
         if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-            Glide.with(this)
-                    .load(imagePath)
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_background)
-                    .into(ivProductImage);
+            // Cloudinary hoặc URL đầy đủ
+            fullUrl = imagePath;
+        } else if (imagePath.startsWith("/uploads/")) {
+            // Local Upload: Nối Base URL vào
+            fullUrl = BASE_URL + imagePath;
         } else {
-            // thử tìm drawable theo tên
+            // thử tìm drawable theo tên (Giữ lại logic cũ cho ảnh nội bộ/fallback)
             int resId = getResources().getIdentifier(imagePath.replace(".jpg","").replace(".png",""), "drawable", getContext().getPackageName());
             if(resId != 0){
                 ivProductImage.setImageResource(resId);
+                return; // Đã tìm thấy drawable, thoát
             } else {
-                // fallback
+                // fallback (Chỉ hiển thị ảnh lỗi nếu không phải URL hay drawable hợp lệ)
                 ivProductImage.setImageResource(R.drawable.ic_launcher_background);
+                return; // Thoát
             }
         }
+
+        // Tải ảnh bằng Glide
+        Glide.with(this)
+                .load(fullUrl)
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_background)
+                .into(ivProductImage);
     }
+// ...
 
     private void setupColors() {
         layoutColors.removeAllViews();

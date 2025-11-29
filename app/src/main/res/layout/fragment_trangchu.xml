@@ -21,7 +21,7 @@
     <EditText
         android:id="@+id/timKiemEditText"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="50dp"
         android:hint="Tìm quần áo của bạn..."
         android:padding="16dp"
         android:layout_margin="16dp"
@@ -30,6 +30,66 @@
         android:textColorHint="#777777"
         android:drawableStart="@drawable/ic_search" />
 
+    <!-- Tabs All | Nam | Nữ | Trẻ em -->
+    <LinearLayout
+        android:id="@+id/layoutTabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
+        android:weightSum="4"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tvAll"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@drawable/bg_tab_text"
+            android:text="All"
+            android:textSize="16sp"
+            android:textColor="@color/tab_selected"
+            android:layout_marginEnd="4dp" />
+
+        <TextView
+            android:id="@+id/tvNam"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@drawable/bg_tab_text"
+            android:text="Nam"
+            android:textSize="16sp"
+            android:textColor="@color/tab_unselected"
+            android:layout_marginEnd="4dp" />
+
+        <TextView
+            android:id="@+id/tvNu"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@drawable/bg_tab_text"
+            android:text="Nữ"
+            android:textSize="16sp"
+            android:textColor="@color/tab_unselected"
+            android:layout_marginEnd="4dp" />
+
+        <TextView
+            android:id="@+id/tvTreEm"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@drawable/bg_tab_text"
+            android:text="Trẻ em"
+            android:textSize="16sp"
+            android:textColor="@color/tab_unselected" />
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvProducts"
         android:layout_width="match_parent"
@@ -37,4 +97,5 @@
         android:layout_weight="1"
         android:clipToPadding="false"
         android:padding="16dp" />
+
 </LinearLayout>

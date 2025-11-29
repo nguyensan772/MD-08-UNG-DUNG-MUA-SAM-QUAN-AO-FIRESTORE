@@ -47,7 +47,7 @@
                     android:layout_margin="16dp"
                     android:layout_gravity="end|top"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:tint="#FFFFFF"
+
                     android:src="@drawable/heart_empty"
                     android:contentDescription="Yêu thích" />
 

@@ -16,8 +16,4 @@ public class ApiClient {
         }
         return retrofit;
     }
-    // Trả về instance của YeuThichService
-    public static YeuThichService getYeuThichService() {
-        return getClient().create(YeuThichService.class);
-    }
 }
