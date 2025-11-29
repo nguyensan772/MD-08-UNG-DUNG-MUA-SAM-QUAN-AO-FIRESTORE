@@ -28,7 +28,8 @@
         android:background="@drawable/bg_search"
         android:textColor="#FFFFFF"
         android:textColorHint="#777777"
-        android:drawableStart="@drawable/ic_search" />
+        android:drawableStart="@drawable/ic_search"
+        android:focusable="false"   android:clickable="true"/>
 
     <!-- Tabs All | Nam | Nữ | Trẻ em -->
     <LinearLayout

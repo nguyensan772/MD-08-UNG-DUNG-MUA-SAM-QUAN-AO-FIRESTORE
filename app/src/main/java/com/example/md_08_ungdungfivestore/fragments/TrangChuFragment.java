@@ -2,7 +2,7 @@ package com.example.md_08_ungdungfivestore.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log; // Cần thiết để sử dụng Log.d
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.md_08_ungdungfivestore.R;
 import com.example.md_08_ungdungfivestore.XemChiTiet;
+import com.example.md_08_ungdungfivestore.SearchActivity; // ⭐ IMPORT MÀN HÌNH TÌM KIẾM ⭐
 import com.example.md_08_ungdungfivestore.adapters.ProductAdapter;
 import com.example.md_08_ungdungfivestore.models.Product;
 import com.example.md_08_ungdungfivestore.services.ProductApiService;
@@ -34,7 +35,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TrangChuFragment extends Fragment {
 
-    private static final String TAG = "TrangChuFragment"; // Tag cho Log
+    private static final String TAG = "TrangChuFragment";
     private EditText timKiemEditText;
     private RecyclerView rcvProducts;
     private ProductAdapter adapter;
@@ -52,20 +53,37 @@ public class TrangChuFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        // Đảm bảo R.layout.fragment_trangchu là file layout bạn đã gửi trước đó (trangchu_fragment.xml)
         View view = inflater.inflate(R.layout.fragment_trangchu, container, false);
 
         timKiemEditText = view.findViewById(R.id.timKiemEditText);
         rcvProducts = view.findViewById(R.id.rcvProducts);
         rcvProducts.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
+        // ⭐ LOGIC ĐỂ CHUYỂN SANG SEARCHACTIVITY KHI CLICK VÀO EDITTEXT ⭐
+        timKiemEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Sử dụng getActivity() để lấy context và khởi chạy Activity
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // ⭐ Quan trọng: Ngăn không cho bàn phím xuất hiện trên Fragment
+        // Đảm bảo trong XML (fragment_trangchu.xml) đã có android:focusable="false"
+        // và android:clickable="true" cho timKiemEditText.
+        // Hoặc bạn có thể setFocusable(false) ở đây nếu cần.
+        timKiemEditText.setFocusable(false);
+        // ----------------------------------------------------------------------
+
         adapter = new ProductAdapter(requireContext(), productList, new ProductAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Product product) {
                 if (product != null && product.getId() != null && !product.getId().isEmpty()) {
-                    Log.d(TAG, "Item Clicked. Product ID: " + product.getId()); // LOG KHI CLICK
+                    Log.d(TAG, "Item Clicked. Product ID: " + product.getId());
 
                     Intent intent = new Intent(requireContext(), XemChiTiet.class);
-                    // Đảm bảo Product model là Serializable
                     intent.putExtra("product", product);
                     startActivity(intent);
                 } else {
@@ -77,7 +95,7 @@ public class TrangChuFragment extends Fragment {
             @Override
             public void onAddClick(Product product) {
                 if (product != null && product.getId() != null && !product.getId().isEmpty()) {
-                    Log.d(TAG, "Add Clicked. Product ID: " + product.getId()); // LOG KHI THÊM
+                    Log.d(TAG, "Add Clicked. Product ID: " + product.getId());
                     addToWishlist(product);
                 } else {
                     Log.e(TAG, "Error: Product object or ID is null/empty on add click.");
@@ -125,7 +143,7 @@ public class TrangChuFragment extends Fragment {
                 if (!isAdded()) return;
                 if (response.isSuccessful() && response.body() != null) {
 
-                    // 🌟 LOG KIỂM TRA ID NGAY SAU KHI NHẬN PHẢN HỒI API
+                    // LOG KIỂM TRA ID NGAY SAU KHI NHẬN PHẢN HỒI API
                     if (!response.body().isEmpty()) {
                         Product firstProduct = response.body().get(0);
                         Log.d("ProductCheck_Fetch", "ID Sản phẩm đầu tiên nhận được: " + firstProduct.getId());
