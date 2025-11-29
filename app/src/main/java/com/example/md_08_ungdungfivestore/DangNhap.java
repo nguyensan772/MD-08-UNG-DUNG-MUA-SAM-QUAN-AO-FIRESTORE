@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.md_08_ungdungfivestore.models.AuthResponse;
 import com.example.md_08_ungdungfivestore.models.LoginRequest;
 import com.example.md_08_ungdungfivestore.services.ApiClient;
-import com.example.md_08_ungdungfivestore.services.ApiService;
+import com.example.md_08_ungdungfivestore.services.ApiService; // Giả sử ApiService là AuthApiService
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +23,7 @@ public class DangNhap extends AppCompatActivity {
 
     private EditText edtEmail, edtPassword;
     private TextView btnLogin, tvRegister;
+    private TextView tvResetDangNhap; // ⭐ Khai báo TextView mới cho Đổi mật khẩu
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -35,9 +36,12 @@ public class DangNhap extends AppCompatActivity {
         edtPassword = findViewById(R.id.matKhauDangNhapTextInputEditText);
         btnLogin = findViewById(R.id.nutDangnhapvSignInTextView);
         tvRegister = findViewById(R.id.tvRegisterDangNhap);
+        // ⭐ Ánh xạ View Đổi mật khẩu
+        tvResetDangNhap = findViewById(R.id.tvResetDangNhap);
 
         sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
+        // Xử lý sự kiện Đăng nhập
         btnLogin.setOnClickListener(v -> {
             String email = edtEmail.getText().toString().trim();
             String password = edtPassword.getText().toString().trim();
@@ -50,8 +54,15 @@ public class DangNhap extends AppCompatActivity {
             loginUser(email, password);
         });
 
+        // Xử lý sự kiện Đăng ký
         tvRegister.setOnClickListener(v -> {
             startActivity(new Intent(DangNhap.this, ManDangKy.class));
+        });
+
+        // ⭐ XỬ LÝ SỰ KIỆN ĐỔI MẬT KHẨU (QUÊN MẬT KHẨU) ⭐
+        tvResetDangNhap.setOnClickListener(v -> {
+            // Chuyển sang màn hình RequestOtpActivity để bắt đầu luồng đổi mật khẩu
+            startActivity(new Intent(DangNhap.this, com.example.md_08_ungdungfivestore.RequestOtpActivity.class));
         });
     }
 
