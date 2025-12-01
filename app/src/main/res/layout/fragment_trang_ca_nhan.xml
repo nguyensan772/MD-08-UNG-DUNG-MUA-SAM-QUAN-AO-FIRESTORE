@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mauNen"
-    tools:context=".TrangCaNhanActivity">
+    tools:context=".fragments.TrangCaNhanFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,14 +14,6 @@
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/quayLaiBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@android:color/transparent"
-            android:src="@drawable/quay_lai_img" />
 
         <TextView
             android:layout_width="0dp"
@@ -34,10 +25,17 @@
             android:textColor="@color/white"
             android:textSize="20sp"
             android:fontFamily="@font/poppins_bold" />
+
+        <ImageView
+            android:id="@+id/caiDatBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_settings" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layoutTheTinDung"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

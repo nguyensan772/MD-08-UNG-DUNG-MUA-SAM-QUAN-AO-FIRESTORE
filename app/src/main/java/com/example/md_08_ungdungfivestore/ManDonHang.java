@@ -1,13 +1,21 @@
 package com.example.md_08_ungdungfivestore;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 
 public class ManDonHang extends AppCompatActivity {
+    private TabLayout datHangTabLayout;
+    private ViewPager datHangViewPager;
+    private ImageButton quayLaiBtn;
 
     private TextView tvChoXN, tvDangGiao, tvDaGiao, tvDaHuy, tvEmpty;
     private ImageButton quayLaiBtn;
@@ -34,24 +42,20 @@ public class ManDonHang extends AppCompatActivity {
             tvEmpty.setText("Bạn chưa có đơn hàng chờ xác nhận.");
         });
 
-        tvDangGiao.setOnClickListener(v -> {
-            highlightTab(tvDangGiao);
-            tvEmpty.setText("Bạn chưa có đơn hàng đang giao.");
-        });
+        anhXa();
 
-        tvDaGiao.setOnClickListener(v -> {
-            highlightTab(tvDaGiao);
-            tvEmpty.setText("Bạn chưa có đơn hàng đã giao.");
+        quayLaiBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
         });
+    }
 
-        tvDaHuy.setOnClickListener(v -> {
-            highlightTab(tvDaHuy);
-            tvEmpty.setText("Bạn chưa có đơn hàng đã hủy.");
-        });
-
-        // 4. Tab mặc định khi mới mở màn
-        highlightTab(tvChoXN);
-        tvEmpty.setText("Bạn chưa có đơn hàng chờ xác nhận.");
+    private void anhXa() {
+        datHangTabLayout = findViewById(R.id.datHangTabLayout);
+        datHangViewPager = findViewById(R.id.datHangViewPager);
+        quayLaiBtn = findViewById(R.id.quayLaiBtn);
     }
 
     /**

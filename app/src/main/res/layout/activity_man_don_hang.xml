@@ -9,105 +9,49 @@
     android:background="@color/mauNen"
     tools:context=".ManDonHang">
 
-    <!-- HEADER -->
     <LinearLayout
-        android:id="@+id/layoutHeader"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingVertical="35dp"
-        android:paddingHorizontal="10dp"
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageButton
             android:id="@+id/quayLaiBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
-            android:src="@drawable/thoat"
-            android:scaleType="centerInside"
-            android:contentDescription="@string/quay_lai"
-            app:tint="#fe9700" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:text="Đơn hàng của bạn"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:src="@drawable/quay_lai_img" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="Đơn hàng"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/poppins_bold" />
     </LinearLayout>
 
-    <!-- TAB TRẠNG THÁI -->
-    <LinearLayout
-        android:id="@+id/layoutTabs"
-        android:layout_width="0dp"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/datHangTabLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingHorizontal="16dp"
-        android:paddingTop="12dp"
-        app:layout_constraintTop_toBottomOf="@id/layoutHeader"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:background="@color/mauNen"
+        app:tabSelectedTextAppearance="@color/ChuDe"
+        app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
 
-        <TextView
-            android:id="@+id/choXacNhanTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Chờ xác nhận"
-            android:textColor="@color/white"
-            android:fontFamily="@font/poppins_medium" />
-
-        <TextView
-            android:id="@+id/dangGiaoTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Đang giao"
-            android:textColor="@color/white"
-            android:fontFamily="@font/poppins_medium" />
-
-        <TextView
-            android:id="@+id/daGiaoTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Đã giao"
-            android:textColor="@color/white"
-            android:fontFamily="@font/poppins_medium" />
-
-        <TextView
-            android:id="@+id/daHuyTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Đã hủy"
-            android:textColor="@color/white"
-            android:fontFamily="@font/poppins_medium" />
-    </LinearLayout>
-
-    <!-- NỘI DUNG TẠM THỜI (CHƯA CÓ API) -->
-    <TextView
-        android:id="@+id/tvEmpty"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Bạn chưa có đơn hàng chờ xác nhận."
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:gravity="center"
-        android:padding="24dp"
-        app:layout_constraintTop_toBottomOf="@id/layoutTabs"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/datHangViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/datHangTabLayout" />
+    
 </androidx.constraintlayout.widget.ConstraintLayout>
