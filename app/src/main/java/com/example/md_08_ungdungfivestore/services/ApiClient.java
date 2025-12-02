@@ -3,8 +3,8 @@ package com.example.md_08_ungdungfivestore.services;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class APIClient {
-    private static final String BASE_URL = "http://localhost:5002/";
+public class ApiClient {
+    private static final String BASE_URL = "http://10.0.2.2:5001/";
     private static Retrofit retrofit;
 
     public static Retrofit getClient() {

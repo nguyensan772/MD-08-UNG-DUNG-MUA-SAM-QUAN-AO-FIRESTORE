@@ -1,0 +1,81 @@
+### Settings API Testing
+### Màn hình cài đặt ("Đăng xuất")
+@baseUrl = http://localhost:5000
+@token = YOUR_AUTH_TOKEN_HERE
+
+### ============================================
+### 1. Đăng nhập (để lấy token)
+### ============================================
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+
+### ============================================
+### 2. Đăng xuất (Client-side)
+### ============================================
+### Lưu ý: Đăng xuất thường được xử lý ở client-side
+### bằng cách xóa token khỏi localStorage/sessionStorage
+### 
+### Không cần gọi API, chỉ cần:
+### - Xóa token khỏi storage
+### - Redirect về trang login
+### - Clear user state trong app
+
+### ============================================
+### 3. Đổi mật khẩu (Trong màn hình cài đặt)
+### ============================================
+PUT {{baseUrl}}/api/users/change-password
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "oldPassword": "password123",
+  "newPassword": "newpassword456"
+}
+
+### ============================================
+### 4. Cập nhật trạng thái online/offline
+### ============================================
+POST {{baseUrl}}/api/users/online-status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "isOnline": false
+}
+
+### ============================================
+### HƯỚNG DẪN:
+### ============================================
+### ĐĂNG XUẤT:
+### - Không cần API endpoint
+### - Xử lý ở client-side:
+###   1. localStorage.removeItem('token')
+###   2. Redirect to /login
+###   3. Clear Redux/Context state
+### 
+### ĐỔI MẬT KHẨU:
+### - Endpoint: PUT /api/users/change-password
+### - Cần authentication
+### - Body: oldPassword, newPassword
+### 
+### Response đăng nhập:
+### {
+###   "success": true,
+###   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+###   "user": {
+###     "_id": "...",
+###     "name": "Nguyễn Văn A",
+###     "email": "user@example.com"
+###   }
+### }
+### 
+### Response đổi mật khẩu:
+### {
+###   "success": true,
+###   "message": "Đổi mật khẩu thành công"
+### }

@@ -1,0 +1,113 @@
+### User Information API Testing
+### Màn hình thông tin (Thông tin tài khoản, địa chỉ, lịch sử)
+@baseUrl = http://localhost:5000
+@token = YOUR_AUTH_TOKEN_HERE
+
+### ============================================
+### 1. Lấy thông tin tài khoản
+### ============================================
+GET {{baseUrl}}/api/users/me
+Authorization: Bearer {{token}}
+
+### ============================================
+### 2. Lấy tất cả địa chỉ
+### ============================================
+GET {{baseUrl}}/api/addresses
+Authorization: Bearer {{token}}
+
+### ============================================
+### 3. Thêm địa chỉ mới
+### ============================================
+POST {{baseUrl}}/api/addresses
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "recipient_name": "Nguyễn Văn A",
+  "phone": "0901234567",
+  "address": "123 Đường ABC",
+  "ward": "Phường 1",
+  "district": "Quận 1",
+  "city": "TP.HCM",
+  "is_default": false
+}
+
+### ============================================
+### 4. Cập nhật địa chỉ
+### ============================================
+PUT {{baseUrl}}/api/addresses/674c3a4f123456789abcdef0
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "recipient_name": "Nguyễn Văn B",
+  "phone": "0907654321",
+  "address": "456 Đường XYZ",
+  "ward": "Phường 2",
+  "district": "Quận 3",
+  "city": "TP.HCM"
+}
+
+### ============================================
+### 5. Đặt địa chỉ làm mặc định
+### ============================================
+PUT {{baseUrl}}/api/addresses/674c3a4f123456789abcdef0/set-default
+Authorization: Bearer {{token}}
+
+### ============================================
+### 6. Xóa địa chỉ
+### ============================================
+DELETE {{baseUrl}}/api/addresses/674c3a4f123456789abcdef0
+Authorization: Bearer {{token}}
+
+### ============================================
+### 7. Lấy lịch sử đơn hàng
+### ============================================
+GET {{baseUrl}}/api/orders/my-orders
+Authorization: Bearer {{token}}
+
+### ============================================
+### 8. Lấy danh sách yêu thích
+### ============================================
+GET {{baseUrl}}/api/wishlists/me
+Authorization: Bearer {{token}}
+
+### ============================================
+### 9. Lấy thông báo
+### ============================================
+GET {{baseUrl}}/api/notifications/my-notifications
+Authorization: Bearer {{token}}
+
+### ============================================
+### 10. Đánh dấu đã đọc tất cả thông báo
+### ============================================
+PUT {{baseUrl}}/api/notifications/mark-all-read
+Authorization: Bearer {{token}}
+
+### ============================================
+### HƯỚNG DẪN:
+### ============================================
+### Màn hình thông tin bao gồm:
+### - Thông tin tài khoản: GET /api/users/me
+### - Quản lý địa chỉ: Full CRUD /api/addresses
+### - Lịch sử đơn hàng: GET /api/orders/my-orders
+### - Danh sách yêu thích: GET /api/wishlists/me
+### - Thông báo: GET /api/notifications/my-notifications
+### 
+### Response địa chỉ:
+### {
+###   "success": true,
+###   "addresses": [
+###     {
+###       "_id": "...",
+###       "user_id": "...",
+###       "recipient_name": "Nguyễn Văn A",
+###       "phone": "0901234567",
+###       "address": "123 Đường ABC",
+###       "ward": "Phường 1",
+###       "district": "Quận 1",
+###       "city": "TP.HCM",
+###       "is_default": true
+###     }
+###   ]
+### }
