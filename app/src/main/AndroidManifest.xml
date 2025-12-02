@@ -17,7 +17,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".SelectOptionsActivity"
+            android:name=".SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ResetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VerifyOtpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RequestOtpActivity"
             android:exported="false" />
         <activity
             android:name=".OtpActivity"
@@ -57,9 +66,6 @@
             android:exported="false" />
         <activity
             android:name=".GuiMaXacNhan"
-            android:exported="false" />
-        <activity
-            android:name=".MatKhauSai"
             android:exported="false" />
         <activity
             android:name=".DangNhap"

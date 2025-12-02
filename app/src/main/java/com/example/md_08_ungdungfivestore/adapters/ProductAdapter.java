@@ -80,6 +80,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return productList.size();
     }
 
+    public void setProducts(List<Product> newProducts) {
+        this.productList = newProducts;
+        notifyDataSetChanged();
+    }
+
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct;
         TextView tvName, tvPrice;

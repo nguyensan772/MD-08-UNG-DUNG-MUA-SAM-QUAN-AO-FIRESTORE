@@ -1,5 +1,6 @@
 package com.example.md_08_ungdungfivestore.models;
 
+import com.google.gson.annotations.SerializedName; // <--- SỬA 1: THÊM IMPORT
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 public class Product implements Serializable {
+
+    @SerializedName("_id") // <--- SỬA 2: Ánh xạ JSON field "_id" vào Java field "id"
     private String id;
+
     private String name;
     private String image;
     private List<String> images;
