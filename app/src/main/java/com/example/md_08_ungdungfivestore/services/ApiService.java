@@ -13,14 +13,14 @@ import retrofit2.http.POST;
 public interface ApiService {
 
     // Register trả về RegisterResponse
-    @POST("register")
+    @POST("api/auth/register")
     Call<RegisterResponse> register(@Body RegisterRequest request);
 
     // Verify OTP trả về AuthResponse
-    @POST("verify-otp")
+    @POST("api/auth/verify-otp")
     Call<AuthResponse> verifyOtp(@Body OtpRequest request);
 
     // Login trả về AuthResponse
-    @POST("login")
+    @POST("api/auth/login")
     Call<AuthResponse> login(@Body LoginRequest request);
 }

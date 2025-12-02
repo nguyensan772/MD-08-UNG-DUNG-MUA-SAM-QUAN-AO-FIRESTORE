@@ -1,0 +1,65 @@
+package com.example.md_08_ungdungfivestore.models;
+
+/**
+ * Request body cho cập nhật thông tin profile
+ */
+public class UpdateProfileRequest {
+    private String full_name;
+    private String phone_number;
+    private String date_of_birth;
+    private String gender;
+    private String avatar_url;
+
+    public UpdateProfileRequest() {
+    }
+
+    public UpdateProfileRequest(String full_name, String phone_number, String date_of_birth,
+            String gender, String avatar_url) {
+        this.full_name = full_name;
+        this.phone_number = phone_number;
+        this.date_of_birth = date_of_birth;
+        this.gender = gender;
+        this.avatar_url = avatar_url;
+    }
+
+    // Getters and Setters
+    public String getFull_name() {
+        return full_name;
+    }
+
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
+    public String getDate_of_birth() {
+        return date_of_birth;
+    }
+
+    public void setDate_of_birth(String date_of_birth) {
+        this.date_of_birth = date_of_birth;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getAvatar_url() {
+        return avatar_url;
+    }
+
+    public void setAvatar_url(String avatar_url) {
+        this.avatar_url = avatar_url;
+    }
+}

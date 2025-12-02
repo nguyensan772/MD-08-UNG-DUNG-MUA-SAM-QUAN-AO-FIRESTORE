@@ -22,6 +22,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private Context context;
     private List<Product> productList;
     private OnItemClickListener listener;
+    private boolean showDeleteButton = true; // Default to true for wishlist
 
     public ProductAdapter(Context context, List<Product> productList, OnItemClickListener listener) {
         this.context = context;
@@ -31,7 +32,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     public interface OnItemClickListener {
         void onItemClick(Product product); // Click vào ảnh hoặc cả item
-        void onAddClick(Product product);  // Click vào nút thêm
+
+        void onAddClick(Product product); // Click vào nút thêm
+
+        void onDeleteClick(Product product); // Click vào nút xóa (wishlist)
+    }
+
+    public void setShowDeleteButton(boolean show) {
+        this.showDeleteButton = show;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -51,7 +60,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         if (p.getImage() != null && !p.getImage().isEmpty()) {
             String imageUrl = p.getImage();
             if (!imageUrl.startsWith("http")) {
-                if (!imageUrl.startsWith("/")) imageUrl = "/" + imageUrl;
+                if (!imageUrl.startsWith("/"))
+                    imageUrl = "/" + imageUrl;
                 imageUrl = "http://10.0.2.2:5001" + imageUrl;
             }
             Glide.with(context).load(imageUrl).error(R.drawable.ic_kids1).into(holder.imgProduct);
@@ -61,18 +71,32 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         // Click cả item
         holder.itemView.setOnClickListener(v -> {
-            if (listener != null) listener.onItemClick(p);
+            if (listener != null)
+                listener.onItemClick(p);
         });
 
         // Click trực tiếp vào ảnh cũng mở chi tiết
         holder.imgProduct.setOnClickListener(v -> {
-            if (listener != null) listener.onItemClick(p);
+            if (listener != null)
+                listener.onItemClick(p);
         });
 
         // Click nút thêm vào giỏ hàng
         holder.btnAdd.setOnClickListener(v -> {
-            if (listener != null) listener.onAddClick(p);
+            if (listener != null)
+                listener.onAddClick(p);
         });
+
+        // Click nút xóa (wishlist)
+        if (showDeleteButton) {
+            holder.btnDelete.setVisibility(View.VISIBLE);
+            holder.btnDelete.setOnClickListener(v -> {
+                if (listener != null)
+                    listener.onDeleteClick(p);
+            });
+        } else {
+            holder.btnDelete.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -88,7 +112,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct;
         TextView tvName, tvPrice;
-        ImageButton btnAdd;
+        ImageButton btnAdd, btnDelete;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -96,6 +120,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             tvName = itemView.findViewById(R.id.tvName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             btnAdd = itemView.findViewById(R.id.btnAdd);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
         }
     }
 }

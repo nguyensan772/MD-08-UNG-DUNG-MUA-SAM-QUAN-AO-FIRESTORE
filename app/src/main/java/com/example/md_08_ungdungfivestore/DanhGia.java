@@ -20,7 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.md_08_ungdungfivestore.models.Comment;
-import com.example.md_08_ungdungfivestore.services.APIClient;
+import com.example.md_08_ungdungfivestore.services.ApiClient;
 import com.example.md_08_ungdungfivestore.services.CommentApiService;
 
 import retrofit2.Call;
@@ -81,7 +81,7 @@ public class DanhGia extends AppCompatActivity {
     }
 
     private void tichHopAPI() {
-        apiService = APIClient.getClient().create(CommentApiService.class);
+        apiService = ApiClient.getClient().create(CommentApiService.class);
     }
 
     private void loadDuLieu() {
@@ -124,7 +124,8 @@ public class DanhGia extends AppCompatActivity {
             return;
         }
         if (userId == null) {
-            Toast.makeText(this, "Không tìm thấy thông tin người dùng, vui lòng đăng nhập lại", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Không tìm thấy thông tin người dùng, vui lòng đăng nhập lại", Toast.LENGTH_SHORT)
+                    .show();
             return;
         }
 

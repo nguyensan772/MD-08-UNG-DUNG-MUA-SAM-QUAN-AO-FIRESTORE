@@ -28,6 +28,7 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
     private int quantity = 1;
     private String selectedColor = null;
     private String selectedSize = null;
+    private boolean isBuyNow = false;
 
     private OnOptionSelectedListener listener;
 
@@ -40,9 +41,14 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
         this.listener = listener;
     }
 
+    public void setBuyNow(boolean buyNow) {
+        isBuyNow = buyNow;
+    }
+
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_select_options, container, false);
 
         ivProductImage = view.findViewById(R.id.ivProductImage);
@@ -71,7 +77,16 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
         setupColors();
         setupSizes();
         setupQuantity();
+        setupColors();
+        setupSizes();
+        setupQuantity();
         setupBuyNow();
+
+        if (isBuyNow) {
+            btnBuyNow.setText("Mua ngay");
+        } else {
+            btnBuyNow.setText("Thêm vào giỏ");
+        }
 
         return view;
     }
@@ -105,9 +120,10 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
             // Local Upload: Nối Base URL vào
             fullUrl = BASE_URL + imagePath;
         } else {
-            // thử tìm drawable theo tên (Giữ lại logic cũ cho ảnh nội bộ/fallback)
-            int resId = getResources().getIdentifier(imagePath.replace(".jpg","").replace(".png",""), "drawable", getContext().getPackageName());
-            if(resId != 0){
+            // thử tìm drawable theo tên
+            int resId = getResources().getIdentifier(imagePath.replace(".jpg", "").replace(".png", ""), "drawable",
+                    getContext().getPackageName());
+            if (resId != 0) {
                 ivProductImage.setImageResource(resId);
                 return; // Đã tìm thấy drawable, thoát
             } else {
@@ -136,11 +152,11 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
                 colorView.setText(color);
                 colorView.setTextColor(0xFF000000); // chữ đen
                 colorView.setTextSize(16f);
-                colorView.setPadding(24,12,24,12);
+                colorView.setPadding(24, 12, 24, 12);
                 colorView.setBackgroundColor(0xFFFFFFFF);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params.setMargins(margin,0,0,0);
+                params.setMargins(margin, 0, 0, 0);
                 colorView.setLayoutParams(params);
 
                 colorView.setOnClickListener(v -> {
@@ -162,11 +178,11 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
                 sizeView.setText(size);
                 sizeView.setTextColor(0xFF000000); // chữ đen
                 sizeView.setTextSize(16f);
-                sizeView.setPadding(24,12,24,12);
+                sizeView.setPadding(24, 12, 24, 12);
                 sizeView.setBackgroundColor(0xFFFFFFFF);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params.setMargins(margin,0,0,0);
+                params.setMargins(margin, 0, 0, 0);
                 sizeView.setLayoutParams(params);
 
                 sizeView.setOnClickListener(v -> {
@@ -182,16 +198,19 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
         for (int i = 0; i < parent.getChildCount(); i++) {
             View child = parent.getChildAt(i);
             child.setBackgroundColor(0xFFFFFFFF);
-            if (child instanceof TextView) ((TextView) child).setTextColor(0xFF000000);
+            if (child instanceof TextView)
+                ((TextView) child).setTextColor(0xFF000000);
         }
         selectedView.setBackgroundColor(0xFFD17842);
-        if (selectedView instanceof TextView) ((TextView) selectedView).setTextColor(0xFFFFFFFF);
+        if (selectedView instanceof TextView)
+            ((TextView) selectedView).setTextColor(0xFFFFFFFF);
     }
 
     private void setupQuantity() {
         tvQuantity.setText(String.valueOf(quantity));
         btnDecrease.setOnClickListener(v -> {
-            if (quantity > 1) quantity--;
+            if (quantity > 1)
+                quantity--;
             tvQuantity.setText(String.valueOf(quantity));
         });
         btnIncrease.setOnClickListener(v -> {

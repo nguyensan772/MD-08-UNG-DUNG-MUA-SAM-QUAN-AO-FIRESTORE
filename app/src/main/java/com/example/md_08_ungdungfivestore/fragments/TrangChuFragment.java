@@ -52,8 +52,7 @@ public class TrangChuFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        // Đảm bảo R.layout.fragment_trangchu là file layout bạn đã gửi trước đó (trangchu_fragment.xml)
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trangchu, container, false);
 
         timKiemEditText = view.findViewById(R.id.timKiemEditText);
@@ -80,9 +79,7 @@ public class TrangChuFragment extends Fragment {
         adapter = new ProductAdapter(requireContext(), productList, new ProductAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Product product) {
-                if (product != null && product.getId() != null && !product.getId().isEmpty()) {
-                    Log.d(TAG, "Item Clicked. Product ID: " + product.getId());
-
+                if (product != null) {
                     Intent intent = new Intent(requireContext(), XemChiTiet.class);
                     intent.putExtra("product", product);
                     startActivity(intent);
@@ -102,7 +99,15 @@ public class TrangChuFragment extends Fragment {
                     Toast.makeText(requireContext(), "Lỗi: Không thể thêm sản phẩm không có ID.", Toast.LENGTH_SHORT).show();
                 }
             }
+
+            @Override
+            public void onDeleteClick(Product product) {
+                // Not used in home page
+            }
         });
+
+        // HIDE delete button on home page
+        adapter.setShowDeleteButton(false);
 
         rcvProducts.setAdapter(adapter);
         setupApiService();
@@ -140,7 +145,8 @@ public class TrangChuFragment extends Fragment {
         call.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                if (!isAdded()) return;
+                if (!isAdded())
+                    return;
                 if (response.isSuccessful() && response.body() != null) {
 
                     // LOG KIỂM TRA ID NGAY SAU KHI NHẬN PHẢN HỒI API
@@ -161,8 +167,8 @@ public class TrangChuFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
-                if (!isAdded()) return;
-                Log.e(TAG, "Lỗi mạng khi tải sản phẩm: " + t.getMessage(), t);
+                if (!isAdded())
+                    return;
                 Toast.makeText(requireContext(), "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

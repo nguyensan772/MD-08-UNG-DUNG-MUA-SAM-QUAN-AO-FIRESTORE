@@ -22,6 +22,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintDimensionRatio="1:1" />
 
+    <!-- Delete/Favorite button (top-right) -->
+    <ImageButton
+        android:id="@+id/btnDelete"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="4dp"
+        android:src="@android:drawable/ic_delete"
+        android:background="@drawable/bg_image_rounded"
+        android:backgroundTint="#80000000"
+        android:tint="#FF6B6B"
+        android:contentDescription="Xóa khỏi yêu thích"
+        app:layout_constraintTop_toTopOf="@id/imgProduct"
+        app:layout_constraintEnd_toEndOf="@id/imgProduct" />
+
     <!-- Tên sản phẩm -->
     <TextView
         android:id="@+id/tvName"

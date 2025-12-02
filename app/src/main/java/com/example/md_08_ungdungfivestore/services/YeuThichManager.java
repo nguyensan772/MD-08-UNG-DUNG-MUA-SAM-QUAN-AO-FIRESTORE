@@ -19,8 +19,15 @@ public class YeuThichManager {
     private static final String TAG = "YeuThichManager";
     private final YeuThichService service;
 
-    public YeuThichManager(YeuThichService service) {
-        this.service = service;
+    public static YeuThichService getInstance(Context context) {
+        if (service == null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://10.0.2.2:5001/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            service = retrofit.create(YeuThichService.class);
+        }
+        return service;
     }
 
     public interface CallbackMap {
