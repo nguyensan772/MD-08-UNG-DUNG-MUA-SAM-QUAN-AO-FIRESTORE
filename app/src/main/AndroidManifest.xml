@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -28,6 +27,9 @@
         <activity
             android:name=".RequestOtpActivity"
             android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".SelectOptionsActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".OtpActivity"
             android:exported="false" />
@@ -44,9 +46,6 @@
             android:name=".ManDanhGiaSanPham"
             android:exported="false" />
         <activity
-            android:name=".CaiDatActivity"
-            android:exported="false" />
-        <activity
             android:name=".ThanhToanActivity"
             android:exported="false" />
         <activity
@@ -56,7 +55,7 @@
             android:name=".ManLienHe"
             android:exported="false" />
         <activity
-            android:name=".ManThongTin"
+            android:name=".ManDonHang"
             android:exported="false" />
         <activity
             android:name=".ManDangKy"

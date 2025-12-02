@@ -1,0 +1,108 @@
+### Cart API Testing
+### Base URL
+@baseUrl = http://localhost:5000
+@token = YOUR_AUTH_TOKEN_HERE
+
+### ============================================
+### 1. GET - Lấy giỏ hàng của tôi
+### ============================================
+GET {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+
+### ============================================
+### 2. POST - Thêm sản phẩm vào giỏ hàng
+### ============================================
+POST {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "product_id": "674c3a4f123456789abcdef0",
+  "size_id": "674c3a4f123456789abcdef1",
+  "quantity": 2
+}
+
+### ============================================
+### 3. POST - Thêm sản phẩm khác vào giỏ
+### ============================================
+POST {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "product_id": "674c3a4f123456789abcdef2",
+  "size_id": "674c3a4f123456789abcdef3",
+  "quantity": 1
+}
+
+### ============================================
+### 4. PUT - Cập nhật số lượng của item trong giỏ
+### ============================================
+PUT {{baseUrl}}/api/cart/674c3a4f123456789abcdef4
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "quantity": 5
+}
+
+### ============================================
+### 5. DELETE - Xóa một item khỏi giỏ hàng
+### ============================================
+DELETE {{baseUrl}}/api/cart/674c3a4f123456789abcdef4
+Authorization: Bearer {{token}}
+
+### ============================================
+### 6. DELETE - Xóa toàn bộ giỏ hàng
+### ============================================
+DELETE {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+
+### ============================================
+### HƯỚNG DẪN SỬ DỤNG:
+### ============================================
+### 1. Thay @token bằng token thật sau khi đăng nhập
+###    Lấy token từ response của POST /api/auth/login
+###
+### 2. Thay các ID (product_id, size_id, itemId) bằng ID thật
+###    - product_id: Lấy từ GET /api/products
+###    - size_id: Lấy từ GET /api/sizes
+###    - itemId: Lấy từ response của GET /api/cart (trong mảng items)
+###
+### 3. Thứ tự test nên là:
+###    a. POST /api/auth/login để lấy token
+###    b. GET /api/cart để xem giỏ hàng (sẽ tự tạo nếu chưa có)
+###    c. POST /api/cart để thêm sản phẩm
+###    d. PUT /api/cart/:itemId để cập nhật số lượng
+###    e. DELETE /api/cart/:itemId để xóa item
+###    f. DELETE /api/cart để xóa toàn bộ giỏ
+###
+### 4. Response mẫu:
+### {
+###   "success": true,
+###   "cart": {
+###     "_id": "...",
+###     "user_id": "...",
+###     "items": [
+###       {
+###         "_id": "...",
+###         "product_id": {
+###           "_id": "...",
+###           "name": "Áo thun nam",
+###           "image": "...",
+###           "price": 250000,
+###           "stock": 100
+###         },
+###         "size_id": {
+###           "_id": "...",
+###           "name": "M"
+###         },
+###         "quantity": 2,
+###         "price": 250000
+###       }
+###     ],
+###     "totalPrice": 500000,
+###     "createdAt": "...",
+###     "updatedAt": "..."
+###   }
+### }

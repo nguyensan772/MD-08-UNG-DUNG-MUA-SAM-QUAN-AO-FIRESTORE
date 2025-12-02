@@ -1,0 +1,101 @@
+### User Profile API Testing
+### Màn hình trang cá nhân
+@baseUrl = http://localhost:5000
+@token = YOUR_AUTH_TOKEN_HERE
+
+### ============================================
+### 1. Lấy thông tin cá nhân
+### ============================================
+GET {{baseUrl}}/api/users/me
+Authorization: Bearer {{token}}
+
+### ============================================
+### 2. Cập nhật thông tin cá nhân (Full)
+### ============================================
+PUT {{baseUrl}}/api/users/update-profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Nguyễn Văn A",
+  "phone": "0901234567",
+  "date_of_birth": "1990-01-15",
+  "gender": "male",
+  "avatar": "https://example.com/avatar.jpg"
+}
+
+### ============================================
+### 3. Cập nhật chỉ tên
+### ============================================
+PUT {{baseUrl}}/api/users/update-profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Nguyễn Văn B"
+}
+
+### ============================================
+### 4. Cập nhật chỉ số điện thoại
+### ============================================
+PUT {{baseUrl}}/api/users/update-profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "phone": "0907654321"
+}
+
+### ============================================
+### 5. Cập nhật avatar
+### ============================================
+PUT {{baseUrl}}/api/users/update-profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "avatar": "https://cloudinary.com/new-avatar.jpg"
+}
+
+### ============================================
+### 6. Lấy danh sách địa chỉ
+### ============================================
+GET {{baseUrl}}/api/addresses
+Authorization: Bearer {{token}}
+
+### ============================================
+### 7. Lấy địa chỉ mặc định
+### ============================================
+GET {{baseUrl}}/api/addresses/default
+Authorization: Bearer {{token}}
+
+### ============================================
+### HƯỚNG DẪN:
+### ============================================
+### - GET /api/users/me - Lấy thông tin user
+### - PUT /api/users/update-profile - Cập nhật profile
+### - GET /api/addresses - Lấy danh sách địa chỉ
+### - Tất cả cần authentication (Bearer token)
+### 
+### Response thông tin cá nhân:
+### {
+###   "success": true,
+###   "user": {
+###     "_id": "...",
+###     "name": "Nguyễn Văn A",
+###     "email": "user@example.com",
+###     "phone": "0901234567",
+###     "date_of_birth": "1990-01-15",
+###     "gender": "male",
+###     "avatar": "...",
+###     "role": "user",
+###     "createdAt": "..."
+###   }
+### }
+### 
+### Response cập nhật:
+### {
+###   "success": true,
+###   "message": "Cập nhật thành công",
+###   "user": {...}
+### }
