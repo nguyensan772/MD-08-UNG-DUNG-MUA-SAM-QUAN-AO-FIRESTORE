@@ -10,6 +10,16 @@ public class Comment {
     private float rating; // điểm đánh giá (1-5)
     private String date;
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    private String userId;
+
     public Comment() {}
 
     public Comment(String _id, String productId, String userName, String content, float rating, String date) {

@@ -14,6 +14,7 @@ import com.example.md_08_ungdungfivestore.models.AuthResponse;
 import com.example.md_08_ungdungfivestore.models.LoginRequest;
 import com.example.md_08_ungdungfivestore.services.ApiClient;
 import com.example.md_08_ungdungfivestore.services.ApiService;
+import com.example.md_08_ungdungfivestore.utils.TokenManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,7 +24,6 @@ public class DangNhap extends AppCompatActivity {
 
     private EditText edtEmail, edtPassword;
     private TextView btnLogin, tvRegister;
-    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +36,11 @@ public class DangNhap extends AppCompatActivity {
         btnLogin = findViewById(R.id.nutDangnhapvSignInTextView);
         tvRegister = findViewById(R.id.tvRegisterDangNhap);
 
-        sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-
         btnLogin.setOnClickListener(v -> {
             String email = edtEmail.getText().toString().trim();
             String password = edtPassword.getText().toString().trim();
 
-            if(email.isEmpty() || password.isEmpty()){
+            if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(DangNhap.this, "Điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -55,7 +53,7 @@ public class DangNhap extends AppCompatActivity {
         });
     }
 
-    private void loginUser(String email, String password){
+    private void loginUser(String email, String password) {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         LoginRequest request = new LoginRequest(email, password);
 
@@ -64,16 +62,22 @@ public class DangNhap extends AppCompatActivity {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 Log.d("DangNhap", "Response code: " + response.code());
-                if(response.isSuccessful() && response.body() != null){
+
+                if (response.code() == 200 && response.body() != null) {
                     AuthResponse auth = response.body();
                     Log.d("DangNhap", "Success: " + auth.isSuccess() + ", Message: " + auth.getMessage());
-                    if(auth.isSuccess()){
-                        // Lưu token
-                        sharedPreferences.edit()
-                                .putString("token", auth.getToken())
-                                .apply();
 
-                        Toast.makeText(DangNhap.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                    if (auth.isSuccess()) {
+                        // Lưu token bằng TokenManager
+                        TokenManager tokenManager = new TokenManager(DangNhap.this);
+                        tokenManager.saveToken(auth.getToken());
+
+                        // Lưu user_id nếu có
+                        if (auth.getUser() != null && auth.getUser().getId() != null) {
+                            tokenManager.saveUserId(auth.getUser().getId());
+                        }
+
+                        Toast.makeText(DangNhap.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
                         // Chuyển sang MainActivity
                         Intent intent = new Intent(DangNhap.this, MainActivity.class);
@@ -85,8 +89,8 @@ public class DangNhap extends AppCompatActivity {
                         Toast.makeText(DangNhap.this, auth.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Log.e("DangNhap", "Response thất bại: " + response.errorBody());
-                    Toast.makeText(DangNhap.this, "Đăng nhập thất bại: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Log.e("DangNhap", "Response thất bại: " + response.code());
+                    Toast.makeText(DangNhap.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
                 }
             }
 

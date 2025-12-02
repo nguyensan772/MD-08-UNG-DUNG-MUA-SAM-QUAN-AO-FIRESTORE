@@ -8,6 +8,7 @@
         android:id="@+id/navYeuThich"
         android:icon="@drawable/yeu_thich_icon"
         android:title="Yêu thích" />
+
     <item
         android:id="@+id/navGioHang"
         android:icon="@drawable/gio_hang_icon"

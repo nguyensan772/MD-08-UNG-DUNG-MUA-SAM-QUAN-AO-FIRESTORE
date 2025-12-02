@@ -3,9 +3,13 @@ package com.example.md_08_ungdungfivestore;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.md_08_ungdungfivestore.services.ApiClient;
+import com.example.md_08_ungdungfivestore.utils.TokenManager;
 
 public class ManChao extends AppCompatActivity {
 
@@ -15,15 +19,31 @@ public class ManChao extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_man_chao);
 
-        new Handler().postDelayed(new Runnable() {
+        // QUAN TRỌNG: Init ApiClient
+        ApiClient.init(this);
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent
-                        (ManChao.this, DangNhap.class);
-                startActivity(intent); // 👉 Thực hiện chuyển màn
-                finish(); // 👉 Đóng màn hình chào để không quay lại khi nhấn Back
-
+                checkLoginAndNavigate();
             }
-        },5000);
+        }, 3000); // 3 giây
+    }
+
+    private void checkLoginAndNavigate() {
+        TokenManager tokenManager = new TokenManager(this);
+        String token = tokenManager.getToken();
+
+        Intent intent;
+        if (token != null && !token.isEmpty()) {
+            // Đã đăng nhập -> vào MainActivity
+            intent = new Intent(ManChao.this, MainActivity.class);
+        } else {
+            // Chưa đăng nhập -> vào DangNhap
+            intent = new Intent(ManChao.this, DangNhap.class);
+        }
+
+        startActivity(intent);
+        finish(); // Đóng màn hình chào
     }
 }

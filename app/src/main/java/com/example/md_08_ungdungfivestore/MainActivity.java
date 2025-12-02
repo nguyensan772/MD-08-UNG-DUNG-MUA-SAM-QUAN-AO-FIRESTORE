@@ -12,8 +12,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.md_08_ungdungfivestore.fragments.DonHangFragment;
+import com.example.md_08_ungdungfivestore.fragments.GioHangFragment;
+import com.example.md_08_ungdungfivestore.fragments.TrangCaNhanFragment;
 import com.example.md_08_ungdungfivestore.fragments.TrangChuFragment;
 import com.example.md_08_ungdungfivestore.fragments.YeuThichFragment;
+import com.example.md_08_ungdungfivestore.services.ApiClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        // QUAN TRỌNG: Khởi tạo ApiClient để AuthInterceptor hoạt động
+        ApiClient.init(this);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -52,13 +59,14 @@ public class MainActivity extends AppCompatActivity {
                 tieuDe.setText("Yêu thích");
             }
             if (item.getItemId() == R.id.navGioHang) {
-                taiFragment(new YeuThichFragment());
+                taiFragment(new GioHangFragment());
                 tieuDe.setText("Giỏ hàng");
             }
             if (item.getItemId() == R.id.navNguoiDung) {
-                taiFragment(new YeuThichFragment());
+                taiFragment(new TrangCaNhanFragment());
                 tieuDe.setText("Người dùng");
             }
+
             return true;
         });
     }

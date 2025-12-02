@@ -16,7 +16,7 @@ public class YeuThichManager {
     public static YeuThichService getInstance(Context context) {
         if (service == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://10.0.2.2:5001/") // đổi thành server của bạn
+                    .baseUrl("http://10.0.2.2:5001/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             service = retrofit.create(YeuThichService.class);

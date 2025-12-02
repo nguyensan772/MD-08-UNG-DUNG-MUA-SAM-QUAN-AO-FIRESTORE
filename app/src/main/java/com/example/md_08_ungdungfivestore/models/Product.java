@@ -1,5 +1,7 @@
 package com.example.md_08_ungdungfivestore.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Product implements Serializable {
+    @SerializedName("_id") // ✅ Map MongoDB _id to Java id field
     private String id;
     private String name;
     private String image;
@@ -25,57 +28,138 @@ public class Product implements Serializable {
     private String createdAt;
     private String updatedAt;
 
-    public Product() { }
+    public Product() {
+    }
 
     // Getter/Setter các trường hiện có
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getId() {
+        return id;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public String getImage() { return image; }
-    public void setImage(String image) { this.image = image; }
+    public String getName() {
+        return name;
+    }
 
-    public List<String> getImages() { return images; }
-    public void setImages(List<String> images) { this.images = images; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public List<Description> getDescription() { return description; }
-    public void setDescription(List<Description> description) { this.description = description; }
+    public String getImage() {
+        return image;
+    }
 
-    public double getImportPrice() { return importPrice; }
-    public void setImportPrice(double importPrice) { this.importPrice = importPrice; }
+    public void setImage(String image) {
+        this.image = image;
+    }
 
-    public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
+    public List<String> getImages() {
+        return images;
+    }
 
-    public int getQuantity() { return quantity; }
-    public void setQuantity(int quantity) { this.quantity = quantity; }
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
 
-    public int getSold() { return sold; }
-    public void setSold(int sold) { this.sold = sold; }
+    public List<Description> getDescription() {
+        return description;
+    }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public void setDescription(List<Description> description) {
+        this.description = description;
+    }
 
-    public String getBrand() { return brand; }
-    public void setBrand(String brand) { this.brand = brand; }
+    public double getImportPrice() {
+        return importPrice;
+    }
 
-    public List<Variation> getVariations() { return variations; }
-    public void setVariations(List<Variation> variations) { this.variations = variations; }
+    public void setImportPrice(double importPrice) {
+        this.importPrice = importPrice;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public double getPrice() {
+        return price;
+    }
 
-    public boolean isFeatured() { return isFeatured; }
-    public void setFeatured(boolean featured) { isFeatured = featured; }
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
-    public String getCreatedAt() { return createdAt; }
-    public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
+    public int getQuantity() {
+        return quantity;
+    }
 
-    public String getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(String updatedAt) { this.updatedAt = updatedAt; }
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getSold() {
+        return sold;
+    }
+
+    public void setSold(int sold) {
+        this.sold = sold;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public List<Variation> getVariations() {
+        return variations;
+    }
+
+    public void setVariations(List<Variation> variations) {
+        this.variations = variations;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public boolean isFeatured() {
+        return isFeatured;
+    }
+
+    public void setFeatured(boolean featured) {
+        isFeatured = featured;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
     // -------------------------------
     // Phương thức tiện ích cho SelectOptionsActivity
@@ -138,18 +222,29 @@ public class Product implements Serializable {
         private String field;
         private String value;
 
-        public Description() { }
+        public Description() {
+        }
 
         public Description(String field, String value) {
             this.field = field;
             this.value = value;
         }
 
-        public String getField() { return field; }
-        public void setField(String field) { this.field = field; }
+        public String getField() {
+            return field;
+        }
 
-        public String getValue() { return value; }
-        public void setValue(String value) { this.value = value; }
+        public void setField(String field) {
+            this.field = field;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
     }
 
     public static class Variation implements Serializable {
@@ -157,7 +252,8 @@ public class Product implements Serializable {
         private String size;
         private int quantity;
 
-        public Variation() { }
+        public Variation() {
+        }
 
         public Variation(String color, String size, int quantity) {
             this.color = color;
@@ -165,13 +261,28 @@ public class Product implements Serializable {
             this.quantity = quantity;
         }
 
-        public String getColor() { return color; }
-        public void setColor(String color) { this.color = color; }
+        public String getColor() {
+            return color;
+        }
 
-        public String getSize() { return size; }
-        public void setSize(String size) { this.size = size; }
+        public void setColor(String color) {
+            this.color = color;
+        }
 
-        public int getQuantity() { return quantity; }
-        public void setQuantity(int quantity) { this.quantity = quantity; }
+        public String getSize() {
+            return size;
+        }
+
+        public void setSize(String size) {
+            this.size = size;
+        }
+
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public void setQuantity(int quantity) {
+            this.quantity = quantity;
+        }
     }
 }
