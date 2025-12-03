@@ -22,6 +22,9 @@
             android:name=".OtpActivity"
             android:exported="false" />
         <activity
+            android:name=".CaiDatActivity"
+            android:exported="false" />
+        <activity
             android:name=".TimKiem"
             android:exported="false" />
         <activity
@@ -59,7 +62,7 @@
             android:exported="false" />
         <activity
             android:name=".DangNhap"
-            android:exported="false" />
+            android:exported="false" /> <!-- Màn hình chào -->
         <activity
             android:name=".MainActivity"
             android:exported="true" />

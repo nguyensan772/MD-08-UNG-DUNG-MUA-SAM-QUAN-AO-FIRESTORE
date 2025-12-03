@@ -9,8 +9,8 @@
         android:id="@+id/toolbarLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:orientation="horizontal">
 
         <ImageButton
@@ -29,13 +29,13 @@
         android:layout_height="wrap_content"
         android:hint="Nhập mã OTP"
         android:inputType="number"
-        android:padding="12dp" />
+        android:padding="15dp" />
 
     <TextView
         android:id="@+id/btnMa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/btn_send_otp"
         android:fontFamily="@font/poppins_semibold"
         android:padding="15dp"
