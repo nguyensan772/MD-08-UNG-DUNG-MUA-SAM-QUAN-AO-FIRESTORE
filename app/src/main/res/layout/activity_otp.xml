@@ -5,13 +5,44 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
+    <LinearLayout
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/quayLaiBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:src="@drawable/quay_lai_img" />
+
+    </LinearLayout>
+
     <EditText
         android:id="@+id/edtOtp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Nhập mã OTP"
         android:inputType="number"
-        android:padding="12dp"/>
+        android:padding="12dp" />
+
+    <TextView
+        android:id="@+id/btnMa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_send_otp"
+        android:fontFamily="@font/poppins_semibold"
+        android:padding="15dp"
+        android:text="Gửi lại mã"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="14dp" />
 
 
     <TextView

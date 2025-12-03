@@ -20,39 +20,75 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DangNhap extends AppCompatActivity {
 
-    private EditText edtEmail, edtPassword;
-    private TextView btnLogin, tvRegister;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dang_nhap);
+    public class DangNhap extends AppCompatActivity {
 
-        // Gán biến với layout
-        edtEmail = findViewById(R.id.edtEmailDangNhap);
-        edtPassword = findViewById(R.id.matKhauDangNhapTextInputEditText);
-        btnLogin = findViewById(R.id.nutDangnhapvSignInTextView);
-        tvRegister = findViewById(R.id.tvRegisterDangNhap);
+        private EditText edtEmail, edtPassword;
+        private TextView btnLogin, tvRegister;
 
-        btnLogin.setOnClickListener(v -> {
-            String email = edtEmail.getText().toString().trim();
-            String password = edtPassword.getText().toString().trim();
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_dang_nhap);
 
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(DangNhap.this, "Điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            // Gán biến với layout
+            edtEmail = findViewById(R.id.edtEmailDangNhap);
+            edtPassword = findViewById(R.id.matKhauDangNhapTextInputEditText);
+            btnLogin = findViewById(R.id.nutDangnhapvSignInTextView);
+            tvRegister = findViewById(R.id.tvRegisterDangNhap);
 
-            loginUser(email, password);
-        });
+            // Nút Đăng nhập
+            btnLogin.setOnClickListener(v -> {
+                String email = edtEmail.getText().toString().trim();
+                String password = edtPassword.getText().toString().trim();
 
-        tvRegister.setOnClickListener(v -> {
-            startActivity(new Intent(DangNhap.this, ManDangKy.class));
-        });
-    }
+                // ===== Kiểm tra rỗng =====
+                if (email.isEmpty()) {
+                    edtEmail.setError("Vui lòng nhập email");
+                    edtEmail.requestFocus();
+                    return;
+                }
 
+                if (password.isEmpty()) {
+                    edtPassword.setError("Vui lòng nhập mật khẩu");
+                    edtPassword.requestFocus();
+                    return;
+                }
+
+                // ===== Kiểm tra định dạng email =====
+                if (!email.contains("@") || !email.contains(".")) {
+                    edtEmail.setError("Email không hợp lệ gồm có ( @,. )");
+                    edtEmail.requestFocus();
+                    return;
+                }
+
+                // ===== Kiểm tra mật khẩu =====
+                if (password.length() < 6) {
+                    edtPassword.setError("Mật khẩu phải từ 6 ký tự trở lên ");
+                    edtPassword.requestFocus();
+                    return;
+                }
+
+                if (!password.matches(".*[A-Za-z].*") || !password.matches(".*\\d.*")) {
+                    edtPassword.setError("Mật khẩu phải bao gồm cả chữ và số");
+                    edtPassword.requestFocus();
+                    return;
+                }
+
+                // Nếu hợp lệ, gọi API login
+                loginUser(email, password);
+            });
+
+            // Nút chuyển sang màn đăng ký
+            tvRegister.setOnClickListener(v -> {
+                startActivity(new Intent(DangNhap.this, ManDangKy.class));
+            });
+        }
+
+
+
+        // Hàm gọi API login
     private void loginUser(String email, String password) {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         LoginRequest request = new LoginRequest(email, password);

@@ -46,29 +46,82 @@ public class ManDangKy extends AppCompatActivity {
 
         // Nút đăng ký
         nutDangKyTextView.setOnClickListener(v -> {
-            String ten = edtTen.getText().toString().trim();
-            String email = edtEmail.getText().toString().trim();
-            String matKhau = edtMatKhau.getText().toString().trim();
-            String nhapLaiMatKhau = edtNhapLaiMatKhau.getText().toString().trim();
-
-            if (ten.isEmpty() || email.isEmpty() || matKhau.isEmpty() || nhapLaiMatKhau.isEmpty()) {
-                Toast.makeText(ManDangKy.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-                return;
+            if(validateInputs()) {
+                String ten = edtTen.getText().toString().trim();
+                String email = edtEmail.getText().toString().trim();
+                String matKhau = edtMatKhau.getText().toString().trim();
+                dangKyTaoOtp(ten, email, matKhau);
             }
-
-            if (!matKhau.equals(nhapLaiMatKhau)) {
-                Toast.makeText(ManDangKy.this, "Mật khẩu nhập lại không khớp", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // Gọi API tạo OTP
-            dangKyTaoOtp(ten, email, matKhau);
         });
     }
 
+    // ======= Hàm validate dữ liệu =======
+    private boolean validateInputs() {
+        String ten = edtTen.getText().toString().trim();
+        String email = edtEmail.getText().toString().trim();
+        String matKhau = edtMatKhau.getText().toString().trim();
+        String nhapLaiMatKhau = edtNhapLaiMatKhau.getText().toString().trim();
+
+        // 1. Kiểm tra tên
+        if(ten.isEmpty()) {
+            edtTen.setError("Vui lòng nhập tên");
+            edtTen.requestFocus();
+            return false;
+        }
+        //Trên 6 ký tự
+
+        // Kiểm tra tên chỉ gồm chữ và khoảng trắng
+        if(!ten.matches("[a-zA-Z\\s]+")) {
+            edtTen.setError("Tên chỉ được chứa chữ và khoảng trắng, không được có số hoặc ký tự đặc biệt");
+            edtTen.requestFocus();
+            return false;
+        }
+
+        // 2. Kiểm tra email
+        if(email.isEmpty()) {
+            edtEmail.setError("Vui lòng nhập email");
+            edtEmail.requestFocus();
+            return false;
+        }
+
+        if(!email.contains("@") || !email.contains(".")) {
+            edtEmail.setError("Email không hợp lệ");
+            edtEmail.requestFocus();
+            return false;
+        }
+
+        // 3. Kiểm tra mật khẩu
+        if(matKhau.isEmpty()) {
+            edtMatKhau.setError("Vui lòng nhập mật khẩu");
+            edtMatKhau.requestFocus();
+            return false;
+        }
+
+        if(matKhau.length() < 6) {
+            edtMatKhau.setError("Mật khẩu phải từ 6 ký tự trở lên");
+            edtMatKhau.requestFocus();
+            return false;
+        }
+
+        if(!matKhau.matches(".*[A-Za-z].*") || !matKhau.matches(".*\\d.*")) {
+            edtMatKhau.setError("Mật khẩu phải bao gồm cả chữ và số");
+            edtMatKhau.requestFocus();
+            return false;
+        }
+
+        // 4. Kiểm tra nhập lại mật khẩu
+        if(!matKhau.equals(nhapLaiMatKhau)) {
+            edtNhapLaiMatKhau.setError("Mật khẩu nhập lại không khớp");
+            edtNhapLaiMatKhau.requestFocus();
+            return false;
+        }
+
+        return true; // tất cả hợp lệ
+    }
+
+    // ======= Gọi API tạo OTP =======
     private void dangKyTaoOtp(String ten, String email, String matKhau) {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-
         RegisterRequest request = new RegisterRequest(ten, email, matKhau);
 
         Call<RegisterResponse> call = apiService.register(request);
