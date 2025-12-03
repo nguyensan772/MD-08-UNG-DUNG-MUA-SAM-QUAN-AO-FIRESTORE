@@ -20,7 +20,6 @@ public class CaiDatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cai_dat); // XML bạn gửi
 
         // 1. Ánh xạ view
-        quayLaiBtn = findViewById(R.id.quayLaiBtn);
         donHangLayout = findViewById(R.id.donHangLayout);
         theNganHangLayout = findViewById(R.id.theNganHangLayout);
         thongTinCaNhanLayout = findViewById(R.id.thongTinCaNhanLayout);
