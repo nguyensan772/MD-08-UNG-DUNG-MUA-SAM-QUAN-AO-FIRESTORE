@@ -68,7 +68,6 @@ public class ManDangKy extends AppCompatActivity {
             edtTen.requestFocus();
             return false;
         }
-        //Trên 6 ký tự
 
         // Kiểm tra tên chỉ gồm chữ và khoảng trắng
         if(!ten.matches("[a-zA-Z\\s]+")) {
@@ -83,7 +82,7 @@ public class ManDangKy extends AppCompatActivity {
             edtEmail.requestFocus();
             return false;
         }
-
+        // email phải có (@ và .)
         if(!email.contains("@") || !email.contains(".")) {
             edtEmail.setError("Email không hợp lệ");
             edtEmail.requestFocus();
@@ -96,13 +95,13 @@ public class ManDangKy extends AppCompatActivity {
             edtMatKhau.requestFocus();
             return false;
         }
-
+        //mật khẩu phải lớn hơn 6 ký tự
         if(matKhau.length() < 6) {
             edtMatKhau.setError("Mật khẩu phải từ 6 ký tự trở lên");
             edtMatKhau.requestFocus();
             return false;
         }
-
+        //mật khẩu phải có chữ và số
         if(!matKhau.matches(".*[A-Za-z].*") || !matKhau.matches(".*\\d.*")) {
             edtMatKhau.setError("Mật khẩu phải bao gồm cả chữ và số");
             edtMatKhau.requestFocus();
