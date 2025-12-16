@@ -147,13 +147,7 @@ public class SearchActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    @Override
-    public void onAddClick(Product product) {
-        Intent intent = new Intent(SearchActivity.this, XemChiTiet.class);
-        // Đảm bảo đối tượng Product đã implements Serializable hoặc Parcelable
-        intent.putExtra("product", product);
-        startActivity(intent);
-    }
+
 
     private void saveSearchQuery(String query) {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);

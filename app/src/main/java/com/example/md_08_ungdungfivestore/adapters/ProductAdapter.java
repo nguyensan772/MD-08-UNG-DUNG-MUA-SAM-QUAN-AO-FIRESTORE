@@ -30,8 +30,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Product product); // Click vào ảnh hoặc cả item
-        void onAddClick(Product product);  // Click vào nút thêm
+        void onItemClick(Product product);
+
     }
 
     @NonNull
@@ -69,9 +69,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             if (listener != null) listener.onItemClick(p);
         });
 
-        // Click nút thêm vào giỏ hàng
+        // ⭐ ĐÃ SỬA: Click nút thêm (+) bây giờ gọi Xem Chi Tiết ⭐
         holder.btnAdd.setOnClickListener(v -> {
-            if (listener != null) listener.onAddClick(p);
+            if (listener != null) listener.onItemClick(p);
         });
     }
 

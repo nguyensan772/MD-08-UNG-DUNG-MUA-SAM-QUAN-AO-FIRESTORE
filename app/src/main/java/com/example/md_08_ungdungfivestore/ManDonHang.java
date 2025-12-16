@@ -1,8 +1,6 @@
-// File: com.example.md_08_ungdungfivestore.ManDonHang.java (ĐÃ SỬA)
+// File: com.example.md_08_ungdungfivestore.ManDonHang.java
 
 package com.example.md_08_ungdungfivestore;
-
-import static android.content.ContentValues.TAG;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,15 +14,13 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.md_08_ungdungfivestore.adapters.TabLayoutAdapter;
 import com.google.android.material.tabs.TabLayout;
 
-// ⭐ KHÔNG CẦN DEFINITION NỘI BỘ NỮA. NÓ ĐÃ LÀ FILE RIÊNG.
 public class ManDonHang extends AppCompatActivity implements OnOrderUpdateListener {
-
-    // ĐÃ XÓA định nghĩa interface ở đây.
 
     private TabLayout datHangTabLayout;
     private ViewPager datHangViewPager;
     private ImageButton quayLaiBtn;
 
+    private static final String TAG = "ManDonHang";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,32 +40,35 @@ public class ManDonHang extends AppCompatActivity implements OnOrderUpdateListen
     }
 
     private void setupTabs() {
-        // Setup Tabs (4 tab: 0, 1, 2, 3)
+        // 1. Thêm 4 Tab với tên trạng thái
         datHangTabLayout.addTab(datHangTabLayout.newTab().setText("Chờ xác nhận")); // Vị trí 0
         datHangTabLayout.addTab(datHangTabLayout.newTab().setText("Đang giao"));    // Vị trí 1
         datHangTabLayout.addTab(datHangTabLayout.newTab().setText("Đã giao"));      // Vị trí 2
         datHangTabLayout.addTab(datHangTabLayout.newTab().setText("Đã hủy"));       // Vị trí 3
-        datHangTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        // Setup Adapter
+        // 2. Setup Adapter để cấp 4 Fragments tương ứng
+        // CHÚ Ý: ĐẢM BẢO FILE TabLayoutAdapter.java TỒN TẠI VÀ ĐƯỢC TRIỂN KHAI ĐÚNG
         TabLayoutAdapter adapter = new TabLayoutAdapter(this, getSupportFragmentManager(),
                 datHangTabLayout.getTabCount());
         datHangViewPager.setAdapter(adapter);
 
-        // Sync Tab and ViewPager
+        // 3. Đồng bộ hóa ViewPager và TabLayout (Cho phép vuốt và nhấn tab)
         datHangViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(datHangTabLayout));
         datHangTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                // Khi nhấn Tab, chuyển ViewPager sang trang đó
                 datHangViewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+                // Không làm gì
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                // Không làm gì
             }
         });
     }
@@ -87,8 +86,12 @@ public class ManDonHang extends AppCompatActivity implements OnOrderUpdateListen
         if (getIntent() != null) {
             int targetTab = getIntent().getIntExtra("targetTab", 0);
             if (targetTab >= 0 && targetTab < datHangTabLayout.getTabCount()) {
+                // Thiết lập ViewPager và Tab đã chọn
                 datHangViewPager.setCurrentItem(targetTab, true);
-                datHangTabLayout.getTabAt(targetTab).select();
+                TabLayout.Tab tab = datHangTabLayout.getTabAt(targetTab);
+                if (tab != null) {
+                    tab.select();
+                }
 
                 String newOrderId = getIntent().getStringExtra("orderId");
                 if (newOrderId != null) {
@@ -98,10 +101,9 @@ public class ManDonHang extends AppCompatActivity implements OnOrderUpdateListen
         }
     }
 
-    // ⭐ TRIỂN KHAI PHƯƠNG THỨC CỦA INTERFACE ĐÃ TÁCH RA FILE RIÊNG
+    // TRIỂN KHAI PHƯƠNG THỨC CỦA INTERFACE (Ví dụ: Chuyển sang tab Đã hủy sau khi hủy đơn)
     @Override
     public void onOrderCancelled(String orderId) {
-        // Thông báo cho người dùng
         Toast.makeText(this, "Đơn hàng #" + orderId + " đã được hủy thành công và chuyển sang tab Đã hủy.", Toast.LENGTH_LONG).show();
 
         // Chuyển sang tab "Đã Hủy" (Vị trí 3)

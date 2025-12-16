@@ -1,6 +1,7 @@
 package com.example.md_08_ungdungfivestore.adapters;
 
 import android.content.Context;
+import android.util.Log; // ⭐ CẦN THÊM IMPORT NÀY ⭐
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,10 @@ public class OrderDetailItemAdapter extends RecyclerView.Adapter<OrderDetailItem
     private final List<OrderItem> itemList;
     private final NumberFormat currencyFormat;
 
+    // ⭐ BASE URL CỦA SERVER (Emulator IP) ⭐
+    private static final String BASE_URL = "http://10.0.2.2:5001";
+    private static final String TAG = "ImageDebug"; // Tag để lọc Logcat
+
     public OrderDetailItemAdapter(Context context, List<OrderItem> itemList) {
         this.context = context;
         this.itemList = itemList;
@@ -33,7 +38,6 @@ public class OrderDetailItemAdapter extends RecyclerView.Adapter<OrderDetailItem
     @NonNull
     @Override
     public DetailItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Sử dụng layout item_detail_product.xml
         View view = LayoutInflater.from(context).inflate(R.layout.item_detail_product, parent, false);
         return new DetailItemViewHolder(view);
     }
@@ -52,16 +56,35 @@ public class OrderDetailItemAdapter extends RecyclerView.Adapter<OrderDetailItem
         // Số lượng
         holder.tvItemDetailQuantity.setText(String.format("x %d", item.getQuantity()));
 
-        // Tổng giá (Quantity * UnitPrice, hoặc dùng Subtotal nếu có)
+        // Tổng giá (Quantity * UnitPrice)
         double itemTotal = item.getQuantity() * item.getUnitPrice();
         holder.tvItemDetailPrice.setText(currencyFormat.format(itemTotal) + " VNĐ");
 
-        // Tải ảnh sản phẩm
-        Glide.with(context)
-                .load(item.getImageUrl())
-                .placeholder(R.drawable.avatar_img)
-                .error(R.drawable.ic_error)
-                .into(holder.imgItemDetailProduct);
+        // ⭐ LÓGIC SỬA LỖI TẢI ẢNH VÀ LOGGING ⭐
+        String imageUrl = item.getImageUrl();
+
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            // Kiểm tra và ghép Base URL nếu URL chưa đầy đủ
+            if (!imageUrl.startsWith("http")) {
+                if (!imageUrl.startsWith("/")) imageUrl = "/" + imageUrl;
+                imageUrl = BASE_URL + imageUrl;
+            }
+
+            // ⭐ LOGGING URL CUỐI CÙNG ĐỂ DEBUG ⭐
+            Log.d(TAG, "Final Image URL for " + item.getProductName() + ": " + imageUrl);
+
+            // Tải ảnh sản phẩm
+            Glide.with(context)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.avatar_img)
+                    .error(R.drawable.ic_error)
+                    .into(holder.imgItemDetailProduct);
+        } else {
+            // ⭐ LOGGING LỖI NẾU KHÔNG CÓ URL ⭐
+            Log.e(TAG, "Image URL is NULL or EMPTY for item: " + item.getProductName());
+
+            holder.imgItemDetailProduct.setImageResource(R.drawable.ic_error);
+        }
     }
 
     @Override

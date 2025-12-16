@@ -1,14 +1,17 @@
 package com.example.md_08_ungdungfivestore;
 
-import android.app.Activity; // ⭐ Cần import
-import android.content.Intent; // Cần import
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.ImageView; // ⭐ Cần import ImageView
+import android.view.View; // ⭐ Cần import View
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResultLauncher; // ⭐ Cần import
-import androidx.activity.result.contract.ActivityResultContracts; // ⭐ Cần import
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
@@ -21,7 +24,7 @@ import com.example.md_08_ungdungfivestore.fragments.TrangCaNhanFragment;
 import com.example.md_08_ungdungfivestore.fragments.TrangChuFragment;
 import com.example.md_08_ungdungfivestore.fragments.YeuThichFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import android.widget.Toast; // Cần import
+
 
 public class MainActivity extends AppCompatActivity {
     FrameLayout layout;
@@ -29,13 +32,16 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     TextView tieuDe;
 
-    // ⭐ Khai báo các Fragment là biến thành viên
+    // ⭐ KHAI BÁO BIẾN CHO ICON USER ⭐
+    ImageView iconUser;
+
+    // Khai báo các Fragment là biến thành viên
     private final GioHangFragment gioHangFragment = new GioHangFragment();
     private final TrangChuFragment trangChuFragment = new TrangChuFragment();
     private final YeuThichFragment yeuThichFragment = new YeuThichFragment();
     private final TrangCaNhanFragment trangCaNhanFragment = new TrangCaNhanFragment();
 
-    // ⭐ Khai báo và khởi tạo Activity Result Launcher
+    // Khai báo và khởi tạo Activity Result Launcher
     private final ActivityResultLauncher<Intent> checkoutResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -46,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // Nếu Fragment hiện tại là GioHangFragment (Đang hiển thị Giỏ hàng)
                     if (currentFragment instanceof GioHangFragment) {
-                        // ⭐ GỌI HÀM TẢI LẠI GIỎ HÀNG để làm trống giao diện
+                        // GỌI HÀM TẢI LẠI GIỎ HÀNG để làm trống giao diện
                         ((GioHangFragment) currentFragment).fetchCartItems();
                         Toast.makeText(this, "Giỏ hàng đã được làm mới sau khi thanh toán.", Toast.LENGTH_SHORT).show();
                     }
@@ -72,6 +78,13 @@ public class MainActivity extends AppCompatActivity {
             taiFragment(trangChuFragment); // Dùng biến đã khai báo
         }
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        // ⭐ XỬ LÝ SỰ KIỆN CLICK CHO ICON USER ⭐
+        iconUser.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ManThongTinCaNhan.class);
+            startActivity(intent);
+        });
+        // ⭐ KẾT THÚC XỬ LÝ CLICK ICON USER ⭐
 
         menu.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.navTrangChu) {
@@ -99,13 +112,16 @@ public class MainActivity extends AppCompatActivity {
         menu = findViewById(R.id.menuTrangChuBottom);
         toolbar = findViewById(R.id.toolBarTrangChu);
         tieuDe = findViewById(R.id.tieuDeTextView);
+
+        // ⭐ ÁNH XẠ ICON USER ⭐
+        iconUser = findViewById(R.id.iconUser);
     }
 
     public void taiFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.trangChuFrameLayout, fragment).commit();
     }
 
-    // ⭐ PHƯƠNG THỨC GETTER CHO LAUNCHER
+    // PHƯƠNG THỨC GETTER CHO LAUNCHER
     public ActivityResultLauncher<Intent> getCheckoutResultLauncher() {
         return checkoutResultLauncher;
     }

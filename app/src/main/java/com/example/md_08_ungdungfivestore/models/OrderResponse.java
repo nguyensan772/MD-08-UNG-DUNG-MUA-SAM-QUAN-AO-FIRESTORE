@@ -6,22 +6,30 @@ import java.util.List;
 
 public class OrderResponse {
 
-    // ⭐ SỬA LỖI ID
     @SerializedName("_id")
     private String orderId;
 
     private String userId;
     private String status;
+
+    // Sửa lỗi ngày đặt
+    @SerializedName(value = "orderDate", alternate = {"createdAt", "created_at"})
     private Date orderDate;
 
-    // ⭐ SỬA LỖI TỔNG GIÁ: Giả định Server dùng "total_amount"
+    // Sửa lỗi tổng giá
     @SerializedName("total_amount")
     private double totalAmount;
 
+    // Sửa lỗi địa chỉ
+    @SerializedName("address")
     private Address shippingAddress;
 
-    // ⭐ Cần có 2 trường này để không bị lỗi 'cannot find symbol'
+    // ⭐ SỬA LỖI PHƯƠNG THỨC THANH TOÁN: Ánh xạ từ "payment_method"
+    @SerializedName("payment_method")
     private String paymentMethod;
+
+    // ⭐ SỬA LỖI PHÍ VẬN CHUYỂN: Ánh xạ từ "shipping_fee"
+    @SerializedName("shipping_fee")
     private Double shippingFee;
 
     private List<OrderItem> items;

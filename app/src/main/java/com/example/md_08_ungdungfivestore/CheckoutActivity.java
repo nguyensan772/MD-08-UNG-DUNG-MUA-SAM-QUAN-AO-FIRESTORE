@@ -1,6 +1,6 @@
 package com.example.md_08_ungdungfivestore;
 
-import android.app.Activity; // ⭐ Cần import Activity
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -17,14 +17,18 @@ import com.example.md_08_ungdungfivestore.models.CartItem;
 import com.example.md_08_ungdungfivestore.models.CartResponse;
 import com.example.md_08_ungdungfivestore.models.OrderRequest;
 import com.example.md_08_ungdungfivestore.models.OrderResponse;
+import com.example.md_08_ungdungfivestore.models.OrderItemRequest;
+import com.example.md_08_ungdungfivestore.models.User; // ⭐ IMPORT USER MODEL ⭐
 import com.example.md_08_ungdungfivestore.services.ApiClientCart;
 import com.example.md_08_ungdungfivestore.services.ApiClientYeuThich;
 import com.example.md_08_ungdungfivestore.services.CartService;
-import com.example.md_08_ungdungfivestore.utils.OrderManager;
 import com.example.md_08_ungdungfivestore.services.OrderService;
+import com.example.md_08_ungdungfivestore.services.UserApiService; // ⭐ IMPORT USER SERVICE ⭐
+import com.example.md_08_ungdungfivestore.utils.OrderManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,6 +44,8 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private OrderManager orderManager;
     private CartService cartService;
+    private UserApiService userService; // ⭐ KHAI BÁO USER SERVICE ⭐
+
     private List<CartItem> cartItems = new ArrayList<>();
     private final double SHIPPING_FEE = 30000;
 
@@ -56,8 +62,14 @@ public class CheckoutActivity extends AppCompatActivity {
         orderManager = new OrderManager(orderService);
         cartService = ApiClientCart.getCartService(this);
 
+        // ⭐ KHỞI TẠO USER SERVICE ⭐
+        userService = ApiClientYeuThich.getClient(this).create(UserApiService.class);
+
         btnPlaceOrder.setEnabled(false);
         fetchCartItems();
+
+        // ⭐ GỌI HÀM TẢI THÔNG TIN NGƯỜI DÙNG ⭐
+        fetchUserProfile();
 
         btnPlaceOrder.setOnClickListener(v -> placeOrder());
     }
@@ -75,6 +87,44 @@ public class CheckoutActivity extends AppCompatActivity {
         tvShippingFee = findViewById(R.id.tvShippingFee);
         tvTotalAmount = findViewById(R.id.tvTotalAmount);
     }
+
+    // ⭐ PHƯƠNG THỨC MỚI: TẢI THÔNG TIN CÁ NHÂN VÀ ĐỔ DỮ LIỆU ⭐
+    private void fetchUserProfile() {
+        if (userService == null) return;
+
+        userService.getMe().enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    User user = response.body();
+                    Log.d(TAG, "User profile fetched successfully.");
+
+                    // ⭐ ĐỔ DỮ LIỆU LÊN EDITTEXT ⭐
+                    edtName.setText(user.getFullName() != null ? user.getFullName() : "");
+
+                    // SỬ DỤNG GETTER MỚI: getPhoneNumber()
+                    edtPhone.setText(user.getPhoneNumber() != null ? user.getPhoneNumber() : "");
+
+                    // Đổ dữ liệu địa chỉ
+                    edtStreet.setText(user.getStreet() != null ? user.getStreet() : "");
+                    edtWard.setText(user.getWard() != null ? user.getWard() : "");
+                    edtDistrict.setText(user.getDistrict() != null ? user.getDistrict() : "");
+                    edtProvince.setText(user.getProvince() != null ? user.getProvince() : "");
+
+                } else {
+                    Log.e(TAG, "Lỗi tải thông tin user: " + response.code());
+                    Toast.makeText(CheckoutActivity.this, "Lỗi tải thông tin người dùng: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                Log.e(TAG, "Lỗi kết nối mạng khi tải user.", t);
+                Toast.makeText(CheckoutActivity.this, "Lỗi kết nối mạng khi tải thông tin người dùng.", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 
     private void fetchCartItems() {
         if (cartService == null) return;
@@ -125,9 +175,9 @@ public class CheckoutActivity extends AppCompatActivity {
 
         currentTotalAmount = subtotal + SHIPPING_FEE;
 
-        tvSubtotal.setText(String.format("%,.0f VNĐ", subtotal));
-        tvShippingFee.setText(String.format("%,.0f VNĐ", SHIPPING_FEE));
-        tvTotalAmount.setText(String.format("%,.0f VNĐ", currentTotalAmount));
+        tvSubtotal.setText(String.format(Locale.US, "%,.0f VNĐ", subtotal));
+        tvShippingFee.setText(String.format(Locale.US, "%,.0f VNĐ", SHIPPING_FEE));
+        tvTotalAmount.setText(String.format(Locale.US, "%,.0f VNĐ", currentTotalAmount));
     }
 
     private void placeOrder() {
@@ -153,16 +203,57 @@ public class CheckoutActivity extends AppCompatActivity {
             return;
         }
 
+        // BẮT ĐẦU CHUYỂN ĐỔI DỮ LIỆU ĐẶT HÀNG
+        List<OrderItemRequest> orderItemsRequest = new ArrayList<>();
+
+        for (CartItem item : cartItems) {
+
+            String productId = null;
+            if (item.getProductDetail() != null && item.getProductDetail().getId() != null) {
+                productId = item.getProductDetail().getId();
+            }
+
+            String color = item.getColor();
+            String size = item.getSize();
+            int quantity = item.getQuantity();
+            double price = item.getPrice();
+
+            if (productId == null) {
+                Log.e(TAG, "Lỗi: Một mặt hàng thiếu Product ID.");
+                Toast.makeText(this, "Lỗi dữ liệu: Không tìm thấy ID sản phẩm.", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (color == null || color.isEmpty() || size == null || size.isEmpty()) {
+                Log.e(TAG, "Lỗi: Sản phẩm thiếu thông tin Màu sắc hoặc Kích cỡ. Color: " + color + ", Size: " + size);
+                Toast.makeText(this, "Lỗi dữ liệu: Sản phẩm thiếu Màu sắc hoặc Kích cỡ. (Kiểm tra dữ liệu giỏ hàng)", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            OrderItemRequest orderItem = new OrderItemRequest(
+                    productId,
+                    color,
+                    size,
+                    quantity,
+                    price
+            );
+            orderItemsRequest.add(orderItem);
+        }
+        // KẾT THÚC CHUYỂN ĐỔI
+
+
         String paymentMethod = "cash";
         String note = "Giao hàng giờ hành chính";
 
-        Address shippingAddress = new Address(name, phone, street, ward, district, province);
+        // Constructor Address cần là: Address(fullName, phone, province, district, ward, street)
+        Address shippingAddress = new Address(name, phone, province, district, ward, street);
 
+        // Khởi tạo Request với danh sách đã được chuyển đổi
         OrderRequest request = new OrderRequest(
                 shippingAddress,
                 paymentMethod,
                 note,
-                cartItems,
+                orderItemsRequest, // GỬI DANH SÁCH OrderItemRequest
                 SHIPPING_FEE,
                 currentTotalAmount
         );
@@ -175,16 +266,10 @@ public class CheckoutActivity extends AppCompatActivity {
             public void onSuccess(OrderResponse orderResponse) {
                 btnPlaceOrder.setEnabled(true);
                 Log.d(TAG, "Order placed successfully. ID: " + orderResponse.getOrderId());
-
-                // ⭐ BƯỚC QUAN TRỌNG: BÁO HIỆU THÀNH CÔNG CHO MainActivity
                 setResult(Activity.RESULT_OK);
-
-                // Chuyển sang màn hình thành công
                 Intent intent = new Intent(CheckoutActivity.this, OrderSuccessActivity.class);
                 intent.putExtra("orderId", orderResponse.getOrderId());
                 startActivity(intent);
-
-                // Kết thúc màn hình hiện tại
                 finish();
             }
 
@@ -192,7 +277,6 @@ public class CheckoutActivity extends AppCompatActivity {
             public void onError(String error) {
                 btnPlaceOrder.setEnabled(true);
                 Log.e(TAG, "Order placement failed: " + error);
-
                 Toast.makeText(CheckoutActivity.this, "Đặt hàng thất bại: " + error, Toast.LENGTH_LONG).show();
             }
         });

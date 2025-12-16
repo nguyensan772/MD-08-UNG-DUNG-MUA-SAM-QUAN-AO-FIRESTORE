@@ -127,7 +127,7 @@ public class ManChiTietDonHang extends AppCompatActivity {
         if (address != null) {
             String fullAddress = String.format("%s | %s\n%s, %s, %s, %s",
                     address.getFullName(),
-                    address.getPhoneNumber(),
+                    address.getPhone(),
                     address.getStreet(),
                     address.getWard(),
                     address.getDistrict(),

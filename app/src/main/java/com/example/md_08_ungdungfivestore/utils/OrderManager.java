@@ -1,5 +1,3 @@
-// File: com.example.md_08_ungdungfivestore.services.OrderManager.java
-
 package com.example.md_08_ungdungfivestore.utils;
 
 import android.util.Log;
@@ -27,6 +25,9 @@ public class OrderManager {
     }
 
     public void createOrder(OrderRequest request, OrderCallback callback) {
+        // ⭐ ĐỀ XUẤT: Log ra request JSON ở đây để kiểm tra dữ liệu gửi đi (CẦN SỬ DỤNG THƯ VIỆN GSON)
+        // Log.d(TAG, "Sending OrderRequest: " + new Gson().toJson(request));
+
         orderService.createOrder(request).enqueue(new Callback<OrderResponse>() {
             @Override
             public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
@@ -36,14 +37,23 @@ public class OrderManager {
                     callback.onSuccess(response.body());
                 } else {
                     String errorMsg;
-                    if (response.code() == 401) {
-                        errorMsg = "Lỗi 401: Vui lòng đăng nhập lại (Token hết hạn).";
-                    } else {
-                        // Cố gắng lấy thông báo lỗi từ body nếu có
-                        String errorBody = response.errorBody() != null ? response.errorBody().toString() : "Lỗi không xác định";
-                        errorMsg = "Lỗi tạo đơn hàng: Mã lỗi " + response.code() + ". Chi tiết: " + errorBody;
+                    try {
+                        // ⭐ SỬA LỖI LOGGING: Đảm bảo đọc được nội dung lỗi từ server
+                        String rawErrorBody = response.errorBody() != null ? response.errorBody().string() : "N/A";
+
+                        if (response.code() == 401) {
+                            errorMsg = "Lỗi 401: Vui lòng đăng nhập lại (Token hết hạn).";
+                        } else {
+                            // Khi gặp lỗi 400, dòng này sẽ hiển thị lý do chi tiết từ Backend
+                            errorMsg = "Lỗi tạo đơn hàng: Mã lỗi " + response.code() + ". Chi tiết server: " + rawErrorBody;
+                        }
+
+                        Log.e(TAG, errorMsg);
+
+                    } catch (Exception e) {
+                        errorMsg = "Lỗi khi đọc phản hồi lỗi: " + e.getMessage();
+                        Log.e(TAG, errorMsg, e);
                     }
-                    Log.e(TAG, errorMsg);
                     callback.onError(errorMsg);
                 }
             }

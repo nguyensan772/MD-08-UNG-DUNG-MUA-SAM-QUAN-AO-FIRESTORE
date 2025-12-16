@@ -7,12 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView; // Cần import TextView
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat; // Cần import ContextCompat
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,7 +45,6 @@ public class TrangChuFragment extends Fragment {
     private ProductApiService apiService;
     private YeuThichManager yeuThichManager;
 
-    // ⭐ KHAI BÁO SỬ DỤNG TextView CHO CÁC NÚT LỌC ⭐
     private TextView tvAll, tvNam, tvNu, tvTreEm;
     private TextView currentSelectedCategoryButton;
 
@@ -65,12 +64,10 @@ public class TrangChuFragment extends Fragment {
         rcvProducts = view.findViewById(R.id.rcvProducts);
         rcvProducts.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
-        // ⭐ ÁNH XẠ CÁC NÚT LỌC VỚI ID MỚI (tvAll, tvNam, tvNu, tvTreEm) ⭐
         tvAll = view.findViewById(R.id.tvAll);
         tvNam = view.findViewById(R.id.tvNam);
         tvNu = view.findViewById(R.id.tvNu);
         tvTreEm = view.findViewById(R.id.tvTreEm);
-        // ⭐ KẾT THÚC ÁNH XẠ ⭐
 
         // LOGIC ĐỂ CHUYỂN SANG SEARCHACTIVITY KHI CLICK VÀO EDITTEXT
         timKiemEditText.setOnClickListener(v -> {
@@ -95,22 +92,12 @@ public class TrangChuFragment extends Fragment {
                 }
             }
 
-            @Override
-            public void onAddClick(Product product) {
-                if (product != null && product.getId() != null && !product.getId().isEmpty()) {
-                    Log.d(TAG, "Add Clicked. Product ID: " + product.getId());
-                    addToWishlist(product);
-                } else {
-                    Log.e(TAG, "Error: Product object or ID is null/empty on add click.");
-                    Toast.makeText(requireContext(), "Lỗi: Không thể thêm sản phẩm không có ID.", Toast.LENGTH_SHORT).show();
-                }
-            }
+            // ⭐ ĐÃ XÓA onAddClick VÌ ĐÃ SỬ DỤNG onItemClick CHO NÚT CỘNG ⭐
         });
 
         rcvProducts.setAdapter(adapter);
         setupApiService();
 
-        // ⭐ THIẾT LẬP LÓGIC CLICK VÀ TẢI DỮ LIỆU BAN ĐẦU ⭐
         setupCategoryListeners();
 
         // Tải sản phẩm ban đầu: ALL
@@ -173,7 +160,7 @@ public class TrangChuFragment extends Fragment {
         });
     }
 
-    // ⭐ PHƯƠNG THỨC CẬP NHẬT TRẠNG THÁI NÚT LỌC (SỬ DỤNG MÀU TỪ RESOURCES) ⭐
+    // PHƯƠNG THỨC CẬP NHẬT TRẠNG THÁI NÚT LỌC (SỬ DỤNG MÀU TỪ RESOURCES)
     private void updateCategoryButtonState(View selectedView) {
         if (currentSelectedCategoryButton != null) {
             // Đặt nút cũ về trạng thái mặc định (màu chữ tab_unselected)
@@ -184,30 +171,11 @@ public class TrangChuFragment extends Fragment {
         ((TextView) selectedView).setTextColor(ContextCompat.getColor(requireContext(), R.color.tab_selected));
 
         currentSelectedCategoryButton = (TextView) selectedView;
-
-        // Ghi chú: Vì bạn sử dụng R.drawable.bg_tab_text cho tất cả các nút, nên chỉ cần thay đổi màu chữ.
-        // Nếu bạn muốn thay đổi background, bạn cần tạo hai Drawable khác nhau và sử dụng setBackgroundResource() ở đây.
     }
 
-    private void addToWishlist(Product product) {
-        // ... (Logic thêm vào yêu thích giữ nguyên)
-        yeuThichManager.addToWishlist(product.getId(), new YeuThichManager.ToggleCallback() {
-            @Override
-            public void onSuccess(String message, boolean isAdded) {
-                if (!isAdded()) return;
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onError(String error) {
-                if (!isAdded()) return;
-                Toast.makeText(requireContext(), "Lỗi thêm yêu thích: " + error, Toast.LENGTH_LONG).show();
-            }
-        });
-    }
 
     private void setupApiService() {
-        // ... (Logic setup Retrofit giữ nguyên)
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:5001/")
                 .addConverterFactory(GsonConverterFactory.create())
