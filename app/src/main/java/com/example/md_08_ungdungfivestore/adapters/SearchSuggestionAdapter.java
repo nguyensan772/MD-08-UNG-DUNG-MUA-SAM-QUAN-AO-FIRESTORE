@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.md_08_ungdungfivestore.R;
+import com.example.md_08_ungdungfivestore.models.Product;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ public class SearchSuggestionAdapter extends RecyclerView.Adapter<SearchSuggesti
 
     public interface OnSuggestionClickListener {
         void onSuggestionClick(String query);
+
+        void onAddClick(Product product);
     }
 
     public SearchSuggestionAdapter(List<String> suggestions, OnSuggestionClickListener listener) {
