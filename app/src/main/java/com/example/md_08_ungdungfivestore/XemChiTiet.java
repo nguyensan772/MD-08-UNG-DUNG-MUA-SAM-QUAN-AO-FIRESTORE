@@ -179,22 +179,32 @@ public class XemChiTiet extends AppCompatActivity {
 
     /**
      * Mở BottomSheet. Xử lý chuyển màn hình sau khi sản phẩm được thêm thành công.
-     * @param navigateToCart True nếu cần chuyển đến CartActivity sau khi thêm thành công (cho nút Mua ngay)
+     * @param navigateToCheckout True nếu cần chuyển đến CartActivity sau khi thêm thành công (cho nút Mua ngay)
      */
-    private void openSelectOptionsBottomSheet(boolean navigateToCart) {
+    private void openSelectOptionsBottomSheet(boolean navigateToCheckout) {
         if (product == null) return;
 
-        SelectOptionsBottomSheetFragment bottomSheet = new SelectOptionsBottomSheetFragment(product, (size, color, quantity) -> {
-            // HÀNH ĐỘNG SAU KHI SẢN PHẨM ĐÃ ĐƯỢC THÊM VÀO GIỎ HÀNG THÀNH CÔNG (từ BottomSheet)
+        // Truyền tham số product, navigateToCheckout và listener
+        SelectOptionsBottomSheetFragment bottomSheet = new SelectOptionsBottomSheetFragment(product, navigateToCheckout, (size, color, quantity) -> {
 
-            String successMsg = "Đã thêm vào giỏ hàng: Size " + size + ", Màu " + color + ", SL: " + quantity;
+            String successMsg = "Đã chọn: Size " + size + ", Màu " + color + ", SL: " + quantity;
             Toast.makeText(XemChiTiet.this, successMsg, Toast.LENGTH_SHORT).show();
 
-            if (navigateToCart) {
-                // Nếu là nút "Mua ngay" (navigateToCart = true), chuyển sang màn hình giỏ hàng
-                Intent intent = new Intent(XemChiTiet.this, GioHangFragment.class); // Thay CartActivity bằng tên Activity Giỏ hàng của bạn
+            if (navigateToCheckout) {
+                // ⭐ Chuyển sang màn hình thanh toán CheckoutActivity
+                Intent intent = new Intent(XemChiTiet.this, CheckoutActivity.class);
+
+                // Gửi đầy đủ các thông tin cần thiết
+                intent.putExtra("PRODUCT_ID", product.getId());
+                intent.putExtra("PRODUCT_NAME", product.getName());
+                intent.putExtra("PRODUCT_PRICE", product.getPrice()); // ⭐ QUAN TRỌNG: Phải có dòng này để tránh lỗi 400
+                intent.putExtra("PRODUCT_IMAGE", product.getImage());
+                intent.putExtra("SELECTED_SIZE", size);
+                intent.putExtra("SELECTED_COLOR", color);
+                intent.putExtra("SELECTED_QUANTITY", quantity);
+                intent.putExtra("IS_BUY_NOW", true); // Đánh dấu mua lẻ
+
                 startActivity(intent);
-                // Nếu bạn muốn người dùng quay lại màn hình chính thay vì màn hình chi tiết, có thể dùng finish()
             }
         });
 
