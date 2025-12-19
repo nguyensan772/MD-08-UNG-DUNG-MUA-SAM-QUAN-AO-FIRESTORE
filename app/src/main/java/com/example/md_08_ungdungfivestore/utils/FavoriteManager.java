@@ -5,9 +5,7 @@ import android.content.SharedPreferences;
 
 import com.example.md_08_ungdungfivestore.models.Product;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Set;
 

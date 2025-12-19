@@ -13,15 +13,15 @@ import retrofit2.http.Path;
 
 public interface YeuThichService {
 
-    @GET("api/wishlists/me")
-    Call<Map<String, Object>> getMyWishlist();
+    @GET("wishlist/check/{productId}")
+    Call<CheckResponse> checkWishlist(@Path("productId") String productId);
 
-    @POST("api/wishlists/")
+    @POST("wishlist/add")
     Call<Map<String, Object>> addToWishlist(@Body Map<String, String> body);
 
-    @DELETE("api/wishlists/{productId}")
+    @DELETE("wishlist/remove/{productId}")
     Call<Map<String, Object>> removeFromWishlist(@Path("productId") String productId);
 
-    @GET("api/wishlists/check/{productId}")
-    Call<CheckResponse> checkWishlist(@Path("productId") String productId);
+    @GET("wishlist/my")
+    Call<Map<String, Object>> getMyWishlist();
 }

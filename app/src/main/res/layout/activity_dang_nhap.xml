@@ -109,10 +109,11 @@
                 android:src="@drawable/google" />
 
             <TextView
+                android:id="@+id/llRegisterGoogle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Sign in with Google"
+                android:text="Đăng nhập Google"
                 android:textColor="#000000"
                 android:textSize="15sp"
                 android:textStyle="bold" />
@@ -157,7 +158,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bạn quên mật khẩu? "
+                android:text="Quên mật khẩu? "
                 android:textColor="#A8A8A8"
                 android:textSize="14sp" />
 
@@ -165,7 +166,7 @@
                 android:id="@+id/tvResetDangNhap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đổi mật khẩu"
+                android:text="Cài lại"
                 android:textColor="#E48F45"
                 android:textStyle="bold"
                 android:textSize="14sp"

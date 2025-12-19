@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.example.md_08_ungdungfivestore.utils.TokenManager;
 
+import java.io.IOException;
+
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -11,16 +13,18 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.io.IOException;
-
 public class ApiClient {
-    private static final String BASE_URL = "http://10.0.2.2:5001/";
+
+    // Base URLs
+    // public static final String BASE_URL = "http://10.0.2.2:5001/";
+    public static final String BASE_URL  = "http://10.0.2.2:5000";
+    public static final String BASE_URL2 = "http://10.0.2.2:5000";
+
     private static Retrofit retrofit;
     private static Context appContext;
 
     /**
-     * Khởi tạo ApiClient với context (gọi 1 lần trong Application hoặc
-     * MainActivity)
+     * Khởi tạo ApiClient với context (gọi 1 lần trong Application hoặc MainActivity)
      */
     public static void init(Context context) {
         appContext = context.getApplicationContext();
@@ -71,5 +75,38 @@ public class ApiClient {
 
             return chain.proceed(originalRequest);
         }
+    }
+
+    // ===================== CÁC SERVICE API =====================
+
+    public static ProductApiService getProductService() {
+        return getClient().create(ProductApiService.class);
+    }
+
+    public static BrandApiService getBrandService() {
+        return getClient().create(BrandApiService.class);
+    }
+
+    public static CategoryApiService getCategoryService() {
+        return getClient().create(CategoryApiService.class);
+    }
+
+    // --- CÁC HÀM ĐƯỢC THÊM VÀO ĐỂ KHẮC PHỤC LỖI ---
+
+    // Hàm getAuthService() để gọi ApiService (Đăng nhập, Đổi mật khẩu...)
+    public static ApiService getAuthService() {
+        return getClient().create(ApiService.class);
+    }
+
+    public static UserApiService getUserService() {
+        return getClient().create(UserApiService.class);
+    }
+
+    public static OrderApiService getOrderService() {
+        return getClient().create(OrderApiService.class);
+    }
+
+    public static NotificationApiService getNotificationService() {
+        return getClient().create(NotificationApiService.class);
     }
 }

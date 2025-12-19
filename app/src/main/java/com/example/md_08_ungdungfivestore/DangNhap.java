@@ -1,7 +1,6 @@
 package com.example.md_08_ungdungfivestore;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
@@ -30,36 +29,53 @@ public class DangNhap extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dang_nhap);
 
-        // Gán biến với layout
         edtEmail = findViewById(R.id.edtEmailDangNhap);
         edtPassword = findViewById(R.id.matKhauDangNhapTextInputEditText);
         btnLogin = findViewById(R.id.nutDangnhapvSignInTextView);
         tvRegister = findViewById(R.id.tvRegisterDangNhap);
-        // ⭐ Ánh xạ View Đổi mật khẩu
-        tvResetDangNhap = findViewById(R.id.tvResetDangNhap);
 
         btnLogin.setOnClickListener(v -> {
             String email = edtEmail.getText().toString().trim();
             String password = edtPassword.getText().toString().trim();
 
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(DangNhap.this, "Điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+            if (email.isEmpty()) {
+                edtEmail.setError("Vui lòng nhập email");
+                edtEmail.requestFocus();
+                return;
+            }
+
+            if (password.isEmpty()) {
+                edtPassword.setError("Vui lòng nhập mật khẩu");
+                edtPassword.requestFocus();
+                return;
+            }
+
+            if (!email.contains("@") || !email.contains(".")) {
+                edtEmail.setError("Email không hợp lệ gồm có ( @,. )");
+                edtEmail.requestFocus();
+                return;
+            }
+
+            if (password.length() < 6) {
+                edtPassword.setError("Mật khẩu phải từ 6 ký tự trở lên");
+                edtPassword.requestFocus();
+                return;
+            }
+
+            if (!password.matches(".*[A-Za-z].*") || !password.matches(".*\\d.*")) {
+                edtPassword.setError("Mật khẩu phải bao gồm cả chữ và số");
+                edtPassword.requestFocus();
                 return;
             }
 
             loginUser(email, password);
         });
 
-        // Xử lý sự kiện Đăng ký
-        tvRegister.setOnClickListener(v -> {
-            startActivity(new Intent(DangNhap.this, ManDangKy.class));
-        });
+        tvRegister.setOnClickListener(v -> startActivity(new Intent(DangNhap.this, ManDangKy.class)));
 
-        // ⭐ XỬ LÝ SỰ KIỆN ĐỔI MẬT KHẨU (QUÊN MẬT KHẨU) ⭐
-        tvResetDangNhap.setOnClickListener(v -> {
-            // Chuyển sang màn hình RequestOtpActivity để bắt đầu luồng đổi mật khẩu
-            startActivity(new Intent(DangNhap.this, com.example.md_08_ungdungfivestore.RequestOtpActivity.class));
-        });
+        findViewById(R.id.tvResetDangNhap).setOnClickListener(v ->
+                startActivity(new Intent(DangNhap.this, GuiMaXacNhan.class))
+        );
     }
 
     private void loginUser(String email, String password) {
@@ -76,12 +92,11 @@ public class DangNhap extends AppCompatActivity {
                     AuthResponse auth = response.body();
                     Log.d("DangNhap", "Success: " + auth.isSuccess() + ", Message: " + auth.getMessage());
 
-                    if (auth.isSuccess()) {
-                        // Lưu token bằng TokenManager
-                        TokenManager tokenManager = new TokenManager(DangNhap.this);
-                        tokenManager.saveToken(auth.getToken());
+                    TokenManager tokenManager = new TokenManager(DangNhap.this);
 
-                        // Lưu user_id nếu có
+                    // Sau khi login thành công
+                    if (auth.isSuccess()) {
+                        tokenManager.saveToken(auth.getToken());
                         if (auth.getUser() != null && auth.getUser().getId() != null) {
                             tokenManager.saveUserId(auth.getUser().getId());
                         }
@@ -93,8 +108,8 @@ public class DangNhap extends AppCompatActivity {
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         finish();
-
-                    } else {
+                    }
+                    else {
                         Toast.makeText(DangNhap.this, auth.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } else {

@@ -1,8 +1,8 @@
 package com.example.md_08_ungdungfivestore.models;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 /**
  * Model cho sản phẩm trong giỏ hàng

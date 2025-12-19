@@ -12,7 +12,6 @@ import java.util.Map;
 public class Product implements Serializable {
     @SerializedName("_id") // ✅ Map MongoDB _id to Java id field
     private String id;
-
     private String name;
     private String image;
     private List<String> images;
