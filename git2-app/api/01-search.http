@@ -1,0 +1,54 @@
+### Search API Testing
+### Tìm kiếm sản phẩm
+@baseUrl = http://localhost:5000
+
+### ============================================
+### 1. Tìm kiếm sản phẩm theo từ khóa
+### ============================================
+GET {{baseUrl}}/api/products/search?keyword=áo
+Content-Type: application/json
+
+### ============================================
+### 2. Tìm kiếm sản phẩm theo tên
+### ============================================
+GET {{baseUrl}}/api/products/search?keyword=thun
+Content-Type: application/json
+
+### ============================================
+### 3. Tìm kiếm sản phẩm theo danh mục
+### ============================================
+GET {{baseUrl}}/api/products/search?keyword=nam
+Content-Type: application/json
+
+### ============================================
+### 4. Tìm kiếm với từ khóa rỗng (lấy tất cả)
+### ============================================
+GET {{baseUrl}}/api/products/search?keyword=
+Content-Type: application/json
+
+### ============================================
+### 5. Tìm kiếm không có kết quả
+### ============================================
+GET {{baseUrl}}/api/products/search?keyword=xyz123notfound
+Content-Type: application/json
+
+### ============================================
+### HƯỚNG DẪN:
+### ============================================
+### - Endpoint: GET /api/products/search
+### - Query params: keyword (string)
+### - Không cần authentication
+### - Response: Array of products matching keyword
+### 
+### Response mẫu:
+### [
+###   {
+###     "_id": "...",
+###     "name": "Áo thun nam",
+###     "price": 250000,
+###     "image": "...",
+###     "category_id": {...},
+###     "brand_id": {...},
+###     "stock": 100
+###   }
+### ]

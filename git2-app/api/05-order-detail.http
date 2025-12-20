@@ -1,0 +1,87 @@
+### Order Detail API Testing
+### Màn hình thông tin đơn hàng (hủy đơn hàng)
+@baseUrl = http://localhost:5000
+@token = YOUR_AUTH_TOKEN_HERE
+@orderId = 674c3a4f123456789abcdef0
+
+### ============================================
+### 1. Lấy chi tiết đơn hàng
+### ============================================
+GET {{baseUrl}}/api/orders/{{orderId}}
+Authorization: Bearer {{token}}
+
+### ============================================
+### 2. Hủy đơn hàng (User - chỉ hủy được khi pending)
+### ============================================
+PUT {{baseUrl}}/api/orders/{{orderId}}/cancel
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "reason": "Đặt nhầm sản phẩm"
+}
+
+### ============================================
+### 3. Hủy đơn hàng với lý do khác
+### ============================================
+PUT {{baseUrl}}/api/orders/{{orderId}}/cancel
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "reason": "Không muốn mua nữa"
+}
+
+### ============================================
+### 4. Hủy đơn hàng không có lý do
+### ============================================
+PUT {{baseUrl}}/api/orders/{{orderId}}/cancel
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "reason": ""
+}
+
+### ============================================
+### HƯỚNG DẪN:
+### ============================================
+### - GET /api/orders/:id - Xem chi tiết đơn hàng
+### - PUT /api/orders/:id/cancel - Hủy đơn hàng
+### - Cần authentication (Bearer token)
+### - User chỉ hủy được đơn của mình khi status = "pending"
+### - Admin có thể hủy nhiều trạng thái hơn
+### 
+### Response chi tiết đơn hàng:
+### {
+###   "success": true,
+###   "order": {
+###     "_id": "...",
+###     "order_code": "ORD-20251201-001",
+###     "user_id": {...},
+###     "items": [
+###       {
+###         "product_id": {...},
+###         "size_id": {...},
+###         "quantity": 2,
+###         "price": 250000
+###       }
+###     ],
+###     "status": "pending",
+###     "total_amount": 850000,
+###     "shipping_fee": 30000,
+###     "shipping_address": {...},
+###     "payment_method": "vnpay",
+###     "payment_status": "pending",
+###     "note": "...",
+###     "createdAt": "...",
+###     "updatedAt": "..."
+###   }
+### }
+### 
+### Response hủy đơn:
+### {
+###   "success": true,
+###   "message": "Đã hủy đơn hàng",
+###   "order": {...}
+### }

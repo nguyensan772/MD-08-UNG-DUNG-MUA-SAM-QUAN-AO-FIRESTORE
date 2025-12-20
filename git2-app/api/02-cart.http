@@ -1,0 +1,83 @@
+### Cart API Testing
+### Màn hình giỏ hàng
+@baseUrl = http://localhost:5000
+@token = YOUR_AUTH_TOKEN_HERE
+
+### ============================================
+### 1. Lấy giỏ hàng của tôi
+### ============================================
+GET {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+
+### ============================================
+### 2. Thêm sản phẩm vào giỏ hàng
+### ============================================
+POST {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "product_id": "674c3a4f123456789abcdef0",
+  "size_id": "674c3a4f123456789abcdef1",
+  "quantity": 2
+}
+
+### ============================================
+### 3. Thêm sản phẩm khác vào giỏ
+### ============================================
+POST {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "product_id": "674c3a4f123456789abcdef2",
+  "size_id": "674c3a4f123456789abcdef3",
+  "quantity": 1
+}
+
+### ============================================
+### 4. Cập nhật số lượng của item trong giỏ
+### ============================================
+PUT {{baseUrl}}/api/cart/674c3a4f123456789abcdef4
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "quantity": 5
+}
+
+### ============================================
+### 5. Xóa một item khỏi giỏ hàng
+### ============================================
+DELETE {{baseUrl}}/api/cart/674c3a4f123456789abcdef4
+Authorization: Bearer {{token}}
+
+### ============================================
+### 6. Xóa toàn bộ giỏ hàng
+### ============================================
+DELETE {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+
+### ============================================
+### HƯỚNG DẪN:
+### ============================================
+### - Tất cả endpoints cần authentication (Bearer token)
+### - Lấy token từ POST /api/auth/login
+### - Thay product_id, size_id, itemId bằng ID thật
+### 
+### Response mẫu:
+### {
+###   "success": true,
+###   "cart": {
+###     "_id": "...",
+###     "user_id": "...",
+###     "items": [{
+###       "_id": "...",
+###       "product_id": {...},
+###       "size_id": {...},
+###       "quantity": 2,
+###       "price": 250000
+###     }],
+###     "totalPrice": 500000
+###   }
+### }

@@ -1,0 +1,67 @@
+### Orders List API Testing
+### Màn hình đơn hàng (4 trạng thái: pending, confirmed, shipping, delivered)
+@baseUrl = http://localhost:5000
+@token = YOUR_AUTH_TOKEN_HERE
+
+### ============================================
+### 1. Lấy tất cả đơn hàng của tôi
+### ============================================
+GET {{baseUrl}}/api/orders/my-orders
+Authorization: Bearer {{token}}
+
+### ============================================
+### 2. Lọc đơn hàng theo trạng thái: Pending (Chờ xác nhận)
+### ============================================
+GET {{baseUrl}}/api/orders/my-orders?status=pending
+Authorization: Bearer {{token}}
+
+### ============================================
+### 3. Lọc đơn hàng theo trạng thái: Confirmed (Đã xác nhận)
+### ============================================
+GET {{baseUrl}}/api/orders/my-orders?status=confirmed
+Authorization: Bearer {{token}}
+
+### ============================================
+### 4. Lọc đơn hàng theo trạng thái: Shipping (Đang giao)
+### ============================================
+GET {{baseUrl}}/api/orders/my-orders?status=shipping
+Authorization: Bearer {{token}}
+
+### ============================================
+### 5. Lọc đơn hàng theo trạng thái: Delivered (Đã giao)
+### ============================================
+GET {{baseUrl}}/api/orders/my-orders?status=delivered
+Authorization: Bearer {{token}}
+
+### ============================================
+### 6. Lọc đơn hàng theo trạng thái: Cancelled (Đã hủy)
+### ============================================
+GET {{baseUrl}}/api/orders/my-orders?status=cancelled
+Authorization: Bearer {{token}}
+
+### ============================================
+### HƯỚNG DẪN:
+### ============================================
+### - Endpoint: GET /api/orders/my-orders
+### - Query params: status (optional)
+### - Cần authentication (Bearer token)
+### - Các trạng thái: pending, confirmed, shipping, delivered, cancelled
+### 
+### Response mẫu:
+### {
+###   "success": true,
+###   "orders": [
+###     {
+###       "_id": "...",
+###       "order_code": "ORD-20251201-001",
+###       "status": "pending",
+###       "items": [...],
+###       "total_amount": 850000,
+###       "shipping_fee": 30000,
+###       "shipping_address": {...},
+###       "payment_method": "vnpay",
+###       "payment_status": "pending",
+###       "createdAt": "2025-12-01T10:00:00.000Z"
+###     }
+###   ]
+### }

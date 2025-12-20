@@ -1,0 +1,117 @@
+### Contact/Chat API Testing
+### Màn hình liên hệ
+@baseUrl = http://localhost:5000
+@token = YOUR_AUTH_TOKEN_HERE
+
+### ============================================
+### 1. Lấy danh sách chat của tôi
+### ============================================
+GET {{baseUrl}}/api/chat-new/my-chats
+Authorization: Bearer {{token}}
+
+### ============================================
+### 2. Tạo hoặc lấy chat với admin
+### ============================================
+POST {{baseUrl}}/api/chat-new/create-or-get
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "adminId": "674c3a4f123456789abcdef0"
+}
+
+### ============================================
+### 3. Lấy tin nhắn trong một chat
+### ============================================
+GET {{baseUrl}}/api/chat-new/674c3a4f123456789abcdef1/messages
+Authorization: Bearer {{token}}
+
+### ============================================
+### 4. Gửi tin nhắn text
+### ============================================
+POST {{baseUrl}}/api/chat-new/674c3a4f123456789abcdef1/send
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "Xin chào, tôi cần hỗ trợ về sản phẩm",
+  "type": "text"
+}
+
+### ============================================
+### 5. Gửi tin nhắn với hình ảnh
+### ============================================
+POST {{baseUrl}}/api/chat-new/674c3a4f123456789abcdef1/send
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "https://cloudinary.com/image.jpg",
+  "type": "image"
+}
+
+### ============================================
+### 6. Đánh dấu đã đọc tin nhắn
+### ============================================
+PUT {{baseUrl}}/api/chat-new/674c3a4f123456789abcdef1/mark-read
+Authorization: Bearer {{token}}
+
+### ============================================
+### 7. Lấy danh sách admin online (để chat)
+### ============================================
+GET {{baseUrl}}/api/users/online-status
+Authorization: Bearer {{token}}
+
+### ============================================
+### HƯỚNG DẪN:
+### ============================================
+### Màn hình liên hệ sử dụng Chat API:
+### - GET /api/chat-new/my-chats - Lấy danh sách chat
+### - POST /api/chat-new/create-or-get - Tạo chat với admin
+### - GET /api/chat-new/:chatId/messages - Lấy tin nhắn
+### - POST /api/chat-new/:chatId/send - Gửi tin nhắn
+### - PUT /api/chat-new/:chatId/mark-read - Đánh dấu đã đọc
+### 
+### Tất cả cần authentication (Bearer token)
+### 
+### Response danh sách chat:
+### {
+###   "success": true,
+###   "chats": [
+###     {
+###       "_id": "...",
+###       "user_id": {...},
+###       "admin_id": {...},
+###       "last_message": {
+###         "content": "...",
+###         "type": "text",
+###         "createdAt": "..."
+###       },
+###       "unread_count": 2,
+###       "createdAt": "...",
+###       "updatedAt": "..."
+###     }
+###   ]
+### }
+### 
+### Response tin nhắn:
+### {
+###   "success": true,
+###   "messages": [
+###     {
+###       "_id": "...",
+###       "chat_id": "...",
+###       "sender_id": "...",
+###       "sender_type": "user",
+###       "content": "Xin chào",
+###       "type": "text",
+###       "is_read": false,
+###       "createdAt": "..."
+###     }
+###   ]
+### }
+### 
+### LƯU Ý:
+### - Có thể sử dụng Socket.IO cho real-time chat
+### - Endpoint socket: ws://localhost:5000
+### - Events: join_chat, send_message, receive_message
