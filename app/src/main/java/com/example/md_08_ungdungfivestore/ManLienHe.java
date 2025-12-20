@@ -3,127 +3,71 @@ package com.example.md_08_ungdungfivestore;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Patterns;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ManLienHe extends AppCompatActivity {
 
-    private EditText edtHoTen, edtSDT, edtEmail, edtDiaChi, edtNoiDung;
-    private Button btnGui;
-    private TextView tvPhone, tvEmail, tvAddress;
-
-    // Thông tin liên hệ hiển thị dưới cùng
-    private static final String PHONE_NUMBER = "0909999888";
-    private static final String EMAIL_TO     = "lienhe@quancaphe.com";
-    private static final String ADDRESS_TXT  = "123 Lê Lợi, Quận 1, TP.HCM";
+    private EditText tenEditText, emailEditText, noiDungEditText;
+    private MaterialButton guiButton, goiButton, emailButton, mapButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lien_he); // Đổi đúng tên file layout XML của bạn
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_lien_he);
 
-        // Ánh xạ view
-        ImageButton btnBack = findViewById(R.id.btnBack);
-        edtHoTen   = findViewById(R.id.edtHoTen);
-        edtSDT     = findViewById(R.id.edtSDT);
-        edtEmail   = findViewById(R.id.edtEmail);
-        edtDiaChi  = findViewById(R.id.edtDiaChi);
-        edtNoiDung = findViewById(R.id.edtNoiDung);
-        btnGui     = findViewById(R.id.btnGui);
+        tenEditText = findViewById(R.id.tenEditText);
+        emailEditText = findViewById(R.id.emailEditText);
+        noiDungEditText = findViewById(R.id.noiDungEditText);
+        guiButton = findViewById(R.id.guiButton);
+        goiButton = findViewById(R.id.goiButton);
+        emailButton = findViewById(R.id.emailButton);
+        mapButton = findViewById(R.id.mapButton);
 
-        tvPhone   = findViewById(R.id.tvPhone);
-        tvEmail   = findViewById(R.id.tvEmail);
-        tvAddress = findViewById(R.id.tvAddress);
+        // Gửi góp ý
+        guiButton.setOnClickListener(v -> {
+            String ten = tenEditText.getText().toString().trim();
+            String email = emailEditText.getText().toString().trim();
+            String noiDung = noiDungEditText.getText().toString().trim();
 
-        // NÚT QUAY LẠI -> về ManCaiDat
-        btnBack.setOnClickListener(v -> {
-            finish();
+            if (ten.isEmpty() || email.isEmpty() || noiDung.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Đã gửi liên hệ: " + noiDung, Toast.LENGTH_LONG).show();
+                tenEditText.setText("");
+                emailEditText.setText("");
+                noiDungEditText.setText("");
+            }
         });
 
-        // NÚT GỬI (chưa cần backend)
-        btnGui.setOnClickListener(v -> {
-            if (!validate()) return;
-            Toast.makeText(this, "Gửi liên hệ thành công! Cảm ơn bạn.", Toast.LENGTH_SHORT).show();
-            clearForm();
+        // Gọi điện
+        goiButton.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:0584720666")); // số hotline
+            startActivity(intent);
         });
 
-        // Chạm để gọi điện
-        tvPhone.setOnClickListener(v -> {
-            Intent callIntent = new Intent(Intent.ACTION_DIAL);
-            callIntent.setData(Uri.parse("tel:" + PHONE_NUMBER));
-            startActivity(callIntent);
+        // Gửi email
+        emailButton.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse("mailto:hotro@fivestore.com"));
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Liên hệ từ ứng dụng");
+            intent.putExtra(Intent.EXTRA_TEXT, "Xin chào, tôi muốn liên hệ...");
+            startActivity(intent);
         });
 
-        // Chạm để mở email
-        tvEmail.setOnClickListener(v -> {
-            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-            emailIntent.setData(Uri.parse("mailto:" + EMAIL_TO));
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Liên hệ từ ứng dụng");
-            emailIntent.putExtra(Intent.EXTRA_TEXT,
-                    "Họ tên: " + edtHoTen.getText().toString().trim() + "\n" +
-                            "SĐT: " + edtSDT.getText().toString().trim() + "\n" +
-                            "Email: " + edtEmail.getText().toString().trim() + "\n" +
-                            "Địa chỉ: " + edtDiaChi.getText().toString().trim() + "\n" +
-                            "Nội dung: " + edtNoiDung.getText().toString().trim());
-            startActivity(Intent.createChooser(emailIntent, "Chọn ứng dụng Email"));
-        });
-
-        // Chạm để mở Google Maps
-        tvAddress.setOnClickListener(v -> {
-            Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + Uri.encode(ADDRESS_TXT));
+        // Mở bản đồ
+        mapButton.setOnClickListener(v -> {
+            Uri gmmIntentUri = Uri.parse("FiveStore-Hà Nội");
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");
             startActivity(mapIntent);
         });
-    }
-
-    // ====== Helpers ======
-    private boolean validate() {
-        String hoTen = edtHoTen.getText().toString().trim();
-        String sdt   = edtSDT.getText().toString().trim();
-        String email = edtEmail.getText().toString().trim();
-        String nd    = edtNoiDung.getText().toString().trim();
-
-        if (hoTen.isEmpty()) {
-            edtHoTen.setError("Vui lòng nhập họ tên");
-            edtHoTen.requestFocus();
-            return false;
-        }
-
-        if (sdt.isEmpty() || !sdt.matches("^(0|\\+84)[0-9]{9,10}$")) {
-            edtSDT.setError("Số điện thoại không hợp lệ");
-            edtSDT.requestFocus();
-            return false;
-        }
-
-        if (!email.isEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            edtEmail.setError("Email không hợp lệ");
-            edtEmail.requestFocus();
-            return false;
-        }
-
-        if (nd.length() < 10) {
-            edtNoiDung.setError("Nội dung tối thiểu 10 ký tự");
-            edtNoiDung.requestFocus();
-            return false;
-        }
-
-        return true;
-    }
-
-    private void clearForm() {
-        edtHoTen.setText("");
-        edtSDT.setText("");
-        edtEmail.setText("");
-        edtDiaChi.setText("");
-        edtNoiDung.setText("");
-        edtHoTen.clearFocus();
-        edtNoiDung.clearFocus();
     }
 }
