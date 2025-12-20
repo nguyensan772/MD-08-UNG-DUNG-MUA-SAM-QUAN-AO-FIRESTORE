@@ -1,8 +1,8 @@
 package com.example.md_08_ungdungfivestore.fragments;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +23,9 @@ import com.example.md_08_ungdungfivestore.services.ApiClient;
 import com.example.md_08_ungdungfivestore.services.WishlistApiService;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,7 +43,6 @@ public class YeuThichFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        yeuThichManager = new YeuThichManager(ApiClientYeuThich.getYeuThichService(getContext()));
     }
 
     @Nullable
@@ -65,40 +66,8 @@ public class YeuThichFragment extends Fragment {
         loadWishlist();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        loadFavoriteProducts();
-    }
-
-    private void updateEmptyView() {
-        if (favoriteProducts.isEmpty()) {
-            tvEmptyYeuThich.setVisibility(View.VISIBLE);
-            danhSachYeuThichRecyclerView.setVisibility(View.GONE);
-        } else {
-            tvEmptyYeuThich.setVisibility(View.GONE);
-            danhSachYeuThichRecyclerView.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void loadFavoriteProducts() {
-        yeuThichManager.getMyWishlist(new YeuThichManager.CallbackMap() {
-            @Override
-            public void onSuccess(Map<String, Object> responseMap) {
-                List<Product> products = YeuThichManager.parseProductList(responseMap);
-                favoriteProducts.clear();
-                favoriteProducts.addAll(products);
-                favoriteAdapter.notifyDataSetChanged();
-                updateEmptyView();
-            }
-
-            @Override
-            public void onError(String error) {
-                Log.e("YeuThichFragment", "Load Wishlist Error: " + error);
-                Toast.makeText(getContext(), "Lỗi tải danh sách yêu thích: " + error, Toast.LENGTH_LONG).show();
-                updateEmptyView();
-            }
-        });
+    private void anhXa(View view) {
+        danhSachYeuThichRecyclerView = view.findViewById(R.id.danhSachYeuThichRecyclerView);
     }
 
     private void setupRecyclerView() {
@@ -108,23 +77,25 @@ public class YeuThichFragment extends Fragment {
             @Override
             public void onItemClick(Product product) {
                 // Navigate to product detail
-                Toast.makeText(getContext(), "Xem chi tiết: " + product.getName(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), com.example.md_08_ungdungfivestore.XemChiTiet.class);
+                intent.putExtra("product", product);
+                startActivity(intent);
             }
 
             @Override
             public void onAddClick(Product product) {
-                // Add to cart logic
-                Toast.makeText(getContext(), "Thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                // Click vào trái tim để xóa khỏi wishlist
+                showDeleteConfirmation(product);
             }
 
             @Override
             public void onDeleteClick(Product product) {
-                showDeleteConfirmation(product);
+                // Không sử dụng nữa - đã chuyển sang dùng heart icon
             }
         });
 
-        // Show delete button in wishlist
-        productAdapter.setShowDeleteButton(true);
+        // Ẩn nút delete (X) - dùng heart icon thay thế
+        productAdapter.setShowDeleteButton(false);
 
         danhSachYeuThichRecyclerView.setAdapter(productAdapter);
     }
@@ -146,6 +117,14 @@ public class YeuThichFragment extends Fragment {
                             }
                         }
 
+                        // Tạo Set chứa tất cả product IDs trong wishlist
+                        Set<String> wishlistProductIds = new HashSet<>();
+                        for (Product product : wishlistProducts) {
+                            wishlistProductIds.add(product.getId());
+                        }
+                        
+                        // Cập nhật adapter với wishlist IDs để tô vàng trái tim
+                        productAdapter.setWishlistIds(wishlistProductIds);
                         productAdapter.notifyDataSetChanged();
                         updateUI();
                     }
