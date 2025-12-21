@@ -150,14 +150,31 @@
                 android:textStyle="bold"
                 android:textColor="#ffff"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RadioGroup
+                android:id="@+id/rgPaymentMethod"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Thanh toán khi nhận hàng (COD)"
-                android:textSize="16sp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:textColor="#ffff"/>
+                android:layout_marginTop="8dp">
+
+                <RadioButton
+                    android:id="@+id/rbCash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Thanh toán khi nhận hàng (COD)"
+                    android:textColor="#ffff"
+                    android:buttonTint="@android:color/white"
+                    android:checked="true"
+                    android:textSize="16sp"/>
+
+                <RadioButton
+                    android:id="@+id/rbVNPay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Thanh toán qua Ví VNPay / Ngân hàng"
+                    android:textColor="#ffff"
+                    android:buttonTint="@android:color/white"
+                    android:textSize="16sp"/>
+            </RadioGroup>
 
             <View
                 android:layout_width="match_parent"
@@ -214,7 +231,6 @@
                     android:textStyle="bold"/>
             </LinearLayout>
 
-
         </LinearLayout>
     </ScrollView>
 
@@ -225,7 +241,6 @@
         android:orientation="vertical"
         android:padding="16dp"
         android:background="@android:color/black"
-
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout

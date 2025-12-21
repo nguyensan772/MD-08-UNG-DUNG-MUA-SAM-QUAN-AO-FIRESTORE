@@ -13,7 +13,7 @@ import com.example.md_08_ungdungfivestore.models.AuthResponse;
 import com.example.md_08_ungdungfivestore.models.LoginRequest;
 import com.example.md_08_ungdungfivestore.services.DangNhapApiClient;
 import com.example.md_08_ungdungfivestore.services.ApiService;
-import com.example.md_08_ungdungfivestore.utils.AuthManager; // ⭐ IMPORT AuthManager
+import com.example.md_08_ungdungfivestore.utils.AuthManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,7 +24,6 @@ public class DangNhap extends AppCompatActivity {
     private EditText edtEmail, edtPassword;
     private TextView btnLogin, tvRegister;
     private TextView tvResetDangNhap;
-    // private SharedPreferences sharedPreferences; // ❌ KHÔNG CẦN DÙNG TRỰC TIẾP NỮA
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +36,6 @@ public class DangNhap extends AppCompatActivity {
         btnLogin = findViewById(R.id.nutDangnhapvSignInTextView);
         tvRegister = findViewById(R.id.tvRegisterDangNhap);
         tvResetDangNhap = findViewById(R.id.tvResetDangNhap);
-
-        // sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE); // ❌ Bỏ qua dòng này
 
         // Xử lý sự kiện Đăng nhập
         btnLogin.setOnClickListener(v -> {
@@ -105,14 +102,24 @@ public class DangNhap extends AppCompatActivity {
                 if(response.isSuccessful() && response.body() != null){
                     AuthResponse auth = response.body();
                     Log.d("DangNhap", "Success: " + auth.isSuccess() + ", Message: " + auth.getMessage());
-                    if(auth.isSuccess()){
 
-                        // ⭐ SỬA LỖI LƯU TOKEN: Dùng AuthManager để đồng bộ với Retrofit Interceptor
+                    if(auth.isSuccess()){
+                        // 1. Lưu Token
                         AuthManager.saveToken(DangNhap.this, auth.getToken());
+
+                        // ⭐ 2. LƯU USER ID (QUAN TRỌNG CHO SOCKET) ⭐
+                        if (auth.getUser() != null) {
+                            // Đã sửa thành getId() cho khớp với file User.java bạn gửi
+                            String userId = auth.getUser().getId();
+                            AuthManager.saveUserId(DangNhap.this, userId);
+                            Log.d("DangNhap", "✅ Đã lưu UserID cho Socket: " + userId);
+                        } else {
+                            Log.e("DangNhap", "⚠️ API không trả về thông tin User, Socket có thể không chạy.");
+                        }
 
                         Toast.makeText(DangNhap.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
 
-                        // Chuyển sang MainActivity
+                        // Chuyển sang MainActivity và xóa các màn hình cũ
                         Intent intent = new Intent(DangNhap.this, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);

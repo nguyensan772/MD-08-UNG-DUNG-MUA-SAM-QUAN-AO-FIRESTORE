@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +18,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".DoiMatKhauActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VNPayActivity"
+            android:exported="false" />
+        <activity
             android:name=".ManThongTinCaNhan"
             android:exported="false" />
         <activity
@@ -27,6 +34,9 @@
             android:exported="false" />
         <activity
             android:name=".CheckoutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ManThongBao"
             android:exported="false" />
         <activity
             android:name=".ManDonHang"
@@ -46,9 +56,7 @@
         <activity
             android:name=".OtpActivity"
             android:exported="false" />
-        <activity
-            android:name=".TimKiem"
-            android:exported="false" />
+
         <activity
             android:name=".XemChiTiet"
             android:exported="false" />
@@ -58,20 +66,12 @@
         <activity
             android:name=".ManDanhGiaSanPham"
             android:exported="false" />
-        <activity
-            android:name=".CaiDatActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ThanhToanActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ManDatHang"
-            android:exported="false" />
+
         <activity
             android:name=".ManLienHe"
             android:exported="false" />
         <activity
-            android:name=".ManThongTin"
+            android:name=".DanhGia"
             android:exported="false" />
         <activity
             android:name=".ManDangKy"
@@ -79,9 +79,7 @@
         <activity
             android:name=".ManChat"
             android:exported="false" />
-        <activity
-            android:name=".GuiMaXacNhan"
-            android:exported="false" />
+
         <activity
             android:name=".DangNhap"
             android:exported="false" />

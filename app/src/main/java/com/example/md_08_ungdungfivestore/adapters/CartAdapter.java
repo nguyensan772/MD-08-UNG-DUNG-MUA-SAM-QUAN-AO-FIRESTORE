@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide; // ✅ Import Glide
+import com.bumptech.glide.Glide;
 import com.example.md_08_ungdungfivestore.R;
 import com.example.md_08_ungdungfivestore.models.CartItem;
 
@@ -22,7 +22,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private final List<CartItem> cartItemList;
     private final CartItemActionListener actionListener;
 
-    // BASE_URL Cần được định nghĩa để tải ảnh
+    // Địa chỉ Server
     private static final String BASE_URL = "http://10.0.2.2:5001";
 
     public interface CartItemActionListener {
@@ -52,21 +52,41 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
         holder.tvSize.setText(String.format("Size: %s | Màu: %s", item.getSize(), item.getColor()));
 
-        // ✅ LOGIC TẢI ẢNH ĐÃ THÊM VÀO
+        // --- BẮT ĐẦU SỬA LOGIC ẢNH ---
         String imagePath = item.getImage();
 
         if (imagePath != null && !imagePath.isEmpty()) {
-            String fullImageUrl = BASE_URL + imagePath;
+            String fullImageUrl;
+
+            // 1. Nếu là ảnh online (https://...)
+            if (imagePath.startsWith("http")) {
+                fullImageUrl = imagePath;
+            }
+            // 2. Nếu là ảnh local server
+            else {
+                // Xóa dấu / ở đầu nếu có
+                String cleanPath = imagePath.startsWith("/") ? imagePath.substring(1) : imagePath;
+
+                // Kiểm tra xem đã có chữ "uploads" trong tên chưa
+                if (cleanPath.startsWith("uploads")) {
+                    // Nếu có rồi: http://...:5001/uploads/abc.jpg
+                    fullImageUrl = BASE_URL + "/" + cleanPath;
+                } else {
+                    // Nếu chưa có: http://...:5001/uploads/abc.jpg
+                    fullImageUrl = BASE_URL + "/uploads/" + cleanPath;
+                }
+            }
 
             Glide.with(context)
                     .load(fullImageUrl)
-                    .placeholder(R.drawable.ic_launcher_background)
+                    .placeholder(R.drawable.avatar_img) // Đảm bảo bạn có ảnh này trong drawable
                     .error(R.drawable.ic_launcher_background)
                     .into(holder.imgProduct);
         } else {
             // Hiển thị ảnh mặc định nếu không có đường dẫn
-            holder.imgProduct.setImageResource(R.drawable.ic_launcher_background);
+            holder.imgProduct.setImageResource(R.drawable.avatar_img);
         }
+        // --- KẾT THÚC SỬA ---
 
         holder.btnIncrease.setOnClickListener(v ->
                 actionListener.onQuantityChange(item, item.getQuantity() + 1)

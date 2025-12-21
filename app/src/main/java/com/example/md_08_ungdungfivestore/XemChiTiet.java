@@ -1,24 +1,34 @@
 package com.example.md_08_ungdungfivestore;
 
-import android.content.Intent; // ⭐ IMPORT MỚI
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.md_08_ungdungfivestore.adapters.ImagePagerAdapter;
-import com.example.md_08_ungdungfivestore.fragments.GioHangFragment;
+import com.example.md_08_ungdungfivestore.adapters.CommentAdapter;
 import com.example.md_08_ungdungfivestore.fragments.SelectOptionsBottomSheetFragment;
 import com.example.md_08_ungdungfivestore.models.Product;
+import com.example.md_08_ungdungfivestore.models.Comment;
 import com.example.md_08_ungdungfivestore.services.ApiClientYeuThich;
+import com.example.md_08_ungdungfivestore.services.CommentApiService;
+import com.example.md_08_ungdungfivestore.services.CommentResponse;
 import com.example.md_08_ungdungfivestore.services.YeuThichManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class XemChiTiet extends AppCompatActivity {
 
@@ -26,9 +36,14 @@ public class XemChiTiet extends AppCompatActivity {
     private ImageButton btnBack, btnFavorite;
     private TextView tvName, tvPrice, tvDesc, btnOrderNow, btnAddToCart;
 
+    // THÊM MỚI CHO COMMENT
+    private RecyclerView rcvComments;
+    private TextView tvNoComments;
+    private CommentAdapter commentAdapter;
+    private List<Comment> commentList = new ArrayList<>();
+
     private Product product;
     private List<String> imageUrls = new ArrayList<>();
-
     private boolean isFavorite = false;
     private YeuThichManager yeuThichManager;
 
@@ -39,7 +54,6 @@ public class XemChiTiet extends AppCompatActivity {
 
         anhXa();
 
-        // Lấy Product từ Intent
         product = (Product) getIntent().getSerializableExtra("product");
         if (product == null) {
             Toast.makeText(this, "Sản phẩm không tồn tại", Toast.LENGTH_SHORT).show();
@@ -47,9 +61,9 @@ public class XemChiTiet extends AppCompatActivity {
             return;
         }
 
+        // Đổ dữ liệu sản phẩm cũ
         tvName.setText(product.getName());
         tvPrice.setText(String.format("%,.0f VND", product.getPrice()));
-
         if (product.getDescription() != null && !product.getDescription().isEmpty()) {
             StringBuilder desc = new StringBuilder();
             for (Product.Description d : product.getDescription()) {
@@ -60,47 +74,84 @@ public class XemChiTiet extends AppCompatActivity {
             tvDesc.setText("Không có mô tả chi tiết.");
         }
 
-        // Ảnh sản phẩm
+        // Xử lý ảnh cũ
         imageUrls.clear();
-        if (product.getImage() != null && !product.getImage().isEmpty()) {
-            imageUrls.add(product.getImage());
-        }
-        if (product.getImages() != null && !product.getImages().isEmpty()) {
-            imageUrls.addAll(product.getImages());
-        }
+        if (product.getImage() != null && !product.getImage().isEmpty()) imageUrls.add(product.getImage());
+        if (product.getImages() != null && !product.getImages().isEmpty()) imageUrls.addAll(product.getImages());
 
         setupViewPager();
         setupBackButton();
 
+        // Xử lý Yêu thích cũ
         yeuThichManager = new YeuThichManager(ApiClientYeuThich.getYeuThichService(this));
-
         if (product.getId() != null && !product.getId().isEmpty()) {
             checkFavoriteStatus(product.getId());
-        } else {
-            Log.e("XemChiTiet", "Lỗi: Product ID bị null hoặc rỗng, không thể kiểm tra trạng thái yêu thích.");
-            btnFavorite.setImageResource(R.drawable.heart_empty);
-            btnFavorite.setEnabled(false);
         }
-
         setupFavoriteButton();
 
-        // ⭐ ĐÃ SỬA: Tách logic xử lý sự kiện cho 2 nút
+        // Xử lý Giỏ hàng cũ
         setupCartButtons();
+
+        // --- PHẦN THÊM MỚI: SETUP COMMENT ---
+        setupCommentSection();
+        fetchComments(product.getId());
     }
 
     private void anhXa() {
         viewPagerImages = findViewById(R.id.viewPagerImages);
         btnBack = findViewById(R.id.btnBack);
         btnFavorite = findViewById(R.id.btnFavorite);
-
         tvName = findViewById(R.id.tvProductName);
         tvPrice = findViewById(R.id.tvProductPrice);
         tvDesc = findViewById(R.id.tvProductDesc);
-
         btnOrderNow = findViewById(R.id.btnOrderNow);
         btnAddToCart = findViewById(R.id.btnAddToCart);
+
+        // Ánh xạ comment mới
+        rcvComments = findViewById(R.id.rcvComments);
+        tvNoComments = findViewById(R.id.tvNoComments);
     }
 
+    private void setupCommentSection() {
+        commentAdapter = new CommentAdapter(commentList);
+        rcvComments.setLayoutManager(new LinearLayoutManager(this));
+        rcvComments.setAdapter(commentAdapter);
+    }
+
+    private void fetchComments(String productId) {
+        CommentApiService apiService = ApiClientYeuThich.getClient(this).create(CommentApiService.class);
+
+        apiService.getCommentsByProduct(productId).enqueue(new Callback<CommentResponse>() {
+            @Override
+            public void onResponse(Call<CommentResponse> call, Response<CommentResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Lấy từ getItems() thay vì getData()
+                    List<Comment> serverComments = response.body().getItems();
+
+                    commentList.clear();
+                    if (serverComments != null && !serverComments.isEmpty()) {
+                        commentList.addAll(serverComments);
+                        tvNoComments.setVisibility(View.GONE);
+                    } else {
+                        tvNoComments.setVisibility(View.VISIBLE);
+                    }
+                    commentAdapter.notifyDataSetChanged();
+
+                    // Cập nhật rating trung bình lên UI (nếu bạn có TextView hiển thị tổng sao)
+                    if (response.body().getSummary() != null) {
+                        Log.d("DEBUG", "Rating trung bình: " + response.body().getSummary().ratingAvg);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommentResponse> call, Throwable t) {
+                Log.e("API_ERROR", "Lỗi: " + t.getMessage());
+            }
+        });
+    }
+
+    // --- CÁC LOGIC CŨ CỦA BẠN (GIỮ NGUYÊN) ---
     private void setupViewPager() {
         ImagePagerAdapter adapter = new ImagePagerAdapter(this, imageUrls);
         viewPagerImages.setAdapter(adapter);
@@ -117,24 +168,15 @@ public class XemChiTiet extends AppCompatActivity {
                 isFavorite = isFavoriteServer;
                 btnFavorite.setImageResource(isFavorite ? R.drawable.heart_filled : R.drawable.heart_empty);
             }
-
             @Override
-            public void onError(String error) {
-                Log.e("XemChiTiet", "Lỗi kiểm tra yêu thích: " + error);
-            }
+            public void onError(String error) { Log.e("XemChiTiet", error); }
         });
     }
 
     private void setupFavoriteButton() {
-        if (product.getId() == null || product.getId().isEmpty()) return;
-
         btnFavorite.setOnClickListener(v -> {
-            btnFavorite.animate()
-                    .scaleX(1.3f).scaleY(1.3f).setDuration(120)
-                    .withEndAction(() ->
-                            btnFavorite.animate().scaleX(1f).scaleY(1f).setDuration(120).start()
-                    ).start();
-
+            btnFavorite.animate().scaleX(1.3f).scaleY(1.3f).setDuration(120)
+                    .withEndAction(() -> btnFavorite.animate().scaleX(1f).scaleY(1f).setDuration(120).start()).start();
             if (!isFavorite) {
                 yeuThichManager.addToWishlist(product.getId(), new YeuThichManager.ToggleCallback() {
                     @Override
@@ -143,13 +185,9 @@ public class XemChiTiet extends AppCompatActivity {
                         btnFavorite.setImageResource(R.drawable.heart_filled);
                         Toast.makeText(XemChiTiet.this, message, Toast.LENGTH_SHORT).show();
                     }
-
                     @Override
-                    public void onError(String error) {
-                        Toast.makeText(XemChiTiet.this, "Lỗi thêm yêu thích: " + error, Toast.LENGTH_SHORT).show();
-                    }
+                    public void onError(String error) {}
                 });
-
             } else {
                 yeuThichManager.removeFromWishlist(product.getId(), new YeuThichManager.ToggleCallback() {
                     @Override
@@ -158,46 +196,34 @@ public class XemChiTiet extends AppCompatActivity {
                         btnFavorite.setImageResource(R.drawable.heart_empty);
                         Toast.makeText(XemChiTiet.this, message, Toast.LENGTH_SHORT).show();
                     }
-
                     @Override
-                    public void onError(String error) {
-                        Toast.makeText(XemChiTiet.this, "Lỗi bỏ yêu thích: " + error, Toast.LENGTH_SHORT).show();
-                    }
+                    public void onError(String error) {}
                 });
             }
         });
     }
 
-    // ⭐ PHẦN MỚI: Tách biệt hành động cho 2 nút Giỏ hàng
     private void setupCartButtons() {
-        // 1. Nút Thêm vào giỏ hàng: Chỉ thêm, không chuyển màn hình
         btnAddToCart.setOnClickListener(v -> openSelectOptionsBottomSheet(false));
-
-        // 2. Nút Mua ngay: Thêm và chuyển sang màn hình Giỏ hàng
         btnOrderNow.setOnClickListener(v -> openSelectOptionsBottomSheet(true));
     }
 
-    /**
-     * Mở BottomSheet. Xử lý chuyển màn hình sau khi sản phẩm được thêm thành công.
-     * @param navigateToCart True nếu cần chuyển đến CartActivity sau khi thêm thành công (cho nút Mua ngay)
-     */
-    private void openSelectOptionsBottomSheet(boolean navigateToCart) {
+    private void openSelectOptionsBottomSheet(boolean navigateToCheckout) {
         if (product == null) return;
-
-        SelectOptionsBottomSheetFragment bottomSheet = new SelectOptionsBottomSheetFragment(product, (size, color, quantity) -> {
-            // HÀNH ĐỘNG SAU KHI SẢN PHẨM ĐÃ ĐƯỢC THÊM VÀO GIỎ HÀNG THÀNH CÔNG (từ BottomSheet)
-
-            String successMsg = "Đã thêm vào giỏ hàng: Size " + size + ", Màu " + color + ", SL: " + quantity;
-            Toast.makeText(XemChiTiet.this, successMsg, Toast.LENGTH_SHORT).show();
-
-            if (navigateToCart) {
-                // Nếu là nút "Mua ngay" (navigateToCart = true), chuyển sang màn hình giỏ hàng
-                Intent intent = new Intent(XemChiTiet.this, GioHangFragment.class); // Thay CartActivity bằng tên Activity Giỏ hàng của bạn
+        SelectOptionsBottomSheetFragment bottomSheet = new SelectOptionsBottomSheetFragment(product, navigateToCheckout, (size, color, quantity) -> {
+            if (navigateToCheckout) {
+                Intent intent = new Intent(XemChiTiet.this, CheckoutActivity.class);
+                intent.putExtra("PRODUCT_ID", product.getId());
+                intent.putExtra("PRODUCT_NAME", product.getName());
+                intent.putExtra("PRODUCT_PRICE", product.getPrice());
+                intent.putExtra("PRODUCT_IMAGE", product.getImage());
+                intent.putExtra("SELECTED_SIZE", size);
+                intent.putExtra("SELECTED_COLOR", color);
+                intent.putExtra("SELECTED_QUANTITY", quantity);
+                intent.putExtra("IS_BUY_NOW", true);
                 startActivity(intent);
-                // Nếu bạn muốn người dùng quay lại màn hình chính thay vì màn hình chi tiết, có thể dùng finish()
             }
         });
-
         bottomSheet.show(getSupportFragmentManager(), "SelectOptionsBottomSheet");
     }
 }
