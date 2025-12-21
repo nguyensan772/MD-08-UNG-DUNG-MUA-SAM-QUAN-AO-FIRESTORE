@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -20,6 +23,11 @@ public class ApiClientYeuThich {
 
     public static Retrofit getClient(Context context) {
         if (retrofit == null) {
+            // Cấu hình Gson để chấp nhận dữ liệu linh hoạt
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(new Interceptor() {
                         @Override
@@ -46,7 +54,7 @@ public class ApiClientYeuThich {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(client)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
         return retrofit;

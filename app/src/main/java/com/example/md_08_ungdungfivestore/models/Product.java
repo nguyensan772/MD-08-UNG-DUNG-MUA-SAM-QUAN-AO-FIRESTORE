@@ -1,6 +1,6 @@
 package com.example.md_08_ungdungfivestore.models;
 
-import com.google.gson.annotations.SerializedName; // <--- SỬA 1: THÊM IMPORT
+import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class Product implements Serializable {
 
-    @SerializedName("_id") // <--- SỬA 2: Ánh xạ JSON field "_id" vào Java field "id"
+    @SerializedName("_id")
     private String id;
 
     private String name;
@@ -32,7 +32,6 @@ public class Product implements Serializable {
     public Product() { }
 
     // Getter/Setter các trường hiện có
-
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -81,8 +80,9 @@ public class Product implements Serializable {
     public String getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(String updatedAt) { this.updatedAt = updatedAt; }
 
-    // -------------------------------
-    // Phương thức tiện ích cho SelectOptionsActivity
+    // ------------------------------------------------------------------
+    // CÁC PHƯƠNG THỨC TIỆN ÍCH CHO LOGIC CHỌN SIZE/MÀU
+    // ------------------------------------------------------------------
 
     /** Trả về danh sách size có sẵn không trùng lặp */
     public List<String> getAvailableSizes() {
@@ -110,20 +110,6 @@ public class Product implements Serializable {
         return new ArrayList<>(colors);
     }
 
-    /** Trả về map key="size-color", value = số lượng */
-    public Map<String, Integer> getQuantityMap() {
-        Map<String, Integer> map = new HashMap<>();
-        if (variations != null) {
-            for (Variation v : variations) {
-                String size = v.getSize() != null ? v.getSize() : "";
-                String color = v.getColor() != null ? v.getColor() : "";
-                String key = size + "-" + color;
-                map.put(key, v.getQuantity());
-            }
-        }
-        return map;
-    }
-
     /** Tổng số lượng trong kho (tổng quantity tất cả variations) */
     public int getTotalQuantity() {
         int total = 0;
@@ -135,9 +121,24 @@ public class Product implements Serializable {
         return total;
     }
 
-    // -------------------------------
-    // Inner classes
+    // ⭐⭐⭐ PHƯƠNG THỨC MỚI CẦN THÊM ⭐⭐⭐
+    /** Lấy số lượng tồn kho của một cặp Size + Màu cụ thể */
+    public int getStockForVariant(String size, String color) {
+        if (variations == null || variations.isEmpty()) return 0;
+        if (size == null || color == null) return 0;
 
+        for (Variation v : variations) {
+            // So sánh không phân biệt hoa thường để tránh lỗi
+            if (v.getSize() != null && v.getSize().equalsIgnoreCase(size) &&
+                    v.getColor() != null && v.getColor().equalsIgnoreCase(color)) {
+                return v.getQuantity();
+            }
+        }
+        return 0; // Không tìm thấy biến thể này
+    }
+    // ------------------------------------------------------------------
+
+    // Inner classes
     public static class Description implements Serializable {
         private String field;
         private String value;

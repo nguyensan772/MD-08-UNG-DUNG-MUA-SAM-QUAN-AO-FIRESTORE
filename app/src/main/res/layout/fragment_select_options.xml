@@ -50,6 +50,7 @@
             android:layout_toEndOf="@id/ivProductImage"
             android:orientation="vertical">
 
+
             <!-- Số tiền với dấu chấm -->
             <TextView
                 android:id="@+id/tvProductPriceNew"

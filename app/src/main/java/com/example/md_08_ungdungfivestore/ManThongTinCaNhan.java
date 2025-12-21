@@ -16,7 +16,9 @@ import com.example.md_08_ungdungfivestore.models.ProfileUpdateResponse;
 import com.example.md_08_ungdungfivestore.models.User;
 import com.example.md_08_ungdungfivestore.services.ApiClientCaNhan;
 import com.example.md_08_ungdungfivestore.services.UserApiService;
-import com.google.gson.Gson; // ⭐ IMPORT MỚI: Dùng để chuyển đổi đối tượng thành JSON
+import com.google.gson.Gson;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,7 +27,7 @@ import retrofit2.Response;
 public class ManThongTinCaNhan extends AppCompatActivity {
 
     private static final String TAG = "ManThongTinCaNhan";
-    private final Gson gson = new Gson(); // ⭐ KHAI BÁO GSON
+    private final Gson gson = new Gson();
 
     private EditText edtFullName, edtPhone, edtEmail, edtProvince, edtDistrict, edtWard, edtStreet;
     private Button btnUpdateProfile;
@@ -74,11 +76,15 @@ public class ManThongTinCaNhan extends AppCompatActivity {
                 showLoading(false);
                 if (response.isSuccessful() && response.body() != null) {
                     currentUser = response.body();
-                    Log.d(TAG, "User profile loaded: " + gson.toJson(currentUser)); // Log lúc tải
+                    Log.d(TAG, "User profile loaded: " + gson.toJson(currentUser));
                     displayUserProfile(currentUser);
                 } else {
                     Toast.makeText(ManThongTinCaNhan.this, "Không thể tải hồ sơ. Mã lỗi: " + response.code(), Toast.LENGTH_LONG).show();
-                    Log.e(TAG, "Lỗi tải hồ sơ: " + (response.errorBody() != null ? response.errorBody().toString() : "Unknown error"));
+                    try {
+                        Log.e(TAG, "Lỗi tải hồ sơ: " + (response.errorBody() != null ? response.errorBody().string() : "Unknown error"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -95,20 +101,17 @@ public class ManThongTinCaNhan extends AppCompatActivity {
     private void displayUserProfile(User user) {
         if (user == null) return;
 
-        // Thông tin cơ bản
         edtFullName.setText(user.getFullName());
         edtPhone.setText(user.getPhoneNumber() != null ? user.getPhoneNumber() : "");
-        edtEmail.setText(user.getEmail());
+        edtEmail.setText(user.getEmail()); // Email thường là readonly (không sửa được)
 
-        // Thông tin địa chỉ (Dùng các trường phẳng trực tiếp từ User)
-        // Kiểm tra null để tránh lỗi (dù khả năng thấp)
         edtProvince.setText(user.getProvince() != null ? user.getProvince() : "");
         edtDistrict.setText(user.getDistrict() != null ? user.getDistrict() : "");
         edtWard.setText(user.getWard() != null ? user.getWard() : "");
         edtStreet.setText(user.getStreet() != null ? user.getStreet() : "");
     }
 
-    // 3. Gửi yêu cầu cập nhật thông tin
+    // 3. Gửi yêu cầu cập nhật thông tin (ĐÃ THÊM VALIDATE)
     private void updateProfile() {
         if (currentUser == null) {
             Toast.makeText(this, "Không có dữ liệu hồ sơ để cập nhật.", Toast.LENGTH_SHORT).show();
@@ -123,10 +126,51 @@ public class ManThongTinCaNhan extends AppCompatActivity {
         String newWard = edtWard.getText().toString().trim();
         String newStreet = edtStreet.getText().toString().trim();
 
-        if (newFullName.isEmpty() || newPhone.isEmpty()) {
-            Toast.makeText(this, "Tên và Số điện thoại không được để trống.", Toast.LENGTH_SHORT).show();
+        // ========== BẮT ĐẦU VALIDATE (KIỂM TRA) ==========
+
+        // Kiểm tra Tên
+        if (newFullName.isEmpty()) {
+            edtFullName.setError("Vui lòng nhập họ và tên");
+            edtFullName.requestFocus();
             return;
         }
+
+        // Kiểm tra Số điện thoại (Không trống + Đúng định dạng VN)
+        if (newPhone.isEmpty()) {
+            edtPhone.setError("Vui lòng nhập số điện thoại");
+            edtPhone.requestFocus();
+            return;
+        }
+        // Regex: 10 số và bắt đầu bằng 0
+        if (newPhone.length() != 10 || !newPhone.startsWith("0")) {
+            edtPhone.setError("Số điện thoại không hợp lệ (Phải có 10 số và bắt đầu bằng 0)");
+            edtPhone.requestFocus();
+            return;
+        }
+
+        // Kiểm tra Địa chỉ (Bắt buộc nhập đủ để giao hàng)
+        if (newProvince.isEmpty()) {
+            edtProvince.setError("Vui lòng nhập Tỉnh/Thành phố");
+            edtProvince.requestFocus();
+            return;
+        }
+        if (newDistrict.isEmpty()) {
+            edtDistrict.setError("Vui lòng nhập Quận/Huyện");
+            edtDistrict.requestFocus();
+            return;
+        }
+        if (newWard.isEmpty()) {
+            edtWard.setError("Vui lòng nhập Phường/Xã");
+            edtWard.requestFocus();
+            return;
+        }
+        if (newStreet.isEmpty()) {
+            edtStreet.setError("Vui lòng nhập Tên đường/Số nhà");
+            edtStreet.requestFocus();
+            return;
+        }
+
+        // ========== KẾT THÚC VALIDATE ==========
 
         // Cập nhật các trường mới lên đối tượng currentUser
         currentUser.setFullName(newFullName);
@@ -136,7 +180,6 @@ public class ManThongTinCaNhan extends AppCompatActivity {
         currentUser.setWard(newWard);
         currentUser.setStreet(newStreet);
 
-        // Log đối tượng gửi đi (Request Body)
         Log.d(TAG, "JSON Request Body: " + gson.toJson(currentUser));
 
         // 3. Gọi API
@@ -146,21 +189,30 @@ public class ManThongTinCaNhan extends AppCompatActivity {
             public void onResponse(@NonNull Call<ProfileUpdateResponse> call, @NonNull Response<ProfileUpdateResponse> response) {
                 showLoading(false);
                 if (response.isSuccessful() && response.body() != null) {
-
-                    // ⭐ LOG QUAN TRỌNG: Dữ liệu Server trả về sau khi cập nhật ⭐
                     currentUser = response.body().getUser();
                     Log.d(TAG, "SERVER RESPONSE (User data): " + gson.toJson(currentUser));
 
                     Toast.makeText(ManThongTinCaNhan.this, "Cập nhật hồ sơ thành công!", Toast.LENGTH_SHORT).show();
                     displayUserProfile(currentUser);
                 } else {
-                    // ... (Xử lý lỗi)
+                    // Xử lý lỗi từ server (Ví dụ: SĐT trùng lặp)
+                    String msg = "Cập nhật thất bại (" + response.code() + ")";
+                    try {
+                        if (response.errorBody() != null) {
+                            Log.e(TAG, "Error Body: " + response.errorBody().string());
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(ManThongTinCaNhan.this, msg, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ProfileUpdateResponse> call, @NonNull Throwable t) {
-                // ... (Xử lý lỗi)
+                showLoading(false);
+                Log.e(TAG, "Update Failure: " + t.getMessage());
+                Toast.makeText(ManThongTinCaNhan.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

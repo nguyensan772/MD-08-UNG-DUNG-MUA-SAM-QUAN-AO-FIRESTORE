@@ -115,9 +115,9 @@ public class ManChiTietDonHang extends AppCompatActivity {
         tvDetailOrderId.setText(order.getOrderId());
         tvDetailStatus.setText(mapStatusToVietnamese(order.getStatus()));
 
-        Date orderDate = order.getOrderDate();
-        if (orderDate != null) {
-            tvDetailOrderDate.setText(dateFormat.format(orderDate));
+        String rawDate = order.getOrderDate();
+        if (rawDate != null) {
+            tvDetailOrderDate.setText(rawDate); // Hiện tạm chuỗi ngày từ server
         } else {
             tvDetailOrderDate.setText("N/A");
         }
@@ -206,14 +206,39 @@ public class ManChiTietDonHang extends AppCompatActivity {
             btnDetailAction.setBackgroundColor(getResources().getColor(R.color.red));
             btnDetailAction.setOnClickListener(v -> cancelOrder(order.getOrderId()));
         } else if ("delivered".equalsIgnoreCase(status)) {
+            // GỘP LOGIC ĐÁNH GIÁ VÀO ĐÂY
             btnDetailAction.setVisibility(View.VISIBLE);
             btnDetailAction.setText("ĐÁNH GIÁ SẢN PHẨM");
-            // btnDetailAction.setBackgroundColor(getResources().getColor(R.color.primary)); // Sử dụng màu chính nếu cần
+            btnDetailAction.setBackgroundColor(getResources().getColor(R.color.ChuDe)); // Đổi màu cho đẹp nếu muốn
+
             btnDetailAction.setOnClickListener(v -> {
-                // CHUYỂN SANG MÀN HÌNH ĐÁNH GIÁ
-                Intent intent = new Intent(ManChiTietDonHang.this, ManDanhGiaSanPham.class);
-                intent.putExtra("ORDER_ID_FOR_RATING", order.getOrderId());
-                startActivity(intent);
+                if (order.getItems() != null && !order.getItems().isEmpty()) {
+                    // Lấy sản phẩm đầu tiên để đánh giá (giống logic DaGiaoFragment)
+                    OrderItem firstItem = order.getItems().get(0);
+
+                    Intent intent = new Intent(ManChiTietDonHang.this, ManDanhGiaSanPham.class);
+
+                    // Truyền bộ 3 thông tin quan trọng
+                    intent.putExtra("PRODUCT_ID", firstItem.getProductId());
+                    intent.putExtra("PRODUCT_NAME", firstItem.getProductName());
+
+                    // Xử lý logic ảnh (giống hệt bên Fragment)
+                    String imagePath = firstItem.getImageUrl();
+                    String fullImageUrl = "";
+                    if (imagePath != null && !imagePath.isEmpty()) {
+                        if (imagePath.startsWith("http")) {
+                            fullImageUrl = imagePath;
+                        } else {
+                            String cleanPath = imagePath.startsWith("/") ? imagePath.substring(1) : imagePath;
+                            fullImageUrl = "http://10.0.2.2:5001/" + cleanPath;
+                        }
+                    }
+                    intent.putExtra("PRODUCT_IMAGE", fullImageUrl);
+
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(ManChiTietDonHang.this, "Đơn hàng rỗng, không có gì để đánh giá!", Toast.LENGTH_SHORT).show();
+                }
             });
         }
     }

@@ -1,167 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mauNen"
+    android:orientation="vertical"
+    android:background="#121212"
+    android:padding="16dp"
     tools:context=".ManDanhGiaSanPham">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/theDonHangConstraintLayout"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:paddingVertical="10dp"
-        android:paddingHorizontal="20dp"
-        android:background="@drawable/nen_item_chu_de"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        >
+        android:layout_marginBottom="24dp">
 
         <ImageView
-            android:id="@+id/anhDonHangImageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@color/XamNhat"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            android:id="@+id/imgBack"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="4dp"
+            android:src="@drawable/back_icon"
+            app:tint="#FFFFFF" />
+
         <TextView
-            android:id="@+id/sanPhamTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Áo trẻ em"
-            android:textColor="@color/white"
-            android:fontFamily="@font/poppins_semibold"
-            android:textSize="20sp"
-            android:layout_marginLeft="10dp"
-            app:layout_constraintStart_toEndOf="@id/anhDonHangImageView"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-        <TextView
-            android:id="@+id/tongTienSanPhamTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tổng tiền sản phẩm"
-            android:textColor="@color/white"
-            android:fontFamily="@font/poppins_regular"
-            android:textSize="10sp"
-            android:layout_marginLeft="10dp"
-            app:layout_constraintStart_toEndOf="@id/anhDonHangImageView"
-            app:layout_constraintTop_toBottomOf="@id/sanPhamTextView"
-            />
-        <TextView
-            android:id="@+id/tongTienTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="119.000"
-            android:textColor="@color/white"
-            android:fontFamily="@font/poppins_semibold"
-            android:textSize="15sp"
-            android:layout_marginLeft="10dp"
-            app:layout_constraintStart_toEndOf="@id/anhDonHangImageView"
-            app:layout_constraintTop_toBottomOf="@id/tongTienSanPhamTextView"
-            />
-        <TextView
+            android:layout_centerInParent="true"
+            android:text="Đánh giá sản phẩm"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="VND"
-            android:textColor="@color/ChuDe"
-            android:fontFamily="@font/poppins_semibold"
-            android:textSize="15sp"
-            android:layout_marginLeft="5dp"
-            app:layout_constraintStart_toEndOf="@id/tongTienTextView"
-            app:layout_constraintTop_toBottomOf="@id/tongTienSanPhamTextView"
-            />
-
-        <TextView
-        android:id="@+id/tenNguoiNhanTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nguyễn Văn A"
-        android:textColor="@color/white"
-        android:fontFamily="@font/poppins_semibold"
-        android:textSize="13sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintStart_toEndOf="@id/anhDonHangImageView"
-        app:layout_constraintTop_toBottomOf="@id/tongTienTextView"
-        />
-
-        <TextView
-            android:id="@+id/diaChiNguoiNhanTextView"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
-            android:text="Xóm 1, Xã Giao Hà, Giao thuỷ,Nam Định"
-            android:textColor="@color/white"
-            android:textSize="13sp"
-            android:layout_marginLeft="10dp"
-            app:layout_constraintStart_toEndOf="@id/anhDonHangImageView"
-            app:layout_constraintTop_toBottomOf="@id/tenNguoiNhanTextView" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/danhGiaTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="Chất lượng sản phẩm"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/danhGiaRatingBar"
-        app:layout_constraintBottom_toTopOf="@id/danhGiaEditText" />
-
-    <RatingBar
-        android:id="@+id/danhGiaRatingBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:stepSize="1"
-        android:numStars="5"
-        android:rating="5"
-        android:progressTint="@color/ChuDe"
-        android:isIndicator="false"
-        style="?android:ratingBarStyleIndicator"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/theDonHangConstraintLayout"
-        app:layout_constraintStart_toEndOf="@id/danhGiaTextView"
-        />
-
-    <EditText
-        android:id="@+id/danhGiaEditText"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="top"
-        android:lines="6"
-        android:hint="Hãy chia sẻ nhận xét về sản phẩm này nhé"
-        android:textColorHint="@color/XamNhat"
-        android:background="@drawable/vien_edit_text"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/danhGiaRatingBar"
-        />
-    <TextView
-        android:id="@+id/guiNhanXetButton"
-        android:layout_width="wrap_content"
+        app:cardBackgroundColor="#1E1E1E"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgProductReview"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_kids1"
+                app:shapeAppearanceOverlay="@style/RoundedImage" />
+
+            <TextView
+                android:id="@+id/tvProductNameReview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:text="Vest Nam Chất Tuyết Hàn..."
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Gửi"
-        android:background="@drawable/nen_nut"
-        android:textColor="@color/white"
-        android:textSize="20dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:paddingVertical="5dp"
-        android:paddingHorizontal="30dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/danhGiaEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bạn thấy sản phẩm này thế nào?"
+            android:textColor="#BBBBBB"
+            android:textSize="14sp" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            style="@style/Widget.AppCompat.RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:numStars="5"
+            android:progressTint="#FF9800"
+            android:rating="5"
+            android:stepSize="1" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/edtCommentContent"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_edittext_dark"
+        android:gravity="top|start"
+        android:hint="Hãy chia sẻ nhận xét của bạn về sản phẩm này nhé..."
+        android:padding="16dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#666666"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btnSubmitReview"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#D17842"
+        android:text="Gửi đánh giá"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="28dp" />
+
+</LinearLayout>

@@ -4,15 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingVertical="8dp"
+    android:paddingVertical="10dp"
+    android:paddingHorizontal="10dp"
     android:gravity="center_vertical">
 
     <ImageView
         android:id="@+id/imgItemDetailProduct"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:scaleType="centerCrop"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="12dp"
         tools:src="@drawable/ic_launcher_background"
         android:contentDescription="Product Image" />
 
@@ -29,12 +30,15 @@
             android:fontFamily="@font/poppins_medium"
             android:textColor="@color/white"
             android:textSize="14sp"
+            android:maxLines="2"
+            android:ellipsize="end"
             tools:text="Áo Khoác Da Cao Cấp" />
 
         <TextView
             android:id="@+id/tvItemDetailVariant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/poppins_regular"
             android:textColor="#AEAEAE"
             android:textSize="12sp"
@@ -53,17 +57,33 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
             android:textColor="#AEAEAE"
-            android:textSize="14sp"
+            android:textSize="13sp"
             tools:text="x 2" />
 
         <TextView
             android:id="@+id/tvItemDetailPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:fontFamily="@font/poppins_medium"
             android:textColor="#D17842"
             android:textSize="14sp"
             tools:text="700,000 VNĐ" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDanhGia"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="6dp"
+            android:background="#FF5722"
+            android:text="Đánh giá"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
     </LinearLayout>
 
 </LinearLayout>
