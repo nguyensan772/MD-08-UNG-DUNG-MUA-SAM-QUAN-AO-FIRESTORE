@@ -24,7 +24,7 @@
             android:text="Giỏ hàng"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
-            android:fontFamily="@font/poppins_bold" />
+           />
 
         <TextView
             android:id="@+id/btnClearCart"
@@ -33,7 +33,6 @@
             android:text="Xóa tất cả"
             android:textColor="#FF6B6B"
             android:textSize="14sp"
-            android:fontFamily="@font/poppins_medium"
             android:padding="8dp"
             android:background="?attr/selectableItemBackground" />
     </LinearLayout>
@@ -76,7 +75,7 @@
                 android:text="Tổng"
                 android:textSize="14sp"
                 android:textColor="#AEAEAE"
-                android:fontFamily="@font/poppins_medium" />
+                 />
 
             <TextView
                 android:id="@+id/tvTotal"
@@ -85,7 +84,6 @@
                 android:text="0 VND"
                 android:textSize="18sp"
                 android:textColor="#FFFFFF"
-                android:fontFamily="@font/poppins_semibold"
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
 
@@ -99,7 +97,6 @@
             android:text="Thanh toán"
             android:textSize="16sp"
             android:textColor="#FFFFFF"
-            android:fontFamily="@font/poppins_semibold"
             android:backgroundTint="#D17842"
             android:textAllCaps="false" />
     </LinearLayout>

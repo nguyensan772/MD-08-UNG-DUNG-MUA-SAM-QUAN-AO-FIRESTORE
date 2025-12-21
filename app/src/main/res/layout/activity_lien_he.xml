@@ -15,8 +15,7 @@
         android:layout_height="wrap_content"
         android:text="Liên hệ"
         android:textSize="33dp"
-        android:textColor="@color/white"
-        android:fontFamily="@font/poppins_semibold"
+        android:textColor="@color/black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 

@@ -34,7 +34,7 @@
             android:text="Đổi mật khẩu"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:fontFamily="@font/poppins_bold" />
+         />
     </LinearLayout>
 
     <!-- Form đổi mật khẩu -->
@@ -48,8 +48,7 @@
         android:textColorHint="@color/XamNhat"
         android:background="@drawable/bg_edittext"
         android:padding="12dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/poppins_regular" />
+        android:layout_marginTop="16dp" />
 
     <EditText
         android:id="@+id/edtMatKhauMoi"
@@ -61,8 +60,7 @@
         android:textColorHint="@color/XamNhat"
         android:background="@drawable/bg_edittext"
         android:padding="12dp"
-        android:layout_marginTop="12dp"
-        android:fontFamily="@font/poppins_regular" />
+        android:layout_marginTop="12dp" />
 
     <EditText
         android:id="@+id/edtXacNhanMatKhauMoi"
@@ -74,8 +72,7 @@
         android:textColorHint="@color/XamNhat"
         android:background="@drawable/bg_edittext"
         android:padding="12dp"
-        android:layout_marginTop="12dp"
-        android:fontFamily="@font/poppins_regular" />
+        android:layout_marginTop="12dp" />
 
     <!-- Nút xác nhận -->
     <Button
@@ -86,7 +83,6 @@
         android:text="Xác nhận"
         android:textSize="18sp"
         android:textColor="@color/white"
-        android:backgroundTint="@color/ChuDe"
-        android:fontFamily="@font/poppins_semibold" />
+        android:backgroundTint="@color/ChuDe" />
 
 </LinearLayout>

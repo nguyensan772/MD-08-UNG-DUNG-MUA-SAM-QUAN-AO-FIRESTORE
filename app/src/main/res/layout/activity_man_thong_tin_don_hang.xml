@@ -33,8 +33,7 @@
             android:layout_weight="1"
             android:text="Thông tin đơn hàng"
             android:textColor="@color/white"
-            android:textSize="20sp"
-            android:fontFamily="@font/poppins_bold" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -52,7 +51,6 @@
             android:textColor="@color/XamNhat"
             android:background="@drawable/nen_item_chu_de"
             android:textSize="17dp"
-            android:fontFamily="@font/poppins_semibold"
             android:padding="10dp" />
 
         <TextView
@@ -62,8 +60,7 @@
             android:text="Địa chỉ nhận hàng"
             android:textColor="@color/white"
             android:textSize="17dp"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/poppins_semibold" />
+            android:layout_marginTop="20dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,8 +83,7 @@
                     android:layout_height="wrap_content"
                     android:text="Nguyễn Văn A"
                     android:textColor="@color/white"
-                    android:textSize="17dp"
-                    android:fontFamily="@font/poppins_semibold" />
+                    android:textSize="17dp" />
 
                 <TextView
                     android:id="@+id/diaChiTextView"
@@ -95,8 +91,7 @@
                     android:layout_height="wrap_content"
                     android:text="Xóm 1, Xã Giao Hà, Giao thuỷ, Nam Định"
                     android:textColor="@color/white"
-                    android:textSize="12dp"
-                    android:fontFamily="@font/poppins_semibold" />
+                    android:textSize="12dp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -118,7 +113,6 @@
                 android:layout_height="wrap_content"
                 android:text="FiveStore"
                 android:textColor="@color/ChuDe"
-                android:fontFamily="@font/poppins_regular"
                 android:textSize="20dp"
                 android:layout_marginLeft="10dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -138,7 +132,6 @@
                 android:layout_height="wrap_content"
                 android:text="Áo trẻ em"
                 android:textColor="@color/white"
-                android:fontFamily="@font/poppins_regular"
                 android:textSize="17dp"
                 android:layout_marginLeft="10dp"
                 app:layout_constraintStart_toEndOf="@id/anhDonHangImageView"
@@ -150,7 +143,6 @@
                 android:layout_height="wrap_content"
                 android:text="Tổng tiền sản phẩm"
                 android:textColor="@color/white"
-                android:fontFamily="@font/poppins_regular"
                 android:textSize="12dp"
                 android:layout_marginLeft="10dp"
                 app:layout_constraintStart_toEndOf="@id/anhDonHangImageView"
@@ -174,7 +166,6 @@
                 android:padding="10dp"
                 android:textColor="@color/white"
                 android:text="Hủy đơn hàng"
-                android:fontFamily="@font/poppins_semibold"
                 android:textSize="10dp"
                 android:background="@drawable/nut_don_hang" />
 
@@ -186,7 +177,6 @@
                 android:padding="10dp"
                 android:textColor="@color/white"
                 android:text="Liên hệ shop"
-                android:fontFamily="@font/poppins_semibold"
                 android:textSize="10dp"
                 android:background="@drawable/nut_don_hang" />
         </LinearLayout>

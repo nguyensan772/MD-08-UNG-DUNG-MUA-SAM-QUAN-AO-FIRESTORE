@@ -55,7 +55,6 @@
                 android:id="@+id/tvProductName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_medium"
                 android:text="Cappuccino with Chocolate"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
@@ -66,7 +65,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/bg_size_tag"
-                android:fontFamily="@font/poppins_regular"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="2dp"
                 android:text="Size M"
@@ -85,7 +83,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/poppins_bold"
                     android:text="$ 25.500000"
                     android:textColor="#D17842"
                     android:textSize="13sp" />
@@ -114,7 +111,6 @@
                         android:id="@+id/tvQuantity"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
                         android:gravity="center"
                         android:text="1"
                         android:textColor="#FFFFFF"
@@ -146,7 +142,7 @@
             android:text="Xóa"
             android:textColor="#FF4545"
             android:textSize="12sp"
-            android:fontFamily="@font/poppins_medium" />
+           />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

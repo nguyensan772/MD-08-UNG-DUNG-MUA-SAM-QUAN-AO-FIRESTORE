@@ -43,7 +43,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/poppins_medium"
                 android:maxLines="1"
                 android:text="Áo trẻ em"
                 android:textColor="#FFFFFF"
@@ -58,7 +57,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
                     android:text="Trạng thái: "
                     android:textColor="#AEAEAE"
                     android:textSize="12sp" />
@@ -67,7 +65,6 @@
                     android:id="@+id/tvOrderStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
                     android:text="Đang giao"
                     android:textColor="#D17842"
                     android:textSize="12sp" />
@@ -78,7 +75,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:fontFamily="@font/poppins_regular"
                 android:text="x 2 sản phẩm"
                 android:textColor="#AEAEAE"
                 android:textSize="12sp" />
@@ -88,7 +84,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:fontFamily="@font/poppins_bold"
                 android:text="119k VND"
                 android:textColor="#D17842"
                 android:textSize="14sp" />
@@ -107,7 +102,6 @@
                     android:layout_height="40dp"
                     android:layout_marginEnd="8dp"
                     android:backgroundTint="#D17842"
-                    android:fontFamily="@font/poppins_medium"
                     android:paddingHorizontal="12dp"
                     android:text="Mua lai"
                     android:textColor="#FFFFFF"
@@ -119,7 +113,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:backgroundTint="#D17842"
-                    android:fontFamily="@font/poppins_medium"
                     android:paddingHorizontal="12dp"
                     android:text="Đánh giá "
                     android:textColor="#FFFFFF"
