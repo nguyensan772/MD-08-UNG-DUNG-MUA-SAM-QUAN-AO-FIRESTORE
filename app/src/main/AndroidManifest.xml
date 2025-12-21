@@ -56,9 +56,7 @@
         <activity
             android:name=".OtpActivity"
             android:exported="false" />
-        <activity
-            android:name=".TimKiem"
-            android:exported="false" />
+
         <activity
             android:name=".XemChiTiet"
             android:exported="false" />
@@ -68,20 +66,12 @@
         <activity
             android:name=".ManDanhGiaSanPham"
             android:exported="false" />
-        <activity
-            android:name=".CaiDatActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ThanhToanActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ManDatHang"
-            android:exported="false" />
+
         <activity
             android:name=".ManLienHe"
             android:exported="false" />
         <activity
-            android:name=".ManThongTin"
+            android:name=".DanhGia"
             android:exported="false" />
         <activity
             android:name=".ManDangKy"
@@ -89,9 +79,7 @@
         <activity
             android:name=".ManChat"
             android:exported="false" />
-        <activity
-            android:name=".GuiMaXacNhan"
-            android:exported="false" />
+
         <activity
             android:name=".DangNhap"
             android:exported="false" />

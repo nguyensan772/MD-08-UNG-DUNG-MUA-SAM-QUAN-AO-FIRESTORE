@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.md_08_ungdungfivestore.DangNhap;
 import com.example.md_08_ungdungfivestore.DoiMatKhauActivity; // ⭐ Nhớ import màn hình Đổi Mật Khẩu
+import com.example.md_08_ungdungfivestore.ManChat;
 import com.example.md_08_ungdungfivestore.ManDonHang;
 import com.example.md_08_ungdungfivestore.ManThongTinCaNhan;
 import com.example.md_08_ungdungfivestore.R;
@@ -76,8 +77,8 @@ public class TrangCaNhanFragment extends Fragment {
 
         // --- Nút Liên hệ ---
         btnLienHe.setOnClickListener(v -> {
-            // Nếu chưa có màn hình Liên hệ thì hiện thông báo
-            Toast.makeText(getContext(), "Chức năng Liên hệ đang phát triển", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getContext(), ManChat.class);
+            startActivity(intent);
         });
 
         // --- Nút Đăng xuất ---
