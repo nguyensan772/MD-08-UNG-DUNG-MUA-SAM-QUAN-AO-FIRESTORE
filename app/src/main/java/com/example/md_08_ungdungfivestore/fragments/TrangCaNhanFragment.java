@@ -17,7 +17,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.md_08_ungdungfivestore.DangNhap;
 import com.example.md_08_ungdungfivestore.DoiMatKhauActivity; // ⭐ Nhớ import màn hình Đổi Mật Khẩu
+
 import com.example.md_08_ungdungfivestore.ManCaiDatChung;
+
 import com.example.md_08_ungdungfivestore.ManChat;
 import com.example.md_08_ungdungfivestore.ManDonHang;
 import com.example.md_08_ungdungfivestore.ManThongTinCaNhan;
@@ -27,6 +29,7 @@ public class TrangCaNhanFragment extends Fragment {
 
     // Khai báo các nút
     private LinearLayout btnDonHang,btnCaiDatChung;
+    private LinearLayout btnDonHang;
     private LinearLayout btnThongTinCaNhan;
     private LinearLayout btnDoiMatKhau; // ⭐ Thêm nút Đổi mật khẩu
     private LinearLayout btnLienHe;
@@ -52,6 +55,7 @@ public class TrangCaNhanFragment extends Fragment {
         btnDoiMatKhau = view.findViewById(R.id.btnDoiMatKhau); // ⭐ Ánh xạ nút mới
         btnLienHe = view.findViewById(R.id.btnLienHe);
         btnDangXuat = view.findViewById(R.id.btnDangXuat);
+
         btnCaiDatChung = view.findViewById(R.id.btnCaiDatChung); // ⭐ Ánh xạ nút mới
 
 
@@ -67,6 +71,13 @@ public class TrangCaNhanFragment extends Fragment {
                 startActivity(new Intent(view.getContext(), ManCaiDatChung.class));
             }
         });
+
+        // 2. Thiết lập sự kiện Click
+        setupListeners();
+    }
+
+    private void setupListeners() {
+
         // --- Nút Đơn hàng ---
         btnDonHang.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), ManDonHang.class);
@@ -84,6 +95,8 @@ public class TrangCaNhanFragment extends Fragment {
             Intent intent = new Intent(getContext(), DoiMatKhauActivity.class);
             startActivity(intent);
         });
+
+       
 
         // --- Nút Liên hệ ---
         btnLienHe.setOnClickListener(v -> {
