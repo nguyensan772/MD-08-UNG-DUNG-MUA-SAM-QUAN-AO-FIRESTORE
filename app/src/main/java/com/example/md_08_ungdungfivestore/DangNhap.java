@@ -43,8 +43,11 @@ public class DangNhap extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dang_nhap);
         // 1. Đọc cấu hình từ bộ nhớ ngay khi App khởi động
+        //File giao diện
         SharedPreferences sharedPreferences = getSharedPreferences("AppSettingPrefs", MODE_PRIVATE);
+        //File lưu đăng nhập
         SharedPreferences sharedToken = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+
 
         boolean isNightMode = sharedPreferences.getBoolean("IsNightMode", false);
         // 2. Cài đặt chế độ ngay lập tức

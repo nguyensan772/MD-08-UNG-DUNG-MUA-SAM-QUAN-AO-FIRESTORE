@@ -1,5 +1,7 @@
 package com.example.md_08_ungdungfivestore.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -175,6 +177,9 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
     }
 
     private void setupBuyNow() {
+
+        SharedPreferences sharedDangNhap = getContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        String isLogin = sharedDangNhap.getString("isLogin","0");
         btnBuyNow.setOnClickListener(v -> {
             if (selectedColor == null || selectedSize == null) {
                 Toast.makeText(getContext(), "Vui lòng chọn size và màu", Toast.LENGTH_SHORT).show();
@@ -184,27 +189,34 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
                 Toast.makeText(getContext(), "Lỗi sản phẩm: Không có ID", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if (isLogin.equals("0")){
 
-            CartRequest cartRequest = new CartRequest(product.getId(), product.getName(), selectedSize, selectedColor, quantity, product.getPrice());
-            CartService cartService = ApiClientCart.getCartService(getContext());
-            cartService.addToCart(cartRequest).enqueue(new Callback<CartResponse>() {
-                @Override
-                public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
-                    if (response.isSuccessful()) {
-                        // Trả dữ liệu về XemChiTiet để quyết định đi đâu tiếp
-                        if (listener != null) {
-                            listener.onOptionSelected(selectedSize, selectedColor, quantity);
+                Toast.makeText(getContext(), "Vui lòng đăng nhập", Toast.LENGTH_SHORT).show();
+
+            }else {
+                CartRequest cartRequest = new CartRequest(product.getId(), product.getName(), selectedSize, selectedColor, quantity, product.getPrice());
+                CartService cartService = ApiClientCart.getCartService(getContext());
+                cartService.addToCart(cartRequest).enqueue(new Callback<CartResponse>() {
+                    @Override
+                    public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
+                        if (response.isSuccessful()) {
+                            // Trả dữ liệu về XemChiTiet để quyết định đi đâu tiếp
+                            if (listener != null) {
+                                listener.onOptionSelected(selectedSize, selectedColor, quantity);
+                            }
+                            dismiss();
+                        } else {
+                            Log.e("CartAPI", "Error Code: " + response.code());
                         }
-                        dismiss();
-                    } else {
-                        Log.e("CartAPI", "Error Code: " + response.code());
                     }
-                }
-                @Override
-                public void onFailure(Call<CartResponse> call, Throwable t) {
-                    Log.e("CartAPI", "Failure: " + t.getMessage());
-                }
-            });
+                    @Override
+                    public void onFailure(Call<CartResponse> call, Throwable t) {
+                        Log.e("CartAPI", "Failure: " + t.getMessage());
+                    }
+                });
+            }
+
+
         });
     }
 

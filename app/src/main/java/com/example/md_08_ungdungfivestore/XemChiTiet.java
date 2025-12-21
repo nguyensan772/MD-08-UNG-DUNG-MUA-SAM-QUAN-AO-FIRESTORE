@@ -1,8 +1,13 @@
 package com.example.md_08_ungdungfivestore;
 
+import static android.view.View.GONE;
+
+import android.content.Context;
 import android.content.Intent; // ⭐ IMPORT MỚI
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,9 +41,13 @@ public class XemChiTiet extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_xem_chi_tiet);
-
+        SharedPreferences sharedDangNhap = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        String isLogin = sharedDangNhap.getString("isLogin","0");
         anhXa();
 
+        if (isLogin.equals("0")){
+            btnOrderNow.setVisibility(GONE);;
+        }
         // Lấy Product từ Intent
         product = (Product) getIntent().getSerializableExtra("product");
         if (product == null) {
@@ -170,10 +179,12 @@ public class XemChiTiet extends AppCompatActivity {
 
     // ⭐ PHẦN MỚI: Tách biệt hành động cho 2 nút Giỏ hàng
     private void setupCartButtons() {
+
         // 1. Nút Thêm vào giỏ hàng: Chỉ thêm, không chuyển màn hình
         btnAddToCart.setOnClickListener(v -> openSelectOptionsBottomSheet(false));
 
         // 2. Nút Mua ngay: Thêm và chuyển sang màn hình Giỏ hàng
+
         btnOrderNow.setOnClickListener(v -> openSelectOptionsBottomSheet(true));
     }
 
@@ -182,6 +193,7 @@ public class XemChiTiet extends AppCompatActivity {
      * @param navigateToCheckout True nếu cần chuyển đến CartActivity sau khi thêm thành công (cho nút Mua ngay)
      */
     private void openSelectOptionsBottomSheet(boolean navigateToCheckout) {
+
         if (product == null) return;
 
         // Truyền tham số product, navigateToCheckout và listener
