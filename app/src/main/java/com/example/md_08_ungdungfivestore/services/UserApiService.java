@@ -1,5 +1,7 @@
 package com.example.md_08_ungdungfivestore.services;
 
+import com.example.md_08_ungdungfivestore.models.ChangePasswordRequest;
+import com.example.md_08_ungdungfivestore.models.ChangePasswordResponse;
 import com.example.md_08_ungdungfivestore.models.ProfileUpdateResponse;
 import com.example.md_08_ungdungfivestore.models.User;
 
@@ -30,6 +32,5 @@ public interface UserApiService {
      * Route: PUT /api/user/change-password
      */
     @PUT("/api/user/change-password")
-    // Giữ nguyên kiểu dữ liệu và model theo cấu trúc Request/Response của bạn
-    Call<Object> changePassword(@Body Object requestBody);
+    Call<ChangePasswordResponse> changePassword(@Body ChangePasswordRequest request);
 }

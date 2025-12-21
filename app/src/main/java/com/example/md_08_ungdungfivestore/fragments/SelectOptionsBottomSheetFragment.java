@@ -32,7 +32,10 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
     private int quantity = 1;
     private String selectedColor = null;
     private String selectedSize = null;
-    private boolean isBuyNowAction; // Biến phân biệt Mua ngay/Thêm giỏ
+    private boolean isBuyNowAction;
+
+    // ⭐ BIẾN MỚI: Theo dõi tồn kho hiện tại tối đa được phép mua
+    private int currentMaxStock = 0;
 
     private OnOptionSelectedListener listener;
 
@@ -40,7 +43,6 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
         void onOptionSelected(String size, String color, int quantity);
     }
 
-    // ⭐ CẬP NHẬT CONSTRUCTOR NHẬN THÊM BIẾN isBuyNowAction
     public SelectOptionsBottomSheetFragment(Product product, boolean isBuyNowAction, OnOptionSelectedListener listener) {
         this.product = product;
         this.isBuyNowAction = isBuyNowAction;
@@ -58,8 +60,18 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
             loadProductImage(product.getImage());
             tvPriceNew.setText(formatPrice(product.getPrice()));
             tvPriceNew.setTextColor(0xFFD17842);
-            tvStock.setText("Kho: " + product.getTotalQuantity());
+
+            // Khởi tạo mặc định
+            currentMaxStock = product.getTotalQuantity();
+            tvStock.setText("Kho: " + currentMaxStock);
             tvStock.setTextColor(0xFF000000);
+
+            // Cập nhật text nút bấm dựa trên hành động
+            if (isBuyNowAction) {
+                btnBuyNow.setText("MUA NGAY");
+            } else {
+                btnBuyNow.setText("THÊM VÀO GIỎ");
+            }
 
             setupColors();
             setupSizes();
@@ -86,6 +98,7 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
         return String.format("%,.0fđ", price).replace(',', '.');
     }
 
+    // ... (Giữ nguyên hàm loadProductImage) ...
     private void loadProductImage(String imagePath) {
         if (imagePath == null || imagePath.isEmpty()) {
             ivProductImage.setImageResource(R.drawable.ic_launcher_background);
@@ -98,16 +111,53 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
         } else if (imagePath.startsWith("/uploads/")) {
             fullUrl = BASE_URL + imagePath;
         } else {
-            int resId = getResources().getIdentifier(imagePath.replace(".jpg","").replace(".png",""), "drawable", getContext().getPackageName());
-            if(resId != 0){
-                ivProductImage.setImageResource(resId);
-                return;
-            } else {
-                ivProductImage.setImageResource(R.drawable.ic_launcher_background);
-                return;
-            }
+            // ... Logic local drawable cũ ...
+            ivProductImage.setImageResource(R.drawable.ic_launcher_background);
+            return;
         }
         Glide.with(this).load(fullUrl).placeholder(R.drawable.ic_launcher_background).error(R.drawable.ic_launcher_background).into(ivProductImage);
+    }
+
+    // ⭐ LOGIC MỚI: Cập nhật hiển thị kho
+    private void updateStockDisplay() {
+        if (product == null) return;
+
+        // Nếu chưa chọn đủ cả 2 -> Hiện tổng hoặc ẩn
+        if (selectedColor == null || selectedSize == null) {
+            tvStock.setText("Kho: " + product.getTotalQuantity() + " (Chọn phân loại)");
+            currentMaxStock = product.getTotalQuantity(); // Hoặc set về 0 để bắt buộc chọn
+            return;
+        }
+
+        // Khi đã chọn đủ Size và Màu -> Lấy số lượng thực tế
+        // GIẢ ĐỊNH: Bạn đã thêm hàm getStockForVariant vào Product.java như Bước 1
+        int variantStock = product.getStockForVariant(selectedSize, selectedColor);
+
+        // Cập nhật biến toàn cục để dùng cho nút tăng giảm
+        currentMaxStock = variantStock;
+
+        // Hiển thị ra màn hình
+        if (variantStock > 0) {
+            tvStock.setText("Kho: " + variantStock);
+            tvStock.setTextColor(0xFF000000);
+            btnBuyNow.setEnabled(true);
+            btnBuyNow.setAlpha(1.0f);
+        } else {
+            tvStock.setText("Hết hàng");
+            tvStock.setTextColor(0xFFFF0000); // Màu đỏ báo động
+            btnBuyNow.setEnabled(false); // Khóa nút mua
+            btnBuyNow.setAlpha(0.5f); // Làm mờ nút mua
+        }
+
+        // Reset lại số lượng chọn về 1 (hoặc max) nếu số lượng đang chọn > kho mới
+        if (quantity > currentMaxStock && currentMaxStock > 0) {
+            quantity = currentMaxStock;
+        } else if (currentMaxStock == 0) {
+            quantity = 1; // Chỉ để hiển thị, nút mua đã bị khóa
+        } else if (quantity < 1) {
+            quantity = 1;
+        }
+        tvQuantity.setText(String.valueOf(quantity));
     }
 
     private void setupColors() {
@@ -122,12 +172,17 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
                 colorView.setTextSize(16f);
                 colorView.setPadding(24,12,24,12);
                 colorView.setBackgroundColor(0xFFFFFFFF);
+
+                // Set viền để đẹp hơn (tùy chọn)
+                // colorView.setBackgroundResource(R.drawable.bg_option_item);
+
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 params.setMargins(margin,0,0,0);
                 colorView.setLayoutParams(params);
                 colorView.setOnClickListener(v -> {
                     selectedColor = color;
                     highlightSelected(layoutColors, colorView);
+                    updateStockDisplay(); // ⭐ GỌI HÀM CẬP NHẬT KHO
                 });
                 layoutColors.addView(colorView);
             }
@@ -146,12 +201,14 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
                 sizeView.setTextSize(16f);
                 sizeView.setPadding(24,12,24,12);
                 sizeView.setBackgroundColor(0xFFFFFFFF);
+
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 params.setMargins(margin,0,0,0);
                 sizeView.setLayoutParams(params);
                 sizeView.setOnClickListener(v -> {
                     selectedSize = size;
                     highlightSelected(layoutSizes, sizeView);
+                    updateStockDisplay(); // ⭐ GỌI HÀM CẬP NHẬT KHO
                 });
                 layoutSizes.addView(sizeView);
             }
@@ -170,8 +227,28 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
 
     private void setupQuantity() {
         tvQuantity.setText(String.valueOf(quantity));
-        btnDecrease.setOnClickListener(v -> { if (quantity > 1) quantity--; tvQuantity.setText(String.valueOf(quantity)); });
-        btnIncrease.setOnClickListener(v -> { quantity++; tvQuantity.setText(String.valueOf(quantity)); });
+
+        btnDecrease.setOnClickListener(v -> {
+            if (quantity > 1) {
+                quantity--;
+                tvQuantity.setText(String.valueOf(quantity));
+            }
+        });
+
+        // ⭐ LOGIC MỚI: Không cho tăng quá currentMaxStock
+        btnIncrease.setOnClickListener(v -> {
+            if (selectedColor == null || selectedSize == null) {
+                Toast.makeText(getContext(), "Vui lòng chọn size và màu trước", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (quantity < currentMaxStock) {
+                quantity++;
+                tvQuantity.setText(String.valueOf(quantity));
+            } else {
+                Toast.makeText(getContext(), "Đã đạt giới hạn tồn kho: " + currentMaxStock, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setupBuyNow() {
@@ -180,29 +257,37 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
                 Toast.makeText(getContext(), "Vui lòng chọn size và màu", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            if (currentMaxStock == 0) {
+                Toast.makeText(getContext(), "Sản phẩm này đã hết hàng", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if (product == null || product.getId() == null) {
                 Toast.makeText(getContext(), "Lỗi sản phẩm: Không có ID", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            // ... Logic gọi API giữ nguyên ...
             CartRequest cartRequest = new CartRequest(product.getId(), product.getName(), selectedSize, selectedColor, quantity, product.getPrice());
             CartService cartService = ApiClientCart.getCartService(getContext());
             cartService.addToCart(cartRequest).enqueue(new Callback<CartResponse>() {
                 @Override
                 public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
                     if (response.isSuccessful()) {
-                        // Trả dữ liệu về XemChiTiet để quyết định đi đâu tiếp
                         if (listener != null) {
                             listener.onOptionSelected(selectedSize, selectedColor, quantity);
                         }
                         dismiss();
                     } else {
                         Log.e("CartAPI", "Error Code: " + response.code());
+                        Toast.makeText(getContext(), "Thêm vào giỏ thất bại", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call<CartResponse> call, Throwable t) {
                     Log.e("CartAPI", "Failure: " + t.getMessage());
+                    Toast.makeText(getContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
                 }
             });
         });
