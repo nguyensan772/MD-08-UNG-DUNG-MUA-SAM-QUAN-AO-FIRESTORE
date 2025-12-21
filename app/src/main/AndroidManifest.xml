@@ -27,6 +27,9 @@
             android:name=".ManThongTinCaNhan"
             android:exported="false" />
         <activity
+            android:name=".ManCaiDatChung"
+            android:exported="false" />
+        <activity
             android:name=".ManChiTietDonHang"
             android:exported="false" />
         <activity

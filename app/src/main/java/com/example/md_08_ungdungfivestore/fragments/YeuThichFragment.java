@@ -108,7 +108,12 @@ public class YeuThichFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        loadFavoriteProducts();
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+
+        if (sharedPreferences.getString("isLogin","0").equals("1")){
+            loadFavoriteProducts();
+        }
+
     }
 
     private void updateEmptyView() {
