@@ -58,4 +58,6 @@ dependencies {
     // Gson Converter (Bắt buộc để xử lý JSON)
     implementation(libs.gson)
     implementation(libs.converter.gson)
+
+    implementation("com.google.code.gson:gson:2.10.1")
 }

@@ -2,8 +2,10 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.MD08_UngDungFiveStore" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Màu chủ đề chính -->
-        <item name="colorPrimary">@color/ChuDe</item>
+        <item name="colorPrimary">@color/mauNen</item>
+<!--        Màu chữ-->
         <item name="colorOnPrimary">@color/white</item>
+
 
         <!-- Màu hint cho TextInputLayout -->
         <item name="hintTextColor">@color/XamNhat</item>
@@ -18,9 +20,11 @@
         <item name="colorOnSurface">@color/white</item>
 
         <item name="colorControlNormal">@color/white</item>
-        <item name="colorOnSurface">@color/white</item>
+
 
     </style>
 
-    <style name="Theme.MD08_UngDungFiveStore" parent="Base.Theme.MD08_UngDungFiveStore" />
+
+
+
 </resources>

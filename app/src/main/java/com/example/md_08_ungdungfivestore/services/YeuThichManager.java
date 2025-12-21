@@ -40,7 +40,7 @@ public class YeuThichManager {
     }
 
     public void getMyWishlist(CallbackMap callback) {
-        Log.d(TAG, "Requesting URL: " + service.getMyWishlist().request().url().toString());
+
 
         service.getMyWishlist().enqueue(new Callback<Map<String, Object>>() {
             @Override
