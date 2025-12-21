@@ -1,7 +1,9 @@
 package com.example.md_08_ungdungfivestore;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,12 +16,14 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.md_08_ungdungfivestore.fragments.DialogDangNhap;
 import com.example.md_08_ungdungfivestore.fragments.GioHangFragment;
 import com.example.md_08_ungdungfivestore.fragments.TrangCaNhanFragment;
 import com.example.md_08_ungdungfivestore.fragments.TrangChuFragment;
@@ -75,8 +79,10 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         anhXa();
+        SharedPreferences sharedPreferences =getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+
+
         setupSocket();
 
         setSupportActionBar(toolbar);
@@ -87,7 +93,12 @@ public class MainActivity extends AppCompatActivity {
 
         // XỬ LÝ CLICK ICON USER
         iconUser.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, ManThongTinCaNhan.class));
+            if(sharedPreferences.getString("isLogin", "0").equals("0")){
+                showLogoutDialog();
+            }else{
+                startActivity(new Intent(MainActivity.this, ManThongTinCaNhan.class));
+            }
+
         });
 
         // ⭐ XỬ LÝ CLICK ICON CHUÔNG (RESET SỐ) ⭐
@@ -112,11 +123,33 @@ public class MainActivity extends AppCompatActivity {
                 taiFragment(gioHangFragment);
                 tieuDe.setText("Giỏ hàng");
             } else if (id == R.id.navNguoiDung) {
-                taiFragment(trangCaNhanFragment);
+               taiFragment(trangCaNhanFragment);
                 tieuDe.setText("Người dùng");
+
             }
             return true;
         });
+    }
+    private void showLogoutDialog() {
+        DialogDangNhap dialog = DialogDangNhap.newInstance(
+                "Đăng nhập",
+                "Bạn có chắc chắn muốn đăng nhập không?",
+                new DialogDangNhap.OnDialogAction() {
+                    @Override
+                    public void onConfirm() {
+                        startActivity(new Intent(MainActivity.this, DangNhap.class));
+                    finish();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                }
+        );
+
+        // Hiển thị Dialog
+        dialog.show(getSupportFragmentManager(), "custom_dialog");
     }
 
     private void setupSocket() {

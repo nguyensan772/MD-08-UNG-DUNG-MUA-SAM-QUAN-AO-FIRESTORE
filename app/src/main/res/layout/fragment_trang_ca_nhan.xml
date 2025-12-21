@@ -101,6 +101,38 @@
                 app:tint="@color/white" />
         </LinearLayout>
 
+<!--        Cài đặt chung-->
+        <LinearLayout
+            android:id="@+id/btnCaiDatChung"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingVertical="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_info"
+                app:tint="#D17842" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Cài đặt chung"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_next"
+                app:tint="@color/white" />
+        </LinearLayout>
+
         <!-- Liên hệ -->
         <LinearLayout
             android:id="@+id/btnLienHe"
@@ -149,12 +181,46 @@
                 app:tint="#D17842" />
 
             <TextView
+                android:id="@+id/textBtnDangXuat"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/poppins_medium"
                 android:text="Đăng xuất"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_next"
+                app:tint="@color/white" />
+        </LinearLayout>
+
+
+        <!-- Đăng nhập -->
+        <LinearLayout
+            android:id="@+id/btnDangNhapCaiDat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingVertical="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_logout"
+                app:tint="#D17842" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Đăng nhập"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 

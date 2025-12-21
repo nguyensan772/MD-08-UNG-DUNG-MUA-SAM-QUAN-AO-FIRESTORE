@@ -1,13 +1,18 @@
 package com.example.md_08_ungdungfivestore;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.md_08_ungdungfivestore.models.AuthResponse;
 import com.example.md_08_ungdungfivestore.models.LoginRequest;
@@ -23,24 +28,50 @@ public class DangNhap extends AppCompatActivity {
 
     private EditText edtEmail, edtPassword;
     private TextView btnLogin, tvRegister;
+    private LinearLayout btnKhachVangLai;
     private TextView tvResetDangNhap;
-    // private SharedPreferences sharedPreferences; // ❌ KHÔNG CẦN DÙNG TRỰC TIẾP NỮA
 
+    private CheckBox cbLuu;
+    // private SharedPreferences sharedPreferences; // ❌ KHÔNG CẦN DÙNG TRỰC TIẾP NỮA
+// if (sharedToken.getString("isChecked", "0").equals("1")) {
+//        Intent intent = new Intent(DangNhap.this, MainActivity.class);
+//        startActivity(intent);
+//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dang_nhap);
+        // 1. Đọc cấu hình từ bộ nhớ ngay khi App khởi động
+        SharedPreferences sharedPreferences = getSharedPreferences("AppSettingPrefs", MODE_PRIVATE);
+        SharedPreferences sharedToken = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
+        boolean isNightMode = sharedPreferences.getBoolean("IsNightMode", false);
+        // 2. Cài đặt chế độ ngay lập tức
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+
+
+
+        // Ánh xạ các thành phần giao diện (Views)
         // Gán biến với layout
         edtEmail = findViewById(R.id.edtEmailDangNhap);
         edtPassword = findViewById(R.id.matKhauDangNhapTextInputEditText);
         btnLogin = findViewById(R.id.nutDangnhapvSignInTextView);
+        btnKhachVangLai = findViewById(R.id.btnGoogleDangNhap);
         tvRegister = findViewById(R.id.tvRegisterDangNhap);
         tvResetDangNhap = findViewById(R.id.tvResetDangNhap);
+        cbLuu = findViewById(R.id.cbRemember);
+
 
         // sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE); // ❌ Bỏ qua dòng này
 
         // Xử lý sự kiện Đăng nhập
+
         btnLogin.setOnClickListener(v -> {
             String email = edtEmail.getText().toString().trim();
             String password = edtPassword.getText().toString().trim();
@@ -80,6 +111,16 @@ public class DangNhap extends AppCompatActivity {
 
             // Nếu hợp lệ, gọi API login
             loginUser(email, password);
+
+
+            SharedPreferences.Editor editor = sharedToken.edit();
+            //Lưu đăng nhập
+            if (cbLuu.isChecked()){
+                editor.putString("isChecked", "1");
+                editor.apply();
+            }
+            editor.putString("isLogin", "1");
+            editor.apply();
         });
 
         // Xử lý sự kiện Đăng ký
@@ -89,8 +130,23 @@ public class DangNhap extends AppCompatActivity {
 
         // XỬ LÝ SỰ KIỆN ĐỔI MẬT KHẨU (QUÊN MẬT KHẨU)
         tvResetDangNhap.setOnClickListener(v -> {
-            startActivity(new Intent(DangNhap.this, com.example.md_08_ungdungfivestore.RequestOtpActivity.class));
+           startActivity(new Intent(DangNhap.this, com.example.md_08_ungdungfivestore.RequestOtpActivity.class));
+
+
         });
+
+        btnKhachVangLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = sharedToken.edit();
+                editor.putString("isLogin", "0");
+                editor.apply();
+                startActivity(new Intent(DangNhap.this, MainActivity.class));
+            }
+        });
+
+
+
     }
 
     private void loginUser(String email, String password){

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.md_08_ungdungfivestore.DangNhap; // Màn hình Đăng nhập
+import com.example.md_08_ungdungfivestore.ManCaiDatChung;
 import com.example.md_08_ungdungfivestore.ManThongTinCaNhan; // Màn hình Thông tin cá nhân
 import com.example.md_08_ungdungfivestore.ManDonHang; // ⭐ Cần tạo/import Activity Đơn hàng ⭐
 import com.example.md_08_ungdungfivestore.R;
@@ -23,7 +25,8 @@ import com.example.md_08_ungdungfivestore.R;
 // Giả định tên fragment của bạn
 public class TrangCaNhanFragment extends Fragment {
 
-    private LinearLayout btnDangXuat;
+    private LinearLayout btnDangXuat, btnCaiDatChung, btnDangNhap;
+    TextView textDangXuat;
     private LinearLayout btnDonHang; // ⭐ Khai báo nút Đơn hàng ⭐
     private LinearLayout btnThongTinCaNhan; // Khai báo nút Thông tin cá nhân
 
@@ -41,18 +44,42 @@ public class TrangCaNhanFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        String isChecked = sharedPreferences.getString("isLogin", "0");
+
+
 
         // 1. Ánh xạ các nút
         btnDangXuat = view.findViewById(R.id.btnDangXuat);
+        textDangXuat = view.findViewById(R.id.textBtnDangXuat);
+        btnCaiDatChung = view.findViewById(R.id.btnCaiDatChung);
         btnThongTinCaNhan = view.findViewById(R.id.btnThongTinCaNhan);
         btnDonHang = view.findViewById(R.id.btnDonHang); // ⭐ Ánh xạ nút Đơn hàng ⭐
+        btnDangNhap = view.findViewById(R.id.btnDangNhapCaiDat);
+
+
+        if (isChecked .equals("0")){
+            btnDangXuat.setVisibility(View.GONE);
+        }else {
+            btnDangNhap.setVisibility(View.GONE);
+        }
+
 
         // 2. Thiết lập sự kiện Click cho nút Đăng xuất
         btnDangXuat.setOnClickListener(v -> showLogoutConfirmationDialog());
 
         // 3. Xử lý click cho nút "Thông tin cá nhân"
         btnThongTinCaNhan.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ManThongTinCaNhan.class);
+            if (isChecked.equals("0")){
+                showLogoutDialog();
+            }else {
+                Intent intent = new Intent(getActivity(), ManThongTinCaNhan.class);
+                startActivity(intent);
+            }
+        });
+
+        btnCaiDatChung.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), ManCaiDatChung.class);
             startActivity(intent);
         });
 
@@ -61,6 +88,14 @@ public class TrangCaNhanFragment extends Fragment {
             // ⭐ Chuyển đến Activity quản lý đơn hàng
             Intent intent = new Intent(getActivity(), ManDonHang.class);
             startActivity(intent);
+        });
+
+        //Button Dăng nhập
+        btnDangNhap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), DangNhap.class));
+            }
         });
 
         // (Nếu có nút Liên hệ, bạn cũng có thể thêm ở đây)
@@ -88,11 +123,12 @@ public class TrangCaNhanFragment extends Fragment {
         // 1. Xóa JWT Token và User ID khỏi SharedPreferences (Giả định lưu ở đây)
         Context context = getContext();
         if (context != null) {
-            SharedPreferences prefs = context.getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+            SharedPreferences prefs = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
 
-            editor.remove("jwt_token");
-            editor.remove("userId");
+            editor.remove("token");
+            editor.putString("isChecked","0");
+            editor.putString("isLogin","0");
             editor.apply();
 
             Toast.makeText(context, "Đã đăng xuất thành công.", Toast.LENGTH_SHORT).show();
@@ -103,5 +139,26 @@ public class TrangCaNhanFragment extends Fragment {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
+    }
+    private void showLogoutDialog() {
+        DialogDangNhap dialog = DialogDangNhap.newInstance(
+                "Đăng nhập",
+                "Bạn có chắc chắn muốn đăng nhập không?",
+                new DialogDangNhap.OnDialogAction() {
+                    @Override
+                    public void onConfirm() {
+                        startActivity(new Intent(getContext(), DangNhap.class));
+                        getActivity().finish();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                }
+        );
+
+        // Hiển thị Dialog
+        dialog.show(getActivity().getSupportFragmentManager(), "custom_dialog");
     }
 }
