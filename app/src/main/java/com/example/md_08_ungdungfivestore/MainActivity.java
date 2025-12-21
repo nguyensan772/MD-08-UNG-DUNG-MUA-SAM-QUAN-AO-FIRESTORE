@@ -1,9 +1,7 @@
 package com.example.md_08_ungdungfivestore;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,14 +14,12 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.md_08_ungdungfivestore.fragments.DialogDangNhap;
 import com.example.md_08_ungdungfivestore.fragments.GioHangFragment;
 import com.example.md_08_ungdungfivestore.fragments.TrangCaNhanFragment;
 import com.example.md_08_ungdungfivestore.fragments.TrangChuFragment;
@@ -33,29 +29,32 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONObject;
 
-import io.socket.client.IO;
-import io.socket.client.Socket;
 import java.net.URISyntaxException;
 
+import io.socket.client.IO;
+import io.socket.client.Socket;
+
 public class MainActivity extends AppCompatActivity {
-    FrameLayout layout;
-    BottomNavigationView menu;
-    Toolbar toolbar;
-    TextView tieuDe, tvNotificationCount;
 
-    ImageView iconUser, iconBell;
+    // Khai báo View
+    private FrameLayout layout;
+    private BottomNavigationView menu;
+    private Toolbar toolbar;
+    private TextView tieuDe, tvNotificationCount;
+    private ImageView iconUser, iconBell;
+    private FrameLayout layoutBell;
 
-    // Biến Socket
+    // Biến Socket và đếm thông báo
     private Socket mSocket;
-
-    // ⭐ BIẾN ĐẾM THÔNG BÁO CHƯA ĐỌC ⭐
     private int countNotif = 0;
 
+    // Khai báo các Fragment
     private final GioHangFragment gioHangFragment = new GioHangFragment();
     private final TrangChuFragment trangChuFragment = new TrangChuFragment();
     private final YeuThichFragment yeuThichFragment = new YeuThichFragment();
     private final TrangCaNhanFragment trangCaNhanFragment = new TrangCaNhanFragment();
 
+    // Launcher xử lý kết quả
     private final ActivityResultLauncher<Intent> checkoutResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -79,37 +78,44 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // 1. Ánh xạ View
         anhXa();
-        SharedPreferences sharedPreferences =getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
 
+        // 2. Thiết lập Toolbar
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
+        // 3. Kết nối Socket.io
         setupSocket();
 
-        setSupportActionBar(toolbar);
+        // --- ĐÃ TẮT CHẾ ĐỘ DEMO ĐỂ TEST THẬT ---
+        // countNotif = 5;
+        updateBadgeDisplay();
+        // ----------------------------------------
+
+        // 4. Load Fragment mặc định
         if (savedInstanceState == null) {
             taiFragment(trangChuFragment);
+            tieuDe.setText("Trang Chủ");
         }
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        // XỬ LÝ CLICK ICON USER
+        // --- CÁC SỰ KIỆN CLICK ---
         iconUser.setOnClickListener(v -> {
-            if(sharedPreferences.getString("isLogin", "0").equals("0")){
-                showLogoutDialog();
-            }else{
-                startActivity(new Intent(MainActivity.this, ManThongTinCaNhan.class));
-            }
-
-        });
-
-        // ⭐ XỬ LÝ CLICK ICON CHUÔNG (RESET SỐ) ⭐
-        iconBell.setOnClickListener(v -> {
-            countNotif = 0; // Reset biến đếm
-            tvNotificationCount.setText("0");
-            tvNotificationCount.setVisibility(View.GONE); // Ẩn số đi
-
-            Intent intent = new Intent(MainActivity.this, ManThongBao.class);
+            Intent intent = new Intent(MainActivity.this, ManThongTinCaNhan.class);
             startActivity(intent);
         });
+
+        View.OnClickListener notificationClickListener = v -> {
+            countNotif = 0; // Reset số
+            updateBadgeDisplay();
+            Intent intent = new Intent(MainActivity.this, ManThongBao.class);
+            startActivity(intent);
+        };
+        if (iconBell != null) iconBell.setOnClickListener(notificationClickListener);
+        if (layoutBell != null) layoutBell.setOnClickListener(notificationClickListener);
 
         menu.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
@@ -123,63 +129,75 @@ public class MainActivity extends AppCompatActivity {
                 taiFragment(gioHangFragment);
                 tieuDe.setText("Giỏ hàng");
             } else if (id == R.id.navNguoiDung) {
-               taiFragment(trangCaNhanFragment);
+                taiFragment(trangCaNhanFragment);
                 tieuDe.setText("Người dùng");
-
             }
             return true;
         });
     }
-    private void showLogoutDialog() {
-        DialogDangNhap dialog = DialogDangNhap.newInstance(
-                "Đăng nhập",
-                "Bạn có chắc chắn muốn đăng nhập không?",
-                new DialogDangNhap.OnDialogAction() {
-                    @Override
-                    public void onConfirm() {
-                        startActivity(new Intent(MainActivity.this, DangNhap.class));
-                    finish();
-                    }
 
-                    @Override
-                    public void onCancel() {
-
-                    }
-                }
-        );
-
-        // Hiển thị Dialog
-        dialog.show(getSupportFragmentManager(), "custom_dialog");
-    }
-
+    // --- ⭐ HÀM KHỞI TẠO SOCKET (ĐÃ SỬA) ⭐ ---
     private void setupSocket() {
         try {
-            // Đảm bảo URL này khớp với Node.js của bạn
+            // ⚠️ LƯU Ý: Nếu chạy máy ảo dùng 10.0.2.2. Nếu chạy điện thoại thật phải dùng IP LAN (ví dụ 192.168.1.x)
             mSocket = IO.socket("http://10.0.2.2:5001");
-            mSocket.connect();
 
-            String token = AuthManager.getToken(this);
-            if (token != null) {
-                mSocket.emit("register", token);
-            }
+            // 1. Lắng nghe sự kiện kết nối thành công
+            mSocket.on(Socket.EVENT_CONNECT, args -> {
+                Log.d("SOCKET_CHECK", "✅ Đã kết nối thành công tới Server!");
 
+                // ⭐ QUAN TRỌNG: Gửi UserID thay vì Token
+                // Bạn cần đảm bảo AuthManager có hàm lấy UserId.
+                // Nếu chưa có hàm getUserId(), hãy tạm thời copy cứng ID từ MongoDB vào đây để test:
+                // String userId = "65a...";
+
+                String userId = AuthManager.getUserId(this); // <-- Sửa dòng này
+
+                if (userId != null) {
+                    mSocket.emit("register", userId);
+                    Log.d("SOCKET_CHECK", "Đã gửi lệnh register với UserID: " + userId);
+                } else {
+                    Log.e("SOCKET_CHECK", "⚠️ Không tìm thấy UserID! Socket sẽ không nhận được thông báo.");
+                }
+            });
+
+            // Lắng nghe lỗi kết nối
+            mSocket.on(Socket.EVENT_CONNECT_ERROR, args -> {
+                Log.e("SOCKET_CHECK", "❌ Lỗi kết nối Socket: " + args[0]);
+            });
+
+            // 2. Lắng nghe sự kiện "new_notification" từ Server
             mSocket.on("new_notification", args -> {
+                Log.d("SOCKET_CHECK", "🔔 Đã nhận được thông báo từ Server!");
                 runOnUiThread(() -> {
-                    // ⭐ LOGIC NẢY SỐ ⭐
+                    // Tăng số lượng và cập nhật UI
                     countNotif++;
-                    tvNotificationCount.setText(String.valueOf(countNotif));
-                    tvNotificationCount.setVisibility(View.VISIBLE);
+                    updateBadgeDisplay();
 
                     try {
                         JSONObject data = (JSONObject) args[0];
-                        Toast.makeText(this, "🔔 " + data.getString("title"), Toast.LENGTH_LONG).show();
+                        String title = data.has("title") ? data.getString("title") : "Thông báo mới";
+                        Toast.makeText(this, "🔔 " + title, Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 });
             });
+
+            mSocket.connect();
+
         } catch (URISyntaxException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void updateBadgeDisplay() {
+        if (tvNotificationCount == null) return;
+        if (countNotif > 0) {
+            tvNotificationCount.setVisibility(View.VISIBLE);
+            tvNotificationCount.setText(countNotif > 99 ? "99+" : String.valueOf(countNotif));
+        } else {
+            tvNotificationCount.setVisibility(View.GONE);
         }
     }
 
@@ -189,13 +207,15 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolBarTrangChu);
         tieuDe = findViewById(R.id.tieuDeTextView);
         iconUser = findViewById(R.id.iconUser);
+        layoutBell = findViewById(R.id.layoutBell);
         iconBell = findViewById(R.id.iconBell);
         tvNotificationCount = findViewById(R.id.tvNotificationCount);
     }
 
     public void taiFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.trangChuFrameLayout, fragment).commit();
+                .replace(R.id.trangChuFrameLayout, fragment)
+                .commit();
     }
 
     public ActivityResultLauncher<Intent> getCheckoutResultLauncher() {
@@ -207,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         if (mSocket != null) {
             mSocket.disconnect();
-            mSocket.off();
+            mSocket.off("new_notification");
         }
     }
 }

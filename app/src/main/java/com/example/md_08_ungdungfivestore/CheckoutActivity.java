@@ -1,6 +1,5 @@
 package com.example.md_08_ungdungfivestore;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -9,25 +8,26 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.util.Log;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.md_08_ungdungfivestore.models.Address;
 import com.example.md_08_ungdungfivestore.models.CartItem;
 import com.example.md_08_ungdungfivestore.models.CartResponse;
+import com.example.md_08_ungdungfivestore.models.OrderItemRequest;
 import com.example.md_08_ungdungfivestore.models.OrderRequest;
 import com.example.md_08_ungdungfivestore.models.OrderResponse;
-import com.example.md_08_ungdungfivestore.models.OrderItemRequest;
 import com.example.md_08_ungdungfivestore.models.User;
 import com.example.md_08_ungdungfivestore.services.ApiClientCart;
 import com.example.md_08_ungdungfivestore.services.ApiClientYeuThich;
 import com.example.md_08_ungdungfivestore.services.ApiPaymentService;
-import com.example.md_08_ungdungfivestore.services.VNPayResponse;
 import com.example.md_08_ungdungfivestore.services.CartService;
 import com.example.md_08_ungdungfivestore.services.OrderService;
 import com.example.md_08_ungdungfivestore.services.UserApiService;
+import com.example.md_08_ungdungfivestore.services.VNPayResponse;
 import com.example.md_08_ungdungfivestore.utils.OrderManager;
 
 import java.util.ArrayList;
@@ -46,20 +46,39 @@ public class CheckoutActivity extends AppCompatActivity {
     private Button btnPlaceOrder;
     private TextView tvSubtotal, tvShippingFee, tvTotalAmount;
 
-    // ⭐ SỬA TẠI ĐÂY: Thêm RadioGroup phương thức thanh toán
     private RadioGroup rgPaymentMethod;
     private RadioButton rbCash, rbVNPay;
 
     private OrderManager orderManager;
     private CartService cartService;
     private UserApiService userService;
-    // ⭐ SỬA TẠI ĐÂY: Thêm service thanh toán
     private ApiPaymentService apiPaymentService;
 
     private List<OrderItemRequest> orderItemsToSubmit = new ArrayList<>();
     private final double SHIPPING_FEE = 30000;
     private double currentTotalAmount = 0;
     private boolean isBuyNow = false;
+
+    // --- KHAI BÁO LAUNCHER ĐỂ NHẬN KẾT QUẢ TỪ VNPAY ---
+    private final ActivityResultLauncher<Intent> vnpayLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    // Thanh toán THÀNH CÔNG và đã xóa giỏ hàng bên VNPayActivity
+                    Intent data = result.getData();
+                    String orderId = data != null ? data.getStringExtra("ORDER_ID") : "";
+
+                    Intent intent = new Intent(CheckoutActivity.this, OrderSuccessActivity.class);
+                    intent.putExtra("orderId", orderId);
+                    startActivity(intent);
+                    finish(); // Đóng CheckoutActivity
+                } else {
+                    // Thanh toán BỊ HỦY hoặc THẤT BẠI
+                    Toast.makeText(this, "Giao dịch đã bị hủy hoặc thất bại", Toast.LENGTH_SHORT).show();
+                    btnPlaceOrder.setEnabled(true); // Cho phép ấn lại nút đặt hàng
+                }
+            }
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +91,6 @@ public class CheckoutActivity extends AppCompatActivity {
         orderManager = new OrderManager(orderService);
         cartService = ApiClientCart.getCartService(this);
         userService = ApiClientYeuThich.getClient(this).create(UserApiService.class);
-
-        // ⭐ SỬA TẠI ĐÂY: Khởi tạo ApiPaymentService
         apiPaymentService = ApiClientYeuThich.getClient(this).create(ApiPaymentService.class);
 
         btnPlaceOrder.setEnabled(false);
@@ -100,14 +117,10 @@ public class CheckoutActivity extends AppCompatActivity {
         tvSubtotal = findViewById(R.id.tvSubtotal);
         tvShippingFee = findViewById(R.id.tvShippingFee);
         tvTotalAmount = findViewById(R.id.tvTotalAmount);
-
-        // ⭐ SỬA TẠI ĐÂY: Ánh xạ RadioGroup
         rgPaymentMethod = findViewById(R.id.rgPaymentMethod);
         rbCash = findViewById(R.id.rbCash);
         rbVNPay = findViewById(R.id.rbVNPay);
     }
-
-    // ... (Giữ nguyên các hàm setupBuyNowItem, fetchCartItems, updateUI, fetchUserProfile) ...
 
     private void setupBuyNowItem() {
         String productId = getIntent().getStringExtra("PRODUCT_ID");
@@ -175,7 +188,6 @@ public class CheckoutActivity extends AppCompatActivity {
         });
     }
 
-    // ⭐ SỬA TẠI ĐÂY: Hàm đặt hàng hỗ trợ cả 2 phương thức
     private void placeOrder() {
         String name = edtName.getText().toString().trim();
         String phone = edtPhone.getText().toString().trim();
@@ -189,7 +201,6 @@ public class CheckoutActivity extends AppCompatActivity {
             return;
         }
 
-        // Kiểm tra phương thức thanh toán
         String method = "cash";
         if (rgPaymentMethod.getCheckedRadioButtonId() == R.id.rbVNPay) {
             method = "vnpay";
@@ -212,13 +223,16 @@ public class CheckoutActivity extends AppCompatActivity {
             apiPaymentService.createVNPayOrder(request).enqueue(new Callback<VNPayResponse>() {
                 @Override
                 public void onResponse(Call<VNPayResponse> call, Response<VNPayResponse> response) {
-                    btnPlaceOrder.setEnabled(true);
+                    // Chưa bật lại nút PlaceOrder vội, chờ kết quả từ Activity con
                     if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                        // Mở WebView VNPay
+
+                        // Thay vì startActivity, dùng vnpayLauncher
                         Intent intent = new Intent(CheckoutActivity.this, VNPayActivity.class);
                         intent.putExtra("PAYMENT_URL", response.body().getPaymentUrl());
-                        startActivity(intent);
+                        vnpayLauncher.launch(intent);
+
                     } else {
+                        btnPlaceOrder.setEnabled(true);
                         Toast.makeText(CheckoutActivity.this, "Lỗi tạo đơn hàng VNPay", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -229,7 +243,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 }
             });
         } else {
-            // GỌI API TIỀN MẶT (CŨ)
+            // GỌI API TIỀN MẶT
             orderManager.createOrder(request, new OrderManager.OrderCallback() {
                 @Override
                 public void onSuccess(OrderResponse orderResponse) {

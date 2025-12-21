@@ -1,13 +1,13 @@
 package com.example.md_08_ungdungfivestore.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,8 +21,8 @@ import java.util.List;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder> {
 
-    // 🌟 BASE URL ĐÃ ĐƯỢC THÊM VÀO ĐỂ TẢI HÌNH ẢNH TỪ SERVER
-    private static final String BASE_IMAGE_URL = "http://10.0.2.2:5001";
+    // URL Server gốc
+    private static final String BASE_URL = "http://10.0.2.2:5001";
 
     private Context context;
     private List<Product> productList;
@@ -51,25 +51,49 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     public void onBindViewHolder(@NonNull FavoriteViewHolder holder, int position) {
         Product product = productList.get(position);
         holder.tvName.setText(product.getName());
-        holder.tvPrice.setText(String.format("%,d đ", (int) product.getPrice())); // Định dạng lại giá tiền cho dễ nhìn
 
-        // 🛠️ ĐIỂM SỬA LỖI: Nối Base URL để tạo URL hoàn chỉnh
+        // Định dạng giá tiền
+        holder.tvPrice.setText(String.format("%,d đ", (int) product.getPrice()));
+
+        // --- XỬ LÝ ẢNH (LOGIC MỚI) ---
         String imagePath = product.getImage();
 
         if (imagePath != null && !imagePath.isEmpty()) {
-            // Tạo URL hoàn chỉnh
-            String fullImageUrl = BASE_IMAGE_URL + imagePath;
+            String fullImageUrl;
+
+            // Trường hợp 1: Ảnh là link online (Cloudinary, Firebase...)
+            if (imagePath.startsWith("http")) {
+                fullImageUrl = imagePath;
+            }
+            // Trường hợp 2: Ảnh lưu local server
+            else {
+                // Xóa dấu gạch chéo đầu nếu có để tránh thành //uploads
+                String cleanPath = imagePath.startsWith("/") ? imagePath.substring(1) : imagePath;
+
+                // Kiểm tra xem trong DB lưu có chữ "uploads" chưa
+                if (cleanPath.startsWith("uploads")) {
+                    // Nếu có rồi: http://...:5001/uploads/anh.jpg
+                    fullImageUrl = BASE_URL + "/" + cleanPath;
+                } else {
+                    // Nếu chưa có: http://...:5001/uploads/anh.jpg
+                    fullImageUrl = BASE_URL + "/uploads/" + cleanPath;
+                }
+            }
+
+            // In Log để kiểm tra xem đường dẫn đúng chưa (Xem trong Logcat)
+            Log.d("FavoriteAdapter", "Link ảnh cuối cùng: " + fullImageUrl);
 
             Glide.with(context)
-                    .load(fullImageUrl) // SỬ DỤNG URL HOÀN CHỈNH ĐỂ TẢI ẢNH
-                    .placeholder(R.drawable.ic_kids1) // Bạn thay bằng ảnh placeholder phù hợp
-                    .error(R.drawable.ic_launcher_background) // Ảnh hiển thị khi lỗi tải
+                    .load(fullImageUrl)
+                    .placeholder(R.drawable.avatar_img) // Đổi thành ảnh chờ của bạn
+                    .error(R.drawable.ic_error)           // Đổi thành icon lỗi của bạn
                     .into(holder.ivProduct);
         } else {
-            // Hiển thị ảnh mặc định nếu không có đường dẫn ảnh
-            holder.ivProduct.setImageResource(R.drawable.ic_kids1);
+            // Không có link ảnh trong DB
+            holder.ivProduct.setImageResource(R.drawable.avatar_img);
         }
 
+        // Sự kiện click nút tim (Xóa yêu thích)
         holder.btnFavorite.setOnClickListener(v -> {
             if (onFavoriteClickListener != null) {
                 onFavoriteClickListener.onFavoriteClick(product);

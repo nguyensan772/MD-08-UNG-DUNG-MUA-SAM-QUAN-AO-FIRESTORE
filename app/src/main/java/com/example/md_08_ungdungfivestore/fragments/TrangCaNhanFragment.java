@@ -9,26 +9,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.md_08_ungdungfivestore.DangNhap; // Màn hình Đăng nhập
-import com.example.md_08_ungdungfivestore.ManCaiDatChung;
-import com.example.md_08_ungdungfivestore.ManThongTinCaNhan; // Màn hình Thông tin cá nhân
-import com.example.md_08_ungdungfivestore.ManDonHang; // ⭐ Cần tạo/import Activity Đơn hàng ⭐
+import com.example.md_08_ungdungfivestore.DangNhap;
+import com.example.md_08_ungdungfivestore.DoiMatKhauActivity; // ⭐ Nhớ import màn hình Đổi Mật Khẩu
+import com.example.md_08_ungdungfivestore.ManChat;
+import com.example.md_08_ungdungfivestore.ManDonHang;
+import com.example.md_08_ungdungfivestore.ManThongTinCaNhan;
 import com.example.md_08_ungdungfivestore.R;
 
-// Giả định tên fragment của bạn
 public class TrangCaNhanFragment extends Fragment {
 
-    private LinearLayout btnDangXuat, btnCaiDatChung, btnDangNhap;
-    TextView textDangXuat;
-    private LinearLayout btnDonHang; // ⭐ Khai báo nút Đơn hàng ⭐
-    private LinearLayout btnThongTinCaNhan; // Khai báo nút Thông tin cá nhân
+    // Khai báo các nút
+    private LinearLayout btnDonHang;
+    private LinearLayout btnThongTinCaNhan;
+    private LinearLayout btnDoiMatKhau; // ⭐ Thêm nút Đổi mật khẩu
+    private LinearLayout btnLienHe;
+    private LinearLayout btnDangXuat;
 
     public TrangCaNhanFragment() {
         // Required empty public constructor
@@ -37,68 +38,51 @@ public class TrangCaNhanFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_trang_ca_nhan, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
-        String isChecked = sharedPreferences.getString("isLogin", "0");
 
-
-
-        // 1. Ánh xạ các nút
-        btnDangXuat = view.findViewById(R.id.btnDangXuat);
-        textDangXuat = view.findViewById(R.id.textBtnDangXuat);
-        btnCaiDatChung = view.findViewById(R.id.btnCaiDatChung);
+        // 1. Ánh xạ các nút (ID phải khớp với file XML layout)
+        btnDonHang = view.findViewById(R.id.btnDonHang);
         btnThongTinCaNhan = view.findViewById(R.id.btnThongTinCaNhan);
-        btnDonHang = view.findViewById(R.id.btnDonHang); // ⭐ Ánh xạ nút Đơn hàng ⭐
-        btnDangNhap = view.findViewById(R.id.btnDangNhapCaiDat);
+        btnDoiMatKhau = view.findViewById(R.id.btnDoiMatKhau); // ⭐ Ánh xạ nút mới
+        btnLienHe = view.findViewById(R.id.btnLienHe);
+        btnDangXuat = view.findViewById(R.id.btnDangXuat);
 
+        // 2. Thiết lập sự kiện Click
+        setupListeners();
+    }
 
-        if (isChecked .equals("0")){
-            btnDangXuat.setVisibility(View.GONE);
-        }else {
-            btnDangNhap.setVisibility(View.GONE);
-        }
-
-
-        // 2. Thiết lập sự kiện Click cho nút Đăng xuất
-        btnDangXuat.setOnClickListener(v -> showLogoutConfirmationDialog());
-
-        // 3. Xử lý click cho nút "Thông tin cá nhân"
-        btnThongTinCaNhan.setOnClickListener(v -> {
-            if (isChecked.equals("0")){
-                showLogoutDialog();
-            }else {
-                Intent intent = new Intent(getActivity(), ManThongTinCaNhan.class);
-                startActivity(intent);
-            }
-        });
-
-        btnCaiDatChung.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ManCaiDatChung.class);
-            startActivity(intent);
-        });
-
-        // ⭐ 4. XỬ LÝ CLICK CHO NÚT "ĐƠN HÀNG" ⭐
+    private void setupListeners() {
+        // --- Nút Đơn hàng ---
         btnDonHang.setOnClickListener(v -> {
-            // ⭐ Chuyển đến Activity quản lý đơn hàng
-            Intent intent = new Intent(getActivity(), ManDonHang.class);
+            Intent intent = new Intent(getContext(), ManDonHang.class);
             startActivity(intent);
         });
 
-        //Button Dăng nhập
-        btnDangNhap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), DangNhap.class));
-            }
+        // --- Nút Thông tin cá nhân ---
+        btnThongTinCaNhan.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ManThongTinCaNhan.class);
+            startActivity(intent);
         });
 
-        // (Nếu có nút Liên hệ, bạn cũng có thể thêm ở đây)
+        // --- Nút Đổi mật khẩu (MỚI THÊM) ---
+        btnDoiMatKhau.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), DoiMatKhauActivity.class);
+            startActivity(intent);
+        });
+
+        // --- Nút Liên hệ ---
+        btnLienHe.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ManChat.class);
+            startActivity(intent);
+        });
+
+        // --- Nút Đăng xuất ---
+        btnDangXuat.setOnClickListener(v -> showLogoutConfirmationDialog());
     }
 
     /**
@@ -109,7 +93,6 @@ public class TrangCaNhanFragment extends Fragment {
                 .setTitle("Xác nhận Đăng xuất")
                 .setMessage("Bạn có chắc chắn muốn đăng xuất khỏi ứng dụng không?")
                 .setPositiveButton("Đăng xuất", (dialog, which) -> {
-                    // Gọi hàm xử lý đăng xuất khi người dùng đồng ý
                     logout();
                 })
                 .setNegativeButton("Hủy", null)
@@ -120,45 +103,22 @@ public class TrangCaNhanFragment extends Fragment {
      * Thực hiện logic đăng xuất: Xóa Token và chuyển hướng
      */
     private void logout() {
-        // 1. Xóa JWT Token và User ID khỏi SharedPreferences (Giả định lưu ở đây)
         Context context = getContext();
         if (context != null) {
-            SharedPreferences prefs = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+            // Xóa thông tin lưu trữ (Token, UserID...)
+            // Bạn hãy kiểm tra tên file SharedPreferences ("AuthPrefs" hay tên khác) cho đúng với project của bạn
+            SharedPreferences prefs = context.getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
 
-            editor.remove("token");
-            editor.putString("isChecked","0");
-            editor.putString("isLogin","0");
+            editor.clear(); // Xóa sạch dữ liệu đăng nhập
             editor.apply();
 
             Toast.makeText(context, "Đã đăng xuất thành công.", Toast.LENGTH_SHORT).show();
 
-            // 2. Chuyển về màn hình Đăng nhập (DangNhap)
+            // Chuyển về màn hình Đăng nhập
             Intent intent = new Intent(context, DangNhap.class);
-            // Xóa hết các Activity trước đó trong stack
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
-    }
-    private void showLogoutDialog() {
-        DialogDangNhap dialog = DialogDangNhap.newInstance(
-                "Đăng nhập",
-                "Bạn có chắc chắn muốn đăng nhập không?",
-                new DialogDangNhap.OnDialogAction() {
-                    @Override
-                    public void onConfirm() {
-                        startActivity(new Intent(getContext(), DangNhap.class));
-                        getActivity().finish();
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                }
-        );
-
-        // Hiển thị Dialog
-        dialog.show(getActivity().getSupportFragmentManager(), "custom_dialog");
     }
 }
