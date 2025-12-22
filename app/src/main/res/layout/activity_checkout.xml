@@ -1,234 +1,275 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CheckoutActivity"
-    android:background="@android:color/black">
+    android:background="@color/mauNen">
+
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/back_icon"
+            app:tint="@color/white" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Thanh Toán"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toTopOf="@id/bottomLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="THÔNG TIN THANH TOÁN"
-                android:textSize="20sp"
+                android:text="Địa chỉ nhận hàng"
+                android:textColor="@color/ChuDe"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#ffff"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="12dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Địa chỉ giao hàng"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#ffff"
-                android:layout_marginTop="8dp"/>
-
-            <com.google.android.material.textfield.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                <EditText
-                    android:id="@+id/edtReceiverName"
+                android:orientation="vertical"
+                android:background="@drawable/bg_frame_dark"
+                android:padding="12dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Tên người nhận"
-                    android:inputType="textPersonName"
-                    android:importantForAutofill="no"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/darker_gray"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    app:boxStrokeColor="@color/ChuDe"
+                    app:hintTextColor="@color/ChuDe"
+                    android:textColorHint="#676767"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp">
+                    <EditText
+                        android:id="@+id/edtReceiverName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Tên người nhận"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                <EditText
-                    android:id="@+id/edtPhone"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Số điện thoại"
-                    android:inputType="phone"
-                    android:importantForAutofill="no"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/darker_gray"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="10dp"
+                    app:boxStrokeColor="@color/ChuDe"
+                    app:hintTextColor="@color/ChuDe"
+                    android:textColorHint="#676767"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp">
+                    <EditText
+                        android:id="@+id/edtPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Số điện thoại"
+                        android:inputType="phone"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                <EditText
-                    android:id="@+id/edtStreet"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Số nhà, tên đường"
-                    android:inputType="textPostalAddress"
-                    android:importantForAutofill="no"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/darker_gray"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="10dp"
+                    app:boxStrokeColor="@color/ChuDe"
+                    app:hintTextColor="@color/ChuDe"
+                    android:textColorHint="#676767"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp">
+                    <EditText
+                        android:id="@+id/edtStreet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Số nhà, tên đường"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                <EditText
-                    android:id="@+id/edtProvince"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Tỉnh/Thành phố"
-                    android:inputType="text"
-                    android:importantForAutofill="no"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/darker_gray"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="10dp"
+                    app:boxStrokeColor="@color/ChuDe"
+                    app:hintTextColor="@color/ChuDe"
+                    android:textColorHint="#676767"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp">
+                    <EditText
+                        android:id="@+id/edtWard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Phường/Xã"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                <EditText
-                    android:id="@+id/edtDistrict"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Quận/Huyện"
-                    android:inputType="text"
-                    android:importantForAutofill="no"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/darker_gray"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="10dp"
+                    app:boxStrokeColor="@color/ChuDe"
+                    app:hintTextColor="@color/ChuDe"
+                    android:textColorHint="#676767"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp">
+                    <EditText
+                        android:id="@+id/edtDistrict"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Quận/Huyện"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                <EditText
-                    android:id="@+id/edtWard"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Phường/Xã"
-                    android:inputType="text"
-                    android:importantForAutofill="no"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/darker_gray"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="10dp"
+                    app:boxStrokeColor="@color/ChuDe"
+                    app:hintTextColor="@color/ChuDe"
+                    android:textColorHint="#676767"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp">
+                    <EditText
+                        android:id="@+id/edtProvince"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Tỉnh/Thành phố"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Phương thức thanh toán"
-                android:textSize="18sp"
+                android:textColor="@color/ChuDe"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#ffff"/>
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="12dp"/>
 
             <RadioGroup
                 android:id="@+id/rgPaymentMethod"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:background="@drawable/bg_frame_dark"
+                android:padding="8dp">
 
                 <RadioButton
                     android:id="@+id/rbCash"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Thanh toán khi nhận hàng (COD)"
-                    android:textColor="#ffff"
-                    android:buttonTint="@android:color/white"
-                    android:checked="true"
-                    android:textSize="16sp"/>
+                    android:text="Tiền mặt khi nhận hàng (COD)"
+                    android:textColor="@color/white"
+                    android:buttonTint="@color/ChuDe"
+                    android:padding="12dp"
+                    android:checked="true"/>
 
                 <RadioButton
                     android:id="@+id/rbVNPay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Thanh toán qua Ví VNPay / Ngân hàng"
-                    android:textColor="#ffff"
-                    android:buttonTint="@android:color/white"
-                    android:textSize="16sp"/>
+                    android:text="Thanh toán qua VNPay"
+                    android:textColor="@color/white"
+                    android:buttonTint="@color/ChuDe"
+                    android:padding="12dp"/>
             </RadioGroup>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tóm tắt đơn hàng"
-                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginTop="24dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Tổng tiền hàng:"
-                    android:textSize="16sp"/>
+                    android:text="Tạm tính"
+                    android:textColor="#AEAEAE" />
                 <TextView
                     android:id="@+id/tvSubtotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0 đ"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/white" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="80dp">
+                android:layout_marginBottom="30dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Phí vận chuyển:"
-                    android:textSize="16sp"/>
+                    android:text="Phí vận chuyển"
+                    android:textColor="#AEAEAE" />
                 <TextView
                     android:id="@+id/tvShippingFee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="30.000 đ"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/white" />
             </LinearLayout>
 
         </LinearLayout>
@@ -238,42 +279,40 @@
         android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#1C1F26"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:background="@android:color/black"
+        android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="16dp">
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TỔNG THANH TOÁN:"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"/>
+                android:layout_height="wrap_content"
+                android:text="Tổng cộng"
+                android:textColor="@color/white" />
             <TextView
                 android:id="@+id/tvTotalAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0 đ"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/design_default_color_error"/>
+                android:textColor="@color/ChuDe"
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnPlaceOrder"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ĐẶT HÀNG"
-            android:padding="12dp"
-            android:textSize="18sp"/>
-
+            android:layout_height="55dp"
+            android:text="XÁC NHẬN ĐẶT HÀNG"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:background="@drawable/bg_button_chude" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

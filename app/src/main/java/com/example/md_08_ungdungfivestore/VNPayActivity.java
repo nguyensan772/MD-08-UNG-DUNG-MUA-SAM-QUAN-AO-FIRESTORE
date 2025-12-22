@@ -9,6 +9,8 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.md_08_ungdungfivestore.fragments.DangLayHangFragment;
+
 public class VNPayActivity extends AppCompatActivity {
 
     private WebView webView;
@@ -84,7 +86,7 @@ public class VNPayActivity extends AppCompatActivity {
             Toast.makeText(this, "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
 
             webView.postDelayed(() -> {
-                Intent intent = new Intent(VNPayActivity.this, OrderSuccessActivity.class);
+                Intent intent = new Intent(VNPayActivity.this,  MainActivity.class);
                 // Gửi orderId sang màn hình thành công, nếu rỗng thì gửi chuỗi rỗng
                 intent.putExtra("ORDER_ID", orderIdFromUrl != null ? orderIdFromUrl : "");
                 startActivity(intent);
