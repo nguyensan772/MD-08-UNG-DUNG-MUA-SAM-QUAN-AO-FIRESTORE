@@ -7,8 +7,7 @@ import retrofit2.http.POST;
 
 public interface ApiPaymentService {
 
-    // Gọi đến router.post("/vnpay-order", auth, orderController.createVNPayOrder);
-    // Lưu ý: Nếu base URL của bạn đã có /api/orders/ thì chỉ cần "vnpay-order"
+
     @POST("api/orders/vnpay-order")
     Call<VNPayResponse> createVNPayOrder(@Body OrderRequest request);
 }

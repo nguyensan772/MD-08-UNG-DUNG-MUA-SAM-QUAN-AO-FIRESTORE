@@ -52,7 +52,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             String imageUrl = p.getImage();
             if (!imageUrl.startsWith("http")) {
                 if (!imageUrl.startsWith("/")) imageUrl = "/" + imageUrl;
-                imageUrl = "http://10.0.2.2:5001" + imageUrl;
+                imageUrl = "https://bruce-brutish-duane.ngrok-free.dev" + imageUrl;
             }
             Glide.with(context).load(imageUrl).error(R.drawable.ic_kids1).into(holder.imgProduct);
         } else {

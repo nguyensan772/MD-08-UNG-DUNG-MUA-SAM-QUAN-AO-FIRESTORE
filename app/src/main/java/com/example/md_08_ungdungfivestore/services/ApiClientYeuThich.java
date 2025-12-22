@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class ApiClientYeuThich {
 
-    private static final String BASE_URL = "http://10.0.2.2:5001/";
+    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev/";
     private static Retrofit retrofit;
 
     public static Retrofit getClient(Context context) {

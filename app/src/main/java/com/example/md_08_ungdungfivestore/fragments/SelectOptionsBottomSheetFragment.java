@@ -105,7 +105,7 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
             return;
         }
         String fullUrl;
-        final String BASE_URL = "http://10.0.2.2:5001";
+        final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev";
         if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
             fullUrl = imagePath;
         } else if (imagePath.startsWith("/uploads/")) {

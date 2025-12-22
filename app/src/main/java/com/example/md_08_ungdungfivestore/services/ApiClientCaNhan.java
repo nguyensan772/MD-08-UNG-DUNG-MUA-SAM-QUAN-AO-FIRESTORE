@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClientCaNhan {
 
-    private static final String BASE_URL = "http://10.0.2.2:5001/"; // Đã xác nhận cổng
+    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev/"; // Đã xác nhận cổng
     private static Retrofit retrofit = null;
 
     private static class AuthInterceptor implements Interceptor {

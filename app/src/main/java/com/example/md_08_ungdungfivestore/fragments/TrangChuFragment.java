@@ -177,7 +177,7 @@ public class TrangChuFragment extends Fragment {
 
     private void setupApiService() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:5001/")
+                .baseUrl("https://bruce-brutish-duane.ngrok-free.dev/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(ProductApiService.class);

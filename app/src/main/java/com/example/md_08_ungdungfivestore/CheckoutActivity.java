@@ -64,18 +64,16 @@ public class CheckoutActivity extends AppCompatActivity {
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == RESULT_OK) {
-                    // Thanh toán THÀNH CÔNG và đã xóa giỏ hàng bên VNPayActivity
-                    Intent data = result.getData();
-                    String orderId = data != null ? data.getStringExtra("ORDER_ID") : "";
-
+                    // Server đã tạo Order và xóa Cart rồi
+                    // Chuyển đến màn hình thành công chung
                     Intent intent = new Intent(CheckoutActivity.this, OrderSuccessActivity.class);
-                    intent.putExtra("orderId", orderId);
+                    // Lưu ý: Lúc này vnpay trả về, bạn có thể load lại danh sách đơn hàng
+                    // thay vì truyền OrderID nếu Server chưa trả về kịp ID đơn mới ở Client.
                     startActivity(intent);
-                    finish(); // Đóng CheckoutActivity
+                    finish();
                 } else {
-                    // Thanh toán BỊ HỦY hoặc THẤT BẠI
-                    Toast.makeText(this, "Giao dịch đã bị hủy hoặc thất bại", Toast.LENGTH_SHORT).show();
-                    btnPlaceOrder.setEnabled(true); // Cho phép ấn lại nút đặt hàng
+                    btnPlaceOrder.setEnabled(true);
+                    Toast.makeText(this, "Thanh toán thất bại hoặc đã hủy", Toast.LENGTH_SHORT).show();
                 }
             }
     );

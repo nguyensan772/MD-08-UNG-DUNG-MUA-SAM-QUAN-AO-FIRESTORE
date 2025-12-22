@@ -21,7 +21,7 @@ import java.util.Locale;
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
     // ĐỊA CHỈ SERVER
-    private static final String SERVER_BASE_URL = "http://10.0.2.2:5001";
+    private static final String SERVER_BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev";
 
     private final Context context;
     private final List<OrderResponse> orderList;

@@ -8,7 +8,7 @@ public class SearchApiClient {
     private static SearchApiClient instance;
     private static Retrofit retrofit;
 
-    private static final String BASE_URL = "http://10.0.2.2:5001/";
+    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev/";
 
     private SearchApiClient() {
         retrofit = new Retrofit.Builder()

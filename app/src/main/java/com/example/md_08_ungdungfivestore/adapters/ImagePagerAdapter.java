@@ -36,7 +36,7 @@ public class ImagePagerAdapter extends RecyclerView.Adapter<ImagePagerAdapter.Im
         String url = imageUrls.get(position);
         if (!url.startsWith("http")) {
             if (!url.startsWith("/")) url = "/" + url;
-            url = "http://10.0.2.2:5001" + url;
+            url = "https://bruce-brutish-duane.ngrok-free.dev" + url;
         }
 
         Glide.with(context)

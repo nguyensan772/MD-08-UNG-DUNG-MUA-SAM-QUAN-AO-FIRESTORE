@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClientCart {
 
     // Đã sửa cổng từ 5000 thành 5001
-    private static final String BASE_URL = "http://10.0.2.2:5001/";
+    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev/";
     private static Retrofit retrofit = null;
 
     public static CartService getCartService(Context context) {

@@ -30,7 +30,7 @@ import retrofit2.Response;
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
     private List<Notification> list;
     private Context context;
-    private final String BASE_URL_IMAGE = "http://10.0.2.2:5001";
+    private final String BASE_URL_IMAGE = "https://bruce-brutish-duane.ngrok-free.dev";
 
     public NotificationAdapter(List<Notification> list, Context context) {
         this.list = list;

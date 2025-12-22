@@ -22,7 +22,7 @@ import java.util.List;
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder> {
 
     // URL Server gốc
-    private static final String BASE_URL = "http://10.0.2.2:5001";
+    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev";
 
     private Context context;
     private List<Product> productList;

@@ -9,7 +9,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ThongBaoApiClient {
-    private static final String BASE_URL = "http://10.0.2.2:5001/";
+    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev/";
     private static ApiThongBaoService apiService;
 
     public static ApiThongBaoService getClient(Context context) {

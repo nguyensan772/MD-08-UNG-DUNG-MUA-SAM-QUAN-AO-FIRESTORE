@@ -60,7 +60,7 @@ public class ManThongBao extends AppCompatActivity {
     private void setupSocket() {
         try {
             // URL server của ông
-            mSocket = IO.socket("http://10.0.2.2:5001");
+            mSocket = IO.socket("https://bruce-brutish-duane.ngrok-free.dev");
             mSocket.connect();
 
             // Lắng nghe sự kiện "new_notification" từ server gửi về

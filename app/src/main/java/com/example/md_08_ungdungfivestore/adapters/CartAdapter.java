@@ -23,7 +23,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private final CartItemActionListener actionListener;
 
     // Địa chỉ Server
-    private static final String BASE_URL = "http://10.0.2.2:5001";
+    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev";
 
     public interface CartItemActionListener {
         void onQuantityChange(CartItem item, int newQuantity);
