@@ -30,7 +30,7 @@ public class TrangCaNhanFragment extends Fragment {
     // Khai báo các nút
     private LinearLayout btnDonHang,btnCaiDatChung;
 
-    private LinearLayout btnThongTinCaNhan;
+    private LinearLayout btnThongTinCaNhan,btnDangNhap;
     private LinearLayout btnDoiMatKhau; // ⭐ Thêm nút Đổi mật khẩu
     private LinearLayout btnLienHe;
     private LinearLayout btnDangXuat;
@@ -55,9 +55,18 @@ public class TrangCaNhanFragment extends Fragment {
         btnDoiMatKhau = view.findViewById(R.id.btnDoiMatKhau); // ⭐ Ánh xạ nút mới
         btnLienHe = view.findViewById(R.id.btnLienHe);
         btnDangXuat = view.findViewById(R.id.btnDangXuat);
-
+        btnDangNhap = view.findViewById(R.id.btnDangNhapCaiDatChung);
         btnCaiDatChung = view.findViewById(R.id.btnCaiDatChung); // ⭐ Ánh xạ nút mới
 
+        SharedPreferences prefs = getContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+
+        if (prefs.getString("isLogin","0").equals("0")){
+            btnThongTinCaNhan.setVisibility(View.GONE);
+            btnDoiMatKhau.setVisibility(View.GONE);
+            btnDangXuat.setVisibility(View.GONE);
+        }else {
+            btnDangNhap.setVisibility(View.GONE);
+        }
 
 
         // 2. Thiết lập sự kiện Click
@@ -67,6 +76,8 @@ public class TrangCaNhanFragment extends Fragment {
 
 
     private void setupListeners() {
+//        SharedPreferences prefs = getContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+
         btnCaiDatChung.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,6 +99,7 @@ public class TrangCaNhanFragment extends Fragment {
 
         // --- Nút Đổi mật khẩu (MỚI THÊM) ---
         btnDoiMatKhau.setOnClickListener(v -> {
+
             Intent intent = new Intent(getContext(), DoiMatKhauActivity.class);
             startActivity(intent);
         });
@@ -98,6 +110,12 @@ public class TrangCaNhanFragment extends Fragment {
         btnLienHe.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), ManChat.class);
             startActivity(intent);
+        });
+        btnDangNhap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLogoutDialog();
+            }
         });
 
         // --- Nút Đăng xuất ---
@@ -140,5 +158,27 @@ public class TrangCaNhanFragment extends Fragment {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
+    }
+
+    private void showLogoutDialog() {
+        DialogDangNhap dialog = DialogDangNhap.newInstance(
+                "Đăng nhập",
+                "Bạn có chắc chắn muốn đăng nhập không?",
+                new DialogDangNhap.OnDialogAction() {
+                    @Override
+                    public void onConfirm() {
+                        startActivity(new Intent(getContext(), DangNhap.class));
+                        getActivity().finish();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                }
+        );
+
+        // Hiển thị Dialog
+        dialog.show(getActivity().getSupportFragmentManager(), "custom_dialog");
     }
 }

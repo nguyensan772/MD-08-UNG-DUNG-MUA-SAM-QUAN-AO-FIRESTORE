@@ -1,6 +1,8 @@
 package com.example.md_08_ungdungfivestore;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -51,8 +53,13 @@ public class XemChiTiet extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_xem_chi_tiet);
+        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
 
         anhXa();
+        if (prefs.getString("isLogin","0").equals("0")){
+            btnOrderNow.setVisibility(View.GONE);
+        }
+
 
         product = (Product) getIntent().getSerializableExtra("product");
         if (product == null) {
