@@ -80,17 +80,20 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-        String isLogin = sharedPreferences.getString("isLogin", "0");
 
         // 1. Ánh xạ View
         anhXa();
 
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String isLogin = sharedPreferences.getString("isLogin", "0");
+
+
+
         // 2. Thiết lập Toolbar
         setSupportActionBar(toolbar);
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setDisplayShowTitleEnabled(false);
-            }
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         // 3. Kết nối Socket.io
         setupSocket();
@@ -108,13 +111,12 @@ public class MainActivity extends AppCompatActivity {
 
         // --- CÁC SỰ KIỆN CLICK ---
         iconUser.setOnClickListener(v -> {
-           if (isLogin.equals("0")){
-               showLogoutDialog();
-           }else {
-               Intent intent = new Intent(MainActivity.this, ManThongTinCaNhan.class);
-               startActivity(intent);
-           }
-
+            if (isLogin.equals("0")){
+                showLogoutDialog();
+            }else {
+                Intent intent = new Intent(MainActivity.this, ManThongTinCaNhan.class);
+                startActivity(intent);
+            }
         });
 
         View.OnClickListener notificationClickListener = v -> {
@@ -139,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 tieuDe.setText("Giỏ hàng");
             } else if (id == R.id.navNguoiDung) {
                 taiFragment(trangCaNhanFragment);
-                tieuDe.setText("Cài đặt");
+                tieuDe.setText("Người dùng");
             }
             return true;
         });
@@ -149,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupSocket() {
         try {
             // ⚠️ LƯU Ý: Nếu chạy máy ảo dùng 10.0.2.2. Nếu chạy điện thoại thật phải dùng IP LAN (ví dụ 192.168.1.x)
-            mSocket = IO.socket("https://bruce-brutish-duane.ngrok-free.dev");
+            mSocket = IO.socket("http://10.0.2.2:5001");
 
             // 1. Lắng nghe sự kiện kết nối thành công
             mSocket.on(Socket.EVENT_CONNECT, args -> {

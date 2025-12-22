@@ -48,8 +48,6 @@ public class TrangCaNhanFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
-        String isLogin = sharedPreferences.getString("isLogin","0");
 
         // 1. Ánh xạ các nút (ID phải khớp với file XML layout)
         btnDonHang = view.findViewById(R.id.btnDonHang);
@@ -60,15 +58,17 @@ public class TrangCaNhanFragment extends Fragment {
         btnDangNhap = view.findViewById(R.id.btnDangNhapCaiDatChung);
         btnCaiDatChung = view.findViewById(R.id.btnCaiDatChung); // ⭐ Ánh xạ nút mới
 
-        if (isLogin.equals("0")){
-            btnThongTinCaNhan.setVisibility(View.GONE);
-            btnDoiMatKhau.setVisibility(View.GONE);
-            btnLienHe.setVisibility(View.GONE);
-            btnDangXuat.setVisibility(View.GONE);
-        }else {
-            btnDangNhap.setVisibility(View.GONE);
-        }
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        String isLogin = sharedPreferences.getString("isLogin", "0");
 
+        if (isLogin.equals("0")){
+            btnDoiMatKhau.setVisibility(View.GONE); // Ẩn nút Đổi mật khẩu
+            btnLienHe.setVisibility(View.GONE); // Ẩn nút Liên hệ
+            btnDangXuat.setVisibility(View.GONE); // Ẩn nút Đăng xuất
+            btnThongTinCaNhan.setVisibility(View.GONE); // Ẩn nút Thông tin cá nhân
+        }else {
+            btnDangNhap.setVisibility(View.GONE); // Ẩn nút Đăng nhập
+        }
 
         // 2. Thiết lập sự kiện Click
         setupListeners();
@@ -81,6 +81,13 @@ public class TrangCaNhanFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), ManCaiDatChung.class));
+            }
+        });
+
+        btnDangNhap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLogoutDialog();
             }
         });
 
@@ -108,13 +115,6 @@ public class TrangCaNhanFragment extends Fragment {
         btnLienHe.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), ManChat.class);
             startActivity(intent);
-        });
-
-        btnDangNhap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showLogoutDialog();
-            }
         });
 
         // --- Nút Đăng xuất ---
@@ -158,7 +158,6 @@ public class TrangCaNhanFragment extends Fragment {
             startActivity(intent);
         }
     }
-
     private void showLogoutDialog() {
         DialogDangNhap dialog = DialogDangNhap.newInstance(
                 "Đăng nhập",
