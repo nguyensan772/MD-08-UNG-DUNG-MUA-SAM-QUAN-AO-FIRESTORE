@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -48,7 +49,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private RadioGroup rgPaymentMethod;
     private RadioButton rbCash, rbVNPay;
-
+    private ImageView btnBack;
     private OrderManager orderManager;
     private CartService cartService;
     private UserApiService userService;
@@ -84,7 +85,7 @@ public class CheckoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_checkout);
 
         anhXa();
-
+        btnBack.setOnClickListener(v -> finish());
         OrderService orderService = ApiClientYeuThich.getClient(this).create(OrderService.class);
         orderManager = new OrderManager(orderService);
         cartService = ApiClientCart.getCartService(this);
@@ -105,6 +106,7 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void anhXa() {
+        btnBack = findViewById(R.id.btnBack);
         edtName = findViewById(R.id.edtReceiverName);
         edtPhone = findViewById(R.id.edtPhone);
         edtStreet = findViewById(R.id.edtStreet);

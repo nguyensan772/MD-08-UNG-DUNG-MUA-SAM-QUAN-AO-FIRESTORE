@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="1dp"
+    android:layout_marginBottom="12dp"
     app:cardElevation="0dp"
-    app:cardCornerRadius="0dp">
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardCornerRadius="12dp">
 
     <LinearLayout
         android:id="@+id/layoutItemNotif"
@@ -13,30 +14,28 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="12dp"
-        android:background="@color/white">
+        android:background="#1C1F26"> <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgNotif"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:scaleType="centerCrop"
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imgNotif"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background"
-            app:shapeAppearanceOverlay="@style/RoundedSquare" />
+        app:strokeWidth="1dp"
+        app:shapeAppearanceOverlay="@style/RoundedSquare" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="15dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvTitleNotif"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cập nhật đơn hàng"
-                android:textColor="@color/black"
-                android:textSize="15sp"
+                android:textColor="@color/ChuDe"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -44,10 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="Đơn hàng #123456 của bạn đã được giao thành công."
-                android:textColor="#666666"
+                android:textColor="#BCBCBC"
                 android:textSize="13sp" />
 
             <TextView
@@ -55,8 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="12:30 15/10/2023"
-                android:textColor="#999999"
+                android:textColor="#676767"
                 android:textSize="11sp" />
         </LinearLayout>
 
@@ -64,9 +59,8 @@
             android:id="@+id/viewUnread"
             android:layout_width="8dp"
             android:layout_height="8dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/bg_circle_blue"
-            android:visibility="visible" />
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_circle_chude" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
