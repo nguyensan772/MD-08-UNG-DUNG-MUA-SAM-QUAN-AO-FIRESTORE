@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import com.example.md_08_ungdungfivestore.models.Comment;
 import com.example.md_08_ungdungfivestore.services.CommentApiService;
 import com.example.md_08_ungdungfivestore.utils.AuthManager;
@@ -30,7 +31,6 @@ public class ManDanhGiaSanPham extends AppCompatActivity {
     private Button btnSubmit;
 
     private String productId, productName, productImage;
-    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +119,7 @@ public class ManDanhGiaSanPham extends AppCompatActivity {
                 }).build();
 
         return new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(AppConfig.API_BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

@@ -1,5 +1,6 @@
 package com.example.md_08_ungdungfivestore.services;
 
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -8,11 +9,9 @@ public class SearchApiClient {
     private static SearchApiClient instance;
     private static Retrofit retrofit;
 
-    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev/";
-
     private SearchApiClient() {
         retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(AppConfig.API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.md_08_ungdungfivestore.R;
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import com.example.md_08_ungdungfivestore.models.OrderItem;
 
 import java.text.NumberFormat;
@@ -24,9 +25,6 @@ public class OrderDetailItemAdapter extends RecyclerView.Adapter<OrderDetailItem
     private final Context context;
     private final List<OrderItem> itemList;
     private final NumberFormat currencyFormat;
-
-    // ⭐ BASE URL CỦA SERVER (Emulator IP) ⭐
-    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev";
     private static final String TAG = "ImageDebug"; // Tag để lọc Logcat
 
     public OrderDetailItemAdapter(Context context, List<OrderItem> itemList) {
@@ -67,7 +65,7 @@ public class OrderDetailItemAdapter extends RecyclerView.Adapter<OrderDetailItem
             // Kiểm tra và ghép Base URL nếu URL chưa đầy đủ
             if (!imageUrl.startsWith("http")) {
                 if (!imageUrl.startsWith("/")) imageUrl = "/" + imageUrl;
-                imageUrl = BASE_URL + imageUrl;
+                imageUrl = AppConfig.BASE_URL + imageUrl;
             }
 
             // ⭐ LOGGING URL CUỐI CÙNG ĐỂ DEBUG ⭐

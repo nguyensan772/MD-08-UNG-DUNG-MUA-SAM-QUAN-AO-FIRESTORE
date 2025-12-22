@@ -21,6 +21,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import com.example.md_08_ungdungfivestore.fragments.DialogDangNhap;
 import com.example.md_08_ungdungfivestore.fragments.GioHangFragment;
 import com.example.md_08_ungdungfivestore.fragments.TrangCaNhanFragment;
@@ -151,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupSocket() {
         try {
             // ⚠️ LƯU Ý: Nếu chạy máy ảo dùng 10.0.2.2. Nếu chạy điện thoại thật phải dùng IP LAN (ví dụ 192.168.1.x)
-            mSocket = IO.socket("http://10.0.2.2:5001");
+            mSocket = IO.socket(AppConfig.BASE_URL);
 
             // 1. Lắng nghe sự kiện kết nối thành công
             mSocket.on(Socket.EVENT_CONNECT, args -> {
