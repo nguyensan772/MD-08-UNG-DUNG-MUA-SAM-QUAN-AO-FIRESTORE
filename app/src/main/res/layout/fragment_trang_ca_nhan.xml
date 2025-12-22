@@ -152,6 +152,39 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/btnHoTro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_trang_ca_nhan"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="10dp"
+            android:layout_marginBottom="12dp"
+            android:paddingVertical="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_support"
+                app:tint="#D17842" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Hỗ trợ"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_next"
+                app:tint="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/btnDoiMatKhau"
             android:paddingHorizontal="10dp"
 

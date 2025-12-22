@@ -82,6 +82,10 @@
         <activity
             android:name=".ManChat"
             android:exported="false" />
+        <activity
+            android:name=".ChatSupportActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".DangNhap"
