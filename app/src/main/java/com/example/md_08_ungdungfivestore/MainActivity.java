@@ -2,6 +2,7 @@ package com.example.md_08_ungdungfivestore;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.md_08_ungdungfivestore.fragments.DialogDangNhap;
 import com.example.md_08_ungdungfivestore.fragments.GioHangFragment;
 import com.example.md_08_ungdungfivestore.fragments.TrangCaNhanFragment;
 import com.example.md_08_ungdungfivestore.fragments.TrangChuFragment;
@@ -82,6 +84,11 @@ public class MainActivity extends AppCompatActivity {
         // 1. Ánh xạ View
         anhXa();
 
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String isLogin = sharedPreferences.getString("isLogin", "0");
+
+
+
         // 2. Thiết lập Toolbar
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -104,8 +111,12 @@ public class MainActivity extends AppCompatActivity {
 
         // --- CÁC SỰ KIỆN CLICK ---
         iconUser.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ManThongTinCaNhan.class);
-            startActivity(intent);
+            if (isLogin.equals("0")){
+                showLogoutDialog();
+            }else {
+                Intent intent = new Intent(MainActivity.this, ManThongTinCaNhan.class);
+                startActivity(intent);
+            }
         });
 
         View.OnClickListener notificationClickListener = v -> {
@@ -140,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupSocket() {
         try {
             // ⚠️ LƯU Ý: Nếu chạy máy ảo dùng 10.0.2.2. Nếu chạy điện thoại thật phải dùng IP LAN (ví dụ 192.168.1.x)
-            mSocket = IO.socket("https://bruce-brutish-duane.ngrok-free.dev");
+            mSocket = IO.socket("http://10.0.2.2:5001");
 
             // 1. Lắng nghe sự kiện kết nối thành công
             mSocket.on(Socket.EVENT_CONNECT, args -> {
@@ -229,5 +240,27 @@ public class MainActivity extends AppCompatActivity {
             mSocket.disconnect();
             mSocket.off("new_notification");
         }
+    }
+
+    private void showLogoutDialog() {
+        DialogDangNhap dialog = DialogDangNhap.newInstance(
+                "Đăng nhập",
+                "Bạn có chắc chắn muốn đăng nhập không?",
+                new DialogDangNhap.OnDialogAction() {
+                    @Override
+                    public void onConfirm() {
+                        startActivity(new Intent(MainActivity.this, DangNhap.class));
+                        finish();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                }
+        );
+
+        // Hiển thị Dialog
+        dialog.show(getSupportFragmentManager(), "custom_dialog");
     }
 }

@@ -4,22 +4,14 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
         <!-- Màu chủ đề chính -->
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">#FFE4C4</item>
 
-        <!-- Màu hint cho TextInputLayout -->
-        <item name="hintTextColor">@color/XamNhat</item>
+        <item name="colorOnPrimary">#1F1F1F</item>
 
-        <!-- Màu cho TextInputLayout khi focus -->
-        <item name="colorControlActivated">@color/ChuDe</item>
+        <item name="background">@color/black</item>
 
-        <!-- Màu cho đường viền TextInputLayout -->
-        <item name="colorOutline">@color/XamNhat</item>
 
-        <!-- Màu cho icon con mắt (password toggle) -->
-        <item name="colorOnSurface">@color/white</item>
 
-        <item name="colorControlNormal">@color/white</item>
 
     </style>
 </resources>

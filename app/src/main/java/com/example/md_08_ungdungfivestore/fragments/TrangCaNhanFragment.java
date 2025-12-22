@@ -28,7 +28,7 @@ import com.example.md_08_ungdungfivestore.R;
 public class TrangCaNhanFragment extends Fragment {
 
     // Khai báo các nút
-    private LinearLayout btnDonHang,btnCaiDatChung;
+    private LinearLayout btnDonHang,btnCaiDatChung,btnDangNhap;
 
     private LinearLayout btnThongTinCaNhan;
     private LinearLayout btnDoiMatKhau; // ⭐ Thêm nút Đổi mật khẩu
@@ -55,10 +55,20 @@ public class TrangCaNhanFragment extends Fragment {
         btnDoiMatKhau = view.findViewById(R.id.btnDoiMatKhau); // ⭐ Ánh xạ nút mới
         btnLienHe = view.findViewById(R.id.btnLienHe);
         btnDangXuat = view.findViewById(R.id.btnDangXuat);
-
+        btnDangNhap = view.findViewById(R.id.btnDangNhapCaiDatChung);
         btnCaiDatChung = view.findViewById(R.id.btnCaiDatChung); // ⭐ Ánh xạ nút mới
 
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        String isLogin = sharedPreferences.getString("isLogin", "0");
 
+        if (isLogin.equals("0")){
+            btnDoiMatKhau.setVisibility(View.GONE); // Ẩn nút Đổi mật khẩu
+            btnLienHe.setVisibility(View.GONE); // Ẩn nút Liên hệ
+            btnDangXuat.setVisibility(View.GONE); // Ẩn nút Đăng xuất
+            btnThongTinCaNhan.setVisibility(View.GONE); // Ẩn nút Thông tin cá nhân
+        }else {
+            btnDangNhap.setVisibility(View.GONE); // Ẩn nút Đăng nhập
+        }
 
         // 2. Thiết lập sự kiện Click
         setupListeners();
@@ -71,6 +81,13 @@ public class TrangCaNhanFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), ManCaiDatChung.class));
+            }
+        });
+
+        btnDangNhap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLogoutDialog();
             }
         });
 
@@ -140,5 +157,26 @@ public class TrangCaNhanFragment extends Fragment {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
+    }
+    private void showLogoutDialog() {
+        DialogDangNhap dialog = DialogDangNhap.newInstance(
+                "Đăng nhập",
+                "Bạn có chắc chắn muốn đăng nhập không?",
+                new DialogDangNhap.OnDialogAction() {
+                    @Override
+                    public void onConfirm() {
+                        startActivity(new Intent(getContext(), DangNhap.class));
+                        getActivity().finish();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                }
+        );
+
+        // Hiển thị Dialog
+        dialog.show(getActivity().getSupportFragmentManager(), "custom_dialog");
     }
 }

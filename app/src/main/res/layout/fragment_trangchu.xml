@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#111111"
+    android:background="?attr/colorPrimary"
     android:orientation="vertical"
     android:paddingTop="16dp"
     tools:context=".fragments.TrangChuFragment">
@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tìm quần áo yêu thích nhất của bạn"
-        android:textColor="#FFFFFF"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="20sp"
         android:layout_margin="16dp"
         android:fontFamily="@font/poppins_semibold" />
