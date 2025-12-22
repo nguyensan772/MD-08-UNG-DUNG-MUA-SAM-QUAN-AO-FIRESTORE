@@ -29,7 +29,7 @@ public class TrangCaNhanFragment extends Fragment {
 
     // Khai báo các nút
     private LinearLayout btnDonHang,btnCaiDatChung;
-    private LinearLayout btnDonHang;
+
     private LinearLayout btnThongTinCaNhan;
     private LinearLayout btnDoiMatKhau; // ⭐ Thêm nút Đổi mật khẩu
     private LinearLayout btnLienHe;
@@ -64,6 +64,8 @@ public class TrangCaNhanFragment extends Fragment {
         setupListeners();
     }
 
+
+
     private void setupListeners() {
         btnCaiDatChung.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,12 +73,6 @@ public class TrangCaNhanFragment extends Fragment {
                 startActivity(new Intent(view.getContext(), ManCaiDatChung.class));
             }
         });
-
-        // 2. Thiết lập sự kiện Click
-        setupListeners();
-    }
-
-    private void setupListeners() {
 
         // --- Nút Đơn hàng ---
         btnDonHang.setOnClickListener(v -> {
@@ -130,10 +126,11 @@ public class TrangCaNhanFragment extends Fragment {
         if (context != null) {
             // Xóa thông tin lưu trữ (Token, UserID...)
             // Bạn hãy kiểm tra tên file SharedPreferences ("AuthPrefs" hay tên khác) cho đúng với project của bạn
-            SharedPreferences prefs = context.getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+            SharedPreferences prefs = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
-
-            editor.clear(); // Xóa sạch dữ liệu đăng nhập
+            editor.putString("isLogin","0");
+            editor.putString("isChecked","0");
+            editor.remove("token");
             editor.apply();
 
             Toast.makeText(context, "Đã đăng xuất thành công.", Toast.LENGTH_SHORT).show();
