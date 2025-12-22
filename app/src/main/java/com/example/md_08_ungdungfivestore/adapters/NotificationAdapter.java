@@ -58,9 +58,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 fullUrl = imageUrl;
             } else {
                 if (imageUrl.contains("uploads")) {
-                    fullUrl = "http://10.0.2.2:5001/" + (imageUrl.startsWith("/") ? imageUrl.substring(1) : imageUrl);
+                    fullUrl = "https://bruce-brutish-duane.ngrok-free.dev/" + (imageUrl.startsWith("/") ? imageUrl.substring(1) : imageUrl);
                 } else {
-                    fullUrl = "http://10.0.2.2:5001/uploads/" + (imageUrl.startsWith("/") ? imageUrl.substring(1) : imageUrl);
+                    fullUrl = "https://bruce-brutish-duane.ngrok-free.dev/uploads/" + (imageUrl.startsWith("/") ? imageUrl.substring(1) : imageUrl);
                 }
             }
             Log.e("CHECK_ANH", "Link cuoi cung: " + fullUrl);
