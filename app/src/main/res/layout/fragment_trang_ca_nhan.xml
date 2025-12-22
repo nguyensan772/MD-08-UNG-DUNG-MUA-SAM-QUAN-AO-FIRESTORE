@@ -4,28 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mauNen"
+    android:background="?attr/colorPrimary"
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".fragments.TrangCaNhanFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="24dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/poppins_bold"
-            android:text="Cài đặt"
-            android:layout_marginStart="16dp"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,11 +16,13 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:paddingHorizontal="10dp"
             android:id="@+id/btnDonHang"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/background_trang_ca_nhan"
             android:gravity="center_vertical"
+            android:layout_marginBottom="12dp"
             android:paddingVertical="16dp">
 
             <ImageView
@@ -60,16 +45,19 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_next"
-                app:tint="@color/white" />
+                app:tint="@color/white"  />
         </LinearLayout>
 
 
         <LinearLayout
             android:id="@+id/btnThongTinCaNhan"
+            android:paddingHorizontal="10dp"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/background_trang_ca_nhan"
             android:gravity="center_vertical"
+            android:layout_marginBottom="12dp"
             android:paddingVertical="16dp">
 
             <ImageView
@@ -92,15 +80,18 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_next"
-                app:tint="@color/white" />
+                app:tint="@color/white"  />
         </LinearLayout>
 
         <LinearLayout
+            android:paddingHorizontal="10dp"
+
             android:id="@+id/btnLienHe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/background_trang_ca_nhan"
             android:gravity="center_vertical"
+            android:layout_marginBottom="12dp"
             android:paddingVertical="16dp">
 
             <ImageView
@@ -123,15 +114,18 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_next"
-                app:tint="@color/white" />
+                app:tint="@color/white"  />
         </LinearLayout>
 
         <LinearLayout
+            android:paddingHorizontal="10dp"
+
             android:id="@+id/btnCaiDatChung"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/background_trang_ca_nhan"
             android:gravity="center_vertical"
+            android:layout_marginBottom="12dp"
             android:paddingVertical="16dp">
 
             <ImageView
@@ -154,15 +148,18 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_next"
-                app:tint="@color/white" />
+                app:tint="@color/white"  />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/btnDoiMatKhau"
+            android:paddingHorizontal="10dp"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/background_trang_ca_nhan"
             android:gravity="center_vertical"
+            android:layout_marginBottom="12dp"
             android:paddingVertical="16dp">
 
             <ImageView
@@ -185,15 +182,18 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_next"
-                app:tint="@color/white" />
+                app:tint="@color/white"  />
         </LinearLayout>
 
         <LinearLayout
+            android:paddingHorizontal="10dp"
+
             android:id="@+id/btnDangXuat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/background_trang_ca_nhan"
             android:gravity="center_vertical"
+            android:layout_marginBottom="12dp"
             android:paddingVertical="16dp">
 
             <ImageView
@@ -216,7 +216,41 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_next"
-                app:tint="@color/white" />
+                app:tint="@color/white"   />
+        </LinearLayout>
+
+        <LinearLayout
+            android:paddingHorizontal="10dp"
+
+            android:id="@+id/btnDangNhapCaiDatChung"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_trang_ca_nhan"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp"
+            android:paddingVertical="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_logout"
+                app:tint="#D17842" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Đăng nhập"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_next"
+                app:tint="?attr/colorOnPrimary" />
         </LinearLayout>
 
     </LinearLayout>

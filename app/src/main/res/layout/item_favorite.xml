@@ -7,7 +7,7 @@
     card_view:cardElevation="4dp"
     card_view:cardCornerRadius="8dp"
     android:layout_margin="8dp"
-    card_view:cardBackgroundColor="#1E1E1E"> <RelativeLayout
+    card_view:cardBackgroundColor="?attr/background"> <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp">
@@ -49,6 +49,6 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/remove_from_favorites"
         android:src="@drawable/heart_empty"
-        android:tint="#FFFFFF" /> </RelativeLayout>
+        android:tint="@color/ChuDe" /> </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

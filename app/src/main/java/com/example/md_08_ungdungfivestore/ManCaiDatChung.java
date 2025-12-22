@@ -8,6 +8,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -17,6 +18,7 @@ public class ManCaiDatChung extends AppCompatActivity {
     private static final String PREFS_NAME = "AppSettingPrefs";
     private static final String KEY_IS_NIGHT_MODE = "IsNightMode";
     SwitchCompat btnChuDe;
+    Toolbar toolbar;
     SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,10 @@ public class ManCaiDatChung extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_man_cai_dat_chung);
         anhXa();
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         // 1. Kiểm tra trạng thái đã lưu để set chế độ ngay khi mở app
@@ -63,6 +69,7 @@ public class ManCaiDatChung extends AppCompatActivity {
 
     private void anhXa (){
         btnChuDe = findViewById(R.id.btnChuDe);
+        toolbar = findViewById(R.id.toolbarCaiDatChung);
     }
 
     private void luuTrangThai(boolean isNight) {

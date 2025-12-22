@@ -8,6 +8,7 @@ import android.os.Handler;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 public class ManChao extends AppCompatActivity {
 
@@ -17,11 +18,16 @@ public class ManChao extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_man_chao);
         SharedPreferences sharedPreferences= getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        SharedPreferences shareTheme= getSharedPreferences("AppSettingPrefs", Context.MODE_PRIVATE);
+        if (shareTheme.getBoolean("IsNightMode", false)){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
         if (sharedPreferences.getString("isChecked","0").equals("1")){
             startActivity(new Intent(ManChao.this,MainActivity.class));
             finish();
             return;
         }
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
