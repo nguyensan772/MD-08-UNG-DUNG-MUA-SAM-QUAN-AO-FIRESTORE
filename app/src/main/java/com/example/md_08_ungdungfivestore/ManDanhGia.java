@@ -42,7 +42,7 @@ public class ManDanhGia extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_man_danh_gia);
+        setContentView(R.layout.activity_man_danh_gia_san_pham);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -80,9 +80,7 @@ public class ManDanhGia extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         imgProduct = findViewById(R.id.imgProduct);
         tvProductName = findViewById(R.id.tvProductName);
-        ratingBar = findViewById(R.id.ratingBar);
-        edtComment = findViewById(R.id.edtComment);
-        btnSubmit = findViewById(R.id.btnSubmit);
+
     }
 
     private void submitReview() {
