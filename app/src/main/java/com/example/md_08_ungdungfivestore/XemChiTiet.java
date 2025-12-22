@@ -17,6 +17,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.md_08_ungdungfivestore.adapters.ImagePagerAdapter;
 import com.example.md_08_ungdungfivestore.adapters.CommentAdapter;
+import com.example.md_08_ungdungfivestore.fragments.DialogDangNhap;
 import com.example.md_08_ungdungfivestore.fragments.SelectOptionsBottomSheetFragment;
 import com.example.md_08_ungdungfivestore.models.Product;
 import com.example.md_08_ungdungfivestore.models.Comment;
@@ -58,6 +59,7 @@ public class XemChiTiet extends AppCompatActivity {
         anhXa();
         if (prefs.getString("isLogin","0").equals("0")){
             btnOrderNow.setVisibility(View.GONE);
+            btnFavorite.setVisibility(View.GONE);
         }
 
 
@@ -233,4 +235,6 @@ public class XemChiTiet extends AppCompatActivity {
         });
         bottomSheet.show(getSupportFragmentManager(), "SelectOptionsBottomSheet");
     }
+
+
 }
