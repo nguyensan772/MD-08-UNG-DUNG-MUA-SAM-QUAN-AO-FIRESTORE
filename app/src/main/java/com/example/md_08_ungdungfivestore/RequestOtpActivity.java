@@ -2,6 +2,7 @@ package com.example.md_08_ungdungfivestore;
 // Đảm bảo bạn đang sử dụng đúng package gốc, nếu file của bạn nằm trong package con, hãy điều chỉnh lại.
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -41,7 +42,14 @@ public class RequestOtpActivity extends AppCompatActivity {
         // Lỗi ClassCastException đã được sửa nhờ dùng findViewById với TextInputEditText
         edtEmail = findViewById(R.id.edtEmailRequestOtp);
         btnRequestOtp = findViewById(R.id.btnRequestOtp);
-
+//        edtEmail.setOnFocusChangeListener(
+//                (view, b) -> {
+//                    if(edtEmail.getText() == null || edtEmail.getText().toString().trim().isEmpty()){
+//                    edtEmail.setHint("Địa chỉ email");
+//                    edtEmail.setHintTextColor(Color.BLACK);
+//                }
+//        }
+//        );
         btnRequestOtp.setOnClickListener(v -> {
             String email = edtEmail.getText().toString().trim();
 

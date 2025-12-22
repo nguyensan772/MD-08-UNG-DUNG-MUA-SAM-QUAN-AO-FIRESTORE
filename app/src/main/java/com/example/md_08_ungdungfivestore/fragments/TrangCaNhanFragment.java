@@ -17,6 +17,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.md_08_ungdungfivestore.DangNhap;
 import com.example.md_08_ungdungfivestore.DoiMatKhauActivity; // ⭐ Nhớ import màn hình Đổi Mật Khẩu
+
+import com.example.md_08_ungdungfivestore.ManCaiDatChung;
+
 import com.example.md_08_ungdungfivestore.ManChat;
 import com.example.md_08_ungdungfivestore.ManDonHang;
 import com.example.md_08_ungdungfivestore.ManThongTinCaNhan;
@@ -25,7 +28,8 @@ import com.example.md_08_ungdungfivestore.R;
 public class TrangCaNhanFragment extends Fragment {
 
     // Khai báo các nút
-    private LinearLayout btnDonHang;
+    private LinearLayout btnDonHang,btnCaiDatChung;
+
     private LinearLayout btnThongTinCaNhan;
     private LinearLayout btnDoiMatKhau; // ⭐ Thêm nút Đổi mật khẩu
     private LinearLayout btnLienHe;
@@ -52,11 +56,24 @@ public class TrangCaNhanFragment extends Fragment {
         btnLienHe = view.findViewById(R.id.btnLienHe);
         btnDangXuat = view.findViewById(R.id.btnDangXuat);
 
+        btnCaiDatChung = view.findViewById(R.id.btnCaiDatChung); // ⭐ Ánh xạ nút mới
+
+
+
         // 2. Thiết lập sự kiện Click
         setupListeners();
     }
 
+
+
     private void setupListeners() {
+        btnCaiDatChung.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), ManCaiDatChung.class));
+            }
+        });
+
         // --- Nút Đơn hàng ---
         btnDonHang.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), ManDonHang.class);
@@ -74,6 +91,8 @@ public class TrangCaNhanFragment extends Fragment {
             Intent intent = new Intent(getContext(), DoiMatKhauActivity.class);
             startActivity(intent);
         });
+
+       
 
         // --- Nút Liên hệ ---
         btnLienHe.setOnClickListener(v -> {
@@ -107,10 +126,11 @@ public class TrangCaNhanFragment extends Fragment {
         if (context != null) {
             // Xóa thông tin lưu trữ (Token, UserID...)
             // Bạn hãy kiểm tra tên file SharedPreferences ("AuthPrefs" hay tên khác) cho đúng với project của bạn
-            SharedPreferences prefs = context.getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+            SharedPreferences prefs = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
-
-            editor.clear(); // Xóa sạch dữ liệu đăng nhập
+            editor.putString("isLogin","0");
+            editor.putString("isChecked","0");
+            editor.remove("token");
             editor.apply();
 
             Toast.makeText(context, "Đã đăng xuất thành công.", Toast.LENGTH_SHORT).show();
