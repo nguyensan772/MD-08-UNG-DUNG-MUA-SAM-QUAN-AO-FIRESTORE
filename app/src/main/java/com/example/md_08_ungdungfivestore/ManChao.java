@@ -1,6 +1,8 @@
 package com.example.md_08_ungdungfivestore;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -14,7 +16,12 @@ public class ManChao extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_man_chao);
-
+        SharedPreferences sharedPreferences= getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        if (sharedPreferences.getString("isChecked","0").equals("1")){
+            startActivity(new Intent(ManChao.this,MainActivity.class));
+            finish();
+            return;
+        }
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
