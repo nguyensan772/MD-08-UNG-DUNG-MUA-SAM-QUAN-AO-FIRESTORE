@@ -1,5 +1,7 @@
 package com.example.md_08_ungdungfivestore.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,13 +11,20 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
+import com.example.md_08_ungdungfivestore.FilePrefs;
 import com.example.md_08_ungdungfivestore.R;
+import com.example.md_08_ungdungfivestore.models.LocalCartItem;
 import com.example.md_08_ungdungfivestore.models.Product;
 import com.example.md_08_ungdungfivestore.models.CartRequest;
 import com.example.md_08_ungdungfivestore.models.CartResponse;
 import com.example.md_08_ungdungfivestore.services.ApiClientCart;
 import com.example.md_08_ungdungfivestore.services.CartService;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -251,7 +260,27 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
         });
     }
 
+    // 1. Lấy toàn bộ danh sách giỏ hàng (Dùng GSON)
+    public static List<LocalCartItem> getCart(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(FilePrefs.LocalCart, Context.MODE_PRIVATE);
+        String json = sharedPreferences.getString(FilePrefs.KEY_CART, null);
+
+        if (json == null) return new ArrayList<>();
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<LocalCartItem>>() {}.getType();
+        return gson.fromJson(json, type);
+    }
     private void setupBuyNow() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(FilePrefs.MyAppPrefs, Context.MODE_PRIVATE);
+        SharedPreferences cart = getContext().getSharedPreferences(FilePrefs.LocalCart, Context.MODE_PRIVATE);
+        String isLogin = sharedPreferences.getString("isLogin", "0");
+
+        SharedPreferences.Editor cartEditor     = cart.edit();
+
+
+
+
         btnBuyNow.setOnClickListener(v -> {
             if (selectedColor == null || selectedSize == null) {
                 Toast.makeText(getContext(), "Vui lòng chọn size và màu", Toast.LENGTH_SHORT).show();
@@ -268,29 +297,73 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
                 return;
             }
 
-            // ... Logic gọi API giữ nguyên ...
-            CartRequest cartRequest = new CartRequest(product.getId(), product.getName(), selectedSize, selectedColor, quantity, product.getPrice());
-            CartService cartService = ApiClientCart.getCartService(getContext());
-            cartService.addToCart(cartRequest).enqueue(new Callback<CartResponse>() {
-                @Override
-                public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
-                    if (response.isSuccessful()) {
-                        if (listener != null) {
-                            listener.onOptionSelected(selectedSize, selectedColor, quantity);
-                        }
-                        dismiss();
-                    } else {
-                        Log.e("CartAPI", "Error Code: " + response.code());
-                        Toast.makeText(getContext(), "Thêm vào giỏ thất bại", Toast.LENGTH_SHORT).show();
+            if (isLogin.equals("0")){
+
+
+                // Lấy list cũ ra trước
+                List<LocalCartItem> cartList = getCart(getContext());
+                boolean isExist = false;
+
+                // Kiểm tra xem đã có sản phẩm này (cùng ID, Size, Màu) chưa
+                for (LocalCartItem item : cartList) {
+                    if (item.getId().equals(product.getId()) &&
+                            item.getSize().equals(selectedSize) &&
+                            item.getColor().equals(selectedColor)) {
+
+                        item.setQuantity(item.getQuantity() + quantity); // Tăng số lượng
+                        isExist = true;
+                        break;
                     }
                 }
-                @Override
-                public void onFailure(Call<CartResponse> call, Throwable t) {
-                    Log.e("CartAPI", "Failure: " + t.getMessage());
-                    Toast.makeText(getContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+
+                if (!isExist) {
+                    product.setQuantity(quantity); // Mặc định lần đầu là 1
+                    cartList.add(new LocalCartItem(product.getId(),product.getName(),product.getPrice(),quantity,product.getImage(),selectedSize,selectedColor));
                 }
-            });
+
+                // --- LƯU LẠI VÀO SHARED DƯỚI DẠNG GSON ---
+                saveCartList(getContext(), cartList);
+
+
+
+            }else {
+                // ... Logic gọi API giữ nguyên ...
+                CartRequest cartRequest = new CartRequest(product.getId(), product.getName(), selectedSize, selectedColor, quantity, product.getPrice());
+                CartService cartService = ApiClientCart.getCartService(getContext());
+                cartService.addToCart(cartRequest).enqueue(new Callback<CartResponse>() {
+                    @Override
+                    public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
+                        if (response.isSuccessful()) {
+                            if (listener != null) {
+                                listener.onOptionSelected(selectedSize, selectedColor, quantity);
+                            }
+                            dismiss();
+                        } else {
+                            Log.e("CartAPI", "Error Code: " + response.code());
+                            Toast.makeText(getContext(), "Thêm vào giỏ thất bại", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<CartResponse> call, Throwable t) {
+                        Log.e("CartAPI", "Failure: " + t.getMessage());
+                        Toast.makeText(getContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
         });
+    }
+    // 3. Hàm phụ trợ để đóng gói List thành JSON và lưu
+    // 3. Hàm phụ trợ để đóng gói List thành JSON và lưu
+    private static void saveCartList(Context context, List<LocalCartItem> cartList) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(FilePrefs.LocalCart, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Gson gson = new Gson();
+        String json = gson.toJson(cartList); // Chuyển cả list mới thành 1 chuỗi JSON
+
+        editor.putString(FilePrefs.KEY_CART, json);
+        editor.apply();
     }
 
     @Override
