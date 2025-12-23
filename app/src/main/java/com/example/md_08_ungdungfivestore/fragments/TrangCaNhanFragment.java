@@ -20,7 +20,7 @@ import com.example.md_08_ungdungfivestore.DoiMatKhauActivity; // ⭐ Nhớ impor
 
 import com.example.md_08_ungdungfivestore.ManCaiDatChung;
 
-import com.example.md_08_ungdungfivestore.ManChat;
+import com.example.md_08_ungdungfivestore.ManChinhSach;
 import com.example.md_08_ungdungfivestore.ManDonHang;
 import com.example.md_08_ungdungfivestore.ManThongTinCaNhan;
 import com.example.md_08_ungdungfivestore.ChatSupportActivity;
@@ -120,7 +120,7 @@ public class TrangCaNhanFragment extends Fragment {
 
         // --- Nút Liên hệ ---
         btnLienHe.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), ManChat.class);
+            Intent intent = new Intent(getContext(), ManChinhSach.class);
             startActivity(intent);
         });
 

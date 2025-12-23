@@ -7,7 +7,7 @@ package com.example.md_08_ungdungfivestore.config;
 public class AppConfig {
 
     // Base URL without trailing slash (for image URLs and path concatenation)
-    public static final String BASE_URL = "https://tinisha-nonwashable-castiel.ngrok-free.dev";
+    public static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev";
 
     // Base URL with trailing slash (for Retrofit API clients)
     public static final String API_BASE_URL = BASE_URL + "/";

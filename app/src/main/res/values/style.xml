@@ -104,4 +104,31 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <!-- Style cho Tiêu đề mục (Vàng cam, Đậm) -->
+    <style name="PolicyHeader">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item><item name="android:textColor">#FFB74D</item> <!-- Màu vàng cam -->
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <!-- Style cho Nội dung (Xám trắng, Dãn dòng) -->
+    <style name="PolicyBody">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#E0E0E0</item> <!-- Màu trắng xám dịu mắt -->
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingExtra">6dp</item> <!-- Tăng khoảng cách dòng -->
+    </style>
+
+    <!-- Style cho đường kẻ ngang -->
+    <style name="PolicyDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#2A3038</item> <!-- Màu kẻ mờ -->
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
+
 </resources>

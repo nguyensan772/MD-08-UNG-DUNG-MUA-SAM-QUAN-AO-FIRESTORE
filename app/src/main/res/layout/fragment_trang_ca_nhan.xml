@@ -97,7 +97,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_info"
+                android:src="@drawable/bock"
                 app:tint="#D17842" />
 
             <TextView
@@ -106,7 +106,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Liên hệ"
+                android:text="Chính Sách"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
