@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +36,26 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public void addMessage(ChatMessage message) {
+        // Check for duplicates by ID or by content + timestamp
+        if (message.getId() != null && !message.getId().isEmpty()) {
+            // Check by ID
+            for (ChatMessage existing : messages) {
+                if (message.getId().equals(existing.getId())) {
+                    Log.d("ChatAdapter", "Duplicate message detected by ID: " + message.getId());
+                    return; // Don't add duplicate
+                }
+            }
+        } else {
+            // Check by content + timestamp (for messages without ID)
+            for (ChatMessage existing : messages) {
+                if (message.getMessage().equals(existing.getMessage()) &&
+                    Math.abs(message.getTimestamp() - existing.getTimestamp()) < 1000) {
+                    Log.d("ChatAdapter", "Duplicate message detected by content + timestamp");
+                    return; // Don't add duplicate
+                }
+            }
+        }
+        
         messages.add(message);
         notifyItemInserted(messages.size() - 1);
     }
