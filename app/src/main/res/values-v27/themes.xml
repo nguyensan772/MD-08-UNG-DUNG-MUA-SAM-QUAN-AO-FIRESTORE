@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Base.Theme.MD08_UngDungFiveStore" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="android:windowBackground">@drawable/ic_launcher_background</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <!-- Màu chủ đề chính -->
+        <item name="colorPrimary">#121212</item>
+        <!--        Màu chữ-->
+        <item name="colorOnPrimary">#FAFAFA</item>
+        <!--        Màu item-->
+        <item name="background">@color/background_light</item>
+
+
+    </style>
+</resources>

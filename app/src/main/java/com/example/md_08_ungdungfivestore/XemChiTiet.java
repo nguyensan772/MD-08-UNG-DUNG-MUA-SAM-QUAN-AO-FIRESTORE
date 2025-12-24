@@ -1,6 +1,8 @@
 package com.example.md_08_ungdungfivestore;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -51,14 +53,19 @@ public class XemChiTiet extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_xem_chi_tiet);
+        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        String isLogin = prefs.getString("isLogin", "0");
 
         anhXa();
-
         product = (Product) getIntent().getSerializableExtra("product");
         if (product == null) {
             Toast.makeText(this, "Sản phẩm không tồn tại", Toast.LENGTH_SHORT).show();
             finish();
             return;
+        }
+        if (isLogin.equals("0")){
+            btnFavorite.setVisibility(View.GONE);
+            btnOrderNow.setVisibility(View.GONE);
         }
 
         // Đổ dữ liệu sản phẩm cũ
@@ -204,26 +211,35 @@ public class XemChiTiet extends AppCompatActivity {
     }
 
     private void setupCartButtons() {
+
         btnAddToCart.setOnClickListener(v -> openSelectOptionsBottomSheet(false));
+
         btnOrderNow.setOnClickListener(v -> openSelectOptionsBottomSheet(true));
     }
 
     private void openSelectOptionsBottomSheet(boolean navigateToCheckout) {
+
+
+
+
         if (product == null) return;
-        SelectOptionsBottomSheetFragment bottomSheet = new SelectOptionsBottomSheetFragment(product, navigateToCheckout, (size, color, quantity) -> {
-            if (navigateToCheckout) {
-                Intent intent = new Intent(XemChiTiet.this, CheckoutActivity.class);
-                intent.putExtra("PRODUCT_ID", product.getId());
-                intent.putExtra("PRODUCT_NAME", product.getName());
-                intent.putExtra("PRODUCT_PRICE", product.getPrice());
-                intent.putExtra("PRODUCT_IMAGE", product.getImage());
-                intent.putExtra("SELECTED_SIZE", size);
-                intent.putExtra("SELECTED_COLOR", color);
-                intent.putExtra("SELECTED_QUANTITY", quantity);
-                intent.putExtra("IS_BUY_NOW", true);
-                startActivity(intent);
-            }
-        });
-        bottomSheet.show(getSupportFragmentManager(), "SelectOptionsBottomSheet");
+
+
+            SelectOptionsBottomSheetFragment bottomSheet = new SelectOptionsBottomSheetFragment(product, navigateToCheckout, (size, color, quantity) -> {
+                if (navigateToCheckout) {
+                    Intent intent = new Intent(XemChiTiet.this, CheckoutActivity.class);
+                    intent.putExtra("PRODUCT_ID", product.getId());
+                    intent.putExtra("PRODUCT_NAME", product.getName());
+                    intent.putExtra("PRODUCT_PRICE", product.getPrice());
+                    intent.putExtra("PRODUCT_IMAGE", product.getImage());
+                    intent.putExtra("SELECTED_SIZE", size);
+                    intent.putExtra("SELECTED_COLOR", color);
+                    intent.putExtra("SELECTED_QUANTITY", quantity);
+                    intent.putExtra("IS_BUY_NOW", true);
+                    startActivity(intent);
+                }
+            });
+            bottomSheet.show(getSupportFragmentManager(), "SelectOptionsBottomSheet");
+
     }
 }
