@@ -4,54 +4,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mauNen"
+    android:background="#0B0E12"
     android:orientation="vertical"
     android:padding="24dp"
     tools:context=".DoiMatKhauActivity">
 
+    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="0dp">
+        android:paddingBottom="12dp">
 
         <ImageView
             android:id="@+id/btnBackDoiMatKhau"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:rotation="180"
-            android:src="@drawable/back_icon" />
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_btn_round_dark"
+            android:padding="8dp"
+            android:src="@drawable/quay_lai_img"
+            />
+        <!-- Lưu ý: Nếu chưa có bg_btn_round_dark hoặc quay_lai_img,
+             bạn có thể giữ nguyên src cũ nhưng chỉnh lại size như trên -->
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:fontFamily="@font/poppins_bold"
             android:gravity="center"
             android:text="Đổi mật khẩu"
             android:textColor="@color/white"
-            android:textSize="22sp"
-            android:layout_marginEnd="30dp" />
+            android:textSize="20sp"
+            android:layout_marginEnd="40dp"/>
+        <!-- marginEnd = width của nút back để text cân giữa tuyệt đối -->
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="32dp">
 
+        <!-- Mật khẩu cũ -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="20dp"
+            android:textColorHint="#8E96A3"
+            app:boxBackgroundColor="#161B22"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
             app:boxStrokeColor="#D17842"
-            app:boxStrokeWidth="1dp"
-            app:boxStrokeWidthFocused="2dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="1dp"
             app:cursorColor="#D17842"
             app:hintTextColor="#D17842"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="#D17842"
+            app:passwordToggleTint="#8E96A3"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -62,20 +75,28 @@
                 android:hint="Mật khẩu hiện tại"
                 android:inputType="textPassword"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:paddingVertical="16dp"
+                android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Mật khẩu mới -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="20dp"
+            android:textColorHint="#8E96A3"
+            app:boxBackgroundColor="#161B22"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
             app:boxStrokeColor="#D17842"
-            app:boxStrokeWidth="1dp"
-            app:boxStrokeWidthFocused="2dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="1dp"
             app:cursorColor="#D17842"
             app:hintTextColor="#D17842"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="#D17842"
+            app:passwordToggleTint="#8E96A3"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -86,20 +107,28 @@
                 android:hint="Mật khẩu mới"
                 android:inputType="textPassword"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:paddingVertical="16dp"
+                android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Nhập lại mật khẩu mới -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
+            android:textColorHint="#8E96A3"
+            app:boxBackgroundColor="#161B22"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
             app:boxStrokeColor="#D17842"
-            app:boxStrokeWidth="1dp"
-            app:boxStrokeWidthFocused="2dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="1dp"
             app:cursorColor="#D17842"
             app:hintTextColor="#D17842"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="#D17842"
+            app:passwordToggleTint="#8E96A3"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -110,20 +139,25 @@
                 android:hint="Nhập lại mật khẩu mới"
                 android:inputType="textPassword"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:paddingVertical="16dp"
+                android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Nút Lưu -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnLuuThayDoi"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="56dp"
             android:background="@drawable/bg_color_selected"
             android:backgroundTint="#D17842"
             android:fontFamily="@font/poppins_bold"
             android:text="Lưu thay đổi"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            android:stateListAnimator="@null"
+            android:elevation="4dp"/>
+        <!-- Thêm elevation để tạo bóng đổ nhẹ -->
 
     </LinearLayout>
 </LinearLayout>
