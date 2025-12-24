@@ -1,6 +1,7 @@
 package com.example.md_08_ungdungfivestore.services;
 
 import android.content.Context;
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import com.example.md_08_ungdungfivestore.utils.AuthManager;
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
@@ -9,7 +10,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ThongBaoApiClient {
-    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev/";
     private static ApiThongBaoService apiService;
 
     public static ApiThongBaoService getClient(Context context) {
@@ -31,7 +31,7 @@ public class ThongBaoApiClient {
                     .build();
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(AppConfig.API_BASE_URL)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();

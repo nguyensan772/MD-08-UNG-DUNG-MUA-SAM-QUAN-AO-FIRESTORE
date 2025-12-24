@@ -20,9 +20,10 @@ import com.example.md_08_ungdungfivestore.DoiMatKhauActivity; // ⭐ Nhớ impor
 
 import com.example.md_08_ungdungfivestore.ManCaiDatChung;
 
-import com.example.md_08_ungdungfivestore.ManChat;
+import com.example.md_08_ungdungfivestore.ManChinhSach;
 import com.example.md_08_ungdungfivestore.ManDonHang;
 import com.example.md_08_ungdungfivestore.ManThongTinCaNhan;
+import com.example.md_08_ungdungfivestore.ChatSupportActivity;
 import com.example.md_08_ungdungfivestore.R;
 
 public class TrangCaNhanFragment extends Fragment {
@@ -33,6 +34,7 @@ public class TrangCaNhanFragment extends Fragment {
     private LinearLayout btnThongTinCaNhan;
     private LinearLayout btnDoiMatKhau; // ⭐ Thêm nút Đổi mật khẩu
     private LinearLayout btnLienHe;
+    private LinearLayout btnHoTro; // Nút Hỗ trợ chat
     private LinearLayout btnDangXuat;
 
     public TrangCaNhanFragment() {
@@ -57,6 +59,7 @@ public class TrangCaNhanFragment extends Fragment {
         btnDangXuat = view.findViewById(R.id.btnDangXuat);
         btnDangNhap = view.findViewById(R.id.btnDangNhapCaiDatChung);
         btnCaiDatChung = view.findViewById(R.id.btnCaiDatChung); // ⭐ Ánh xạ nút mới
+        btnHoTro = view.findViewById(R.id.btnHoTro); // Ánh xạ nút Hỗ trợ
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
         String isLogin = sharedPreferences.getString("isLogin", "0");
@@ -109,11 +112,15 @@ public class TrangCaNhanFragment extends Fragment {
             startActivity(intent);
         });
 
-       
+        // --- Nút Hỗ trợ ---
+        btnHoTro.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ChatSupportActivity.class);
+            startActivity(intent);
+        });
 
         // --- Nút Liên hệ ---
         btnLienHe.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), ManChat.class);
+            Intent intent = new Intent(getContext(), ManChinhSach.class);
             startActivity(intent);
         });
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -17,8 +18,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.io.IOException;
 
 public class ApiClientYeuThich {
-
-    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev/";
     private static Retrofit retrofit;
 
     public static Retrofit getClient(Context context) {
@@ -52,7 +51,7 @@ public class ApiClientYeuThich {
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(AppConfig.API_BASE_URL)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();

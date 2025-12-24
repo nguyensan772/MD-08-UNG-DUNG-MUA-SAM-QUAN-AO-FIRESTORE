@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.md_08_ungdungfivestore.R;
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import com.example.md_08_ungdungfivestore.models.CartItem;
 
 import java.util.List;
@@ -21,9 +22,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private final Context context;
     private final List<CartItem> cartItemList;
     private final CartItemActionListener actionListener;
-
-    // Địa chỉ Server
-    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev";
 
     public interface CartItemActionListener {
         void onQuantityChange(CartItem item, int newQuantity);
@@ -70,10 +68,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 // Kiểm tra xem đã có chữ "uploads" trong tên chưa
                 if (cleanPath.startsWith("uploads")) {
                     // Nếu có rồi: http://...:5001/uploads/abc.jpg
-                    fullImageUrl = BASE_URL + "/" + cleanPath;
+                    fullImageUrl = AppConfig.BASE_URL + "/" + cleanPath;
                 } else {
                     // Nếu chưa có: http://...:5001/uploads/abc.jpg
-                    fullImageUrl = BASE_URL + "/uploads/" + cleanPath;
+                    fullImageUrl = AppConfig.BASE_URL + "/uploads/" + cleanPath;
                 }
             }
 

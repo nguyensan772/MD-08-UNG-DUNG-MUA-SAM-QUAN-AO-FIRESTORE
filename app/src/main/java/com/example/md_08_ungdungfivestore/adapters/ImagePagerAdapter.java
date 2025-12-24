@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.md_08_ungdungfivestore.R;
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class ImagePagerAdapter extends RecyclerView.Adapter<ImagePagerAdapter.Im
         String url = imageUrls.get(position);
         if (!url.startsWith("http")) {
             if (!url.startsWith("/")) url = "/" + url;
-            url = "https://bruce-brutish-duane.ngrok-free.dev" + url;
+            url = AppConfig.BASE_URL + url;
         }
 
         Glide.with(context)

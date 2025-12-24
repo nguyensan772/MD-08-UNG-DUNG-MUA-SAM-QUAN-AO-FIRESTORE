@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.md_08_ungdungfivestore.R;
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import com.example.md_08_ungdungfivestore.models.Product;
 
 import java.util.List;
@@ -52,7 +53,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             String imageUrl = p.getImage();
             if (!imageUrl.startsWith("http")) {
                 if (!imageUrl.startsWith("/")) imageUrl = "/" + imageUrl;
-                imageUrl = "https://bruce-brutish-duane.ngrok-free.dev" + imageUrl;
+                imageUrl = AppConfig.BASE_URL + imageUrl;
             }
             Glide.with(context).load(imageUrl).error(R.drawable.ic_kids1).into(holder.imgProduct);
         } else {

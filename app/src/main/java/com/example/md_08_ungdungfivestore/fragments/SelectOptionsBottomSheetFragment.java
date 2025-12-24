@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.example.md_08_ungdungfivestore.R;
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import com.example.md_08_ungdungfivestore.models.Product;
 import com.example.md_08_ungdungfivestore.models.CartRequest;
 import com.example.md_08_ungdungfivestore.models.CartResponse;
@@ -105,11 +106,10 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
             return;
         }
         String fullUrl;
-        final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev";
         if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
             fullUrl = imagePath;
         } else if (imagePath.startsWith("/uploads/")) {
-            fullUrl = BASE_URL + imagePath;
+            fullUrl = AppConfig.BASE_URL + imagePath;
         } else {
             // ... Logic local drawable cũ ...
             ivProductImage.setImageResource(R.drawable.ic_launcher_background);
