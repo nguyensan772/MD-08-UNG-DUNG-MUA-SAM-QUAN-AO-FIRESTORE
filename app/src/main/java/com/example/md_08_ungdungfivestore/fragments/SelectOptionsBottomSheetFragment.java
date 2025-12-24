@@ -37,17 +37,17 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
     private TextView tvPriceNew, tvStock, tvQuantity, btnClose, btnBuyNow;
     private LinearLayout layoutColors, layoutSizes;
     private ImageButton btnDecrease, btnIncrease;
+    private ProgressBar progressBar; // Thêm progress bar để báo đang tải
 
     private Product product;
     private int quantity = 1;
     private String selectedColor = null;
     private String selectedSize = null;
     private boolean isBuyNowAction;
-
-    // ⭐ BIẾN MỚI: Theo dõi tồn kho hiện tại tối đa được phép mua
     private int currentMaxStock = 0;
 
     private OnOptionSelectedListener listener;
+    private CartService cartService;
 
     public interface OnOptionSelectedListener {
         void onOptionSelected(String size, String color, int quantity);
@@ -64,30 +64,15 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_select_options, container, false);
         anhXa(view);
+
+        cartService = ApiClientCart.getCartService(getContext());
         btnClose.setOnClickListener(v -> dismiss());
 
         if (product != null) {
-            loadProductImage(product.getImage());
-            tvPriceNew.setText(formatPrice(product.getPrice()));
-            tvPriceNew.setTextColor(0xFFD17842);
-
-            // Khởi tạo mặc định
-            currentMaxStock = product.getTotalQuantity();
-            tvStock.setText("Kho: " + currentMaxStock);
-            tvStock.setTextColor(0xFF000000);
-
-            // Cập nhật text nút bấm dựa trên hành động
-            if (isBuyNowAction) {
-                btnBuyNow.setText("MUA NGAY");
-            } else {
-                btnBuyNow.setText("THÊM VÀO GIỎ");
-            }
-
-            setupColors();
-            setupSizes();
-            setupQuantity();
-            setupBuyNow();
+            // ⭐ BƯỚC 1: Gọi API lấy dữ liệu tồn kho mới nhất ngay lập tức
+            refreshProductDataFromServer(product.getId());
         }
+
         return view;
     }
 
@@ -102,50 +87,60 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
         btnIncrease = view.findViewById(R.id.btnIncrease);
         btnBuyNow = view.findViewById(R.id.btnBuyNow);
         btnClose = view.findViewById(R.id.btnClose);
+        progressBar = view.findViewById(R.id.progressBar); // Bạn nên thêm cái này vào XML
     }
 
-    private String formatPrice(double price) {
-        return String.format("%,.0fđ", price).replace(',', '.');
+    private void refreshProductDataFromServer(String productId) {
+        if (progressBar != null) progressBar.setVisibility(View.VISIBLE);
+
+        // Gọi API chi tiết sản phẩm (Đảm bảo CartService có hàm getProductDetail)
+        cartService.getProductDetail(productId).enqueue(new Callback<Product>() {
+            @Override
+            public void onResponse(Call<Product> call, Response<Product> response) {
+                if (progressBar != null) progressBar.setVisibility(View.GONE);
+                if (response.isSuccessful() && response.body() != null) {
+                    product = response.body(); // Ghi đè dữ liệu cũ bằng dữ liệu mới nhất từ DB
+                    updateUIWithFreshData();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Product> call, Throwable t) {
+                if (progressBar != null) progressBar.setVisibility(View.GONE);
+                updateUIWithFreshData(); // Vẫn hiển thị dữ liệu cũ nếu lỗi mạng
+            }
+        });
     }
 
-    // ... (Giữ nguyên hàm loadProductImage) ...
-    private void loadProductImage(String imagePath) {
-        if (imagePath == null || imagePath.isEmpty()) {
-            ivProductImage.setImageResource(R.drawable.ic_launcher_background);
-            return;
-        }
-        String fullUrl;
-        if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-            fullUrl = imagePath;
-        } else if (imagePath.startsWith("/uploads/")) {
-            fullUrl = AppConfig.BASE_URL + imagePath;
-        } else {
-            // ... Logic local drawable cũ ...
-            ivProductImage.setImageResource(R.drawable.ic_launcher_background);
-            return;
-        }
-        Glide.with(this).load(fullUrl).placeholder(R.drawable.ic_launcher_background).error(R.drawable.ic_launcher_background).into(ivProductImage);
+    private void updateUIWithFreshData() {
+        loadProductImage(product.getImage());
+        tvPriceNew.setText(formatPrice(product.getPrice()));
+        tvPriceNew.setTextColor(0xFFD17842);
+
+        currentMaxStock = product.getTotalQuantity();
+        tvStock.setText("Kho: " + currentMaxStock);
+
+        btnBuyNow.setText(isBuyNowAction ? "MUA NGAY" : "THÊM VÀO GIỎ");
+
+        setupColors();
+        setupSizes();
+        setupQuantity();
+        setupBuyNow();
     }
 
-    // ⭐ LOGIC MỚI: Cập nhật hiển thị kho
     private void updateStockDisplay() {
         if (product == null) return;
 
-        // Nếu chưa chọn đủ cả 2 -> Hiện tổng hoặc ẩn
         if (selectedColor == null || selectedSize == null) {
             tvStock.setText("Kho: " + product.getTotalQuantity() + " (Chọn phân loại)");
-            currentMaxStock = product.getTotalQuantity(); // Hoặc set về 0 để bắt buộc chọn
+            currentMaxStock = product.getTotalQuantity();
             return;
         }
 
-        // Khi đã chọn đủ Size và Màu -> Lấy số lượng thực tế
-        // GIẢ ĐỊNH: Bạn đã thêm hàm getStockForVariant vào Product.java như Bước 1
+        // ⭐ Lấy số lượng từ variations thực tế trong DB
         int variantStock = product.getStockForVariant(selectedSize, selectedColor);
-
-        // Cập nhật biến toàn cục để dùng cho nút tăng giảm
         currentMaxStock = variantStock;
 
-        // Hiển thị ra màn hình
         if (variantStock > 0) {
             tvStock.setText("Kho: " + variantStock);
             tvStock.setTextColor(0xFF000000);
@@ -153,45 +148,28 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
             btnBuyNow.setAlpha(1.0f);
         } else {
             tvStock.setText("Hết hàng");
-            tvStock.setTextColor(0xFFFF0000); // Màu đỏ báo động
-            btnBuyNow.setEnabled(false); // Khóa nút mua
-            btnBuyNow.setAlpha(0.5f); // Làm mờ nút mua
+            tvStock.setTextColor(0xFFFF0000);
+            btnBuyNow.setEnabled(false);
+            btnBuyNow.setAlpha(0.5f);
         }
 
-        // Reset lại số lượng chọn về 1 (hoặc max) nếu số lượng đang chọn > kho mới
+        // Đồng bộ lại số lượng chọn nếu vượt quá kho mới
         if (quantity > currentMaxStock && currentMaxStock > 0) {
             quantity = currentMaxStock;
-        } else if (currentMaxStock == 0) {
-            quantity = 1; // Chỉ để hiển thị, nút mua đã bị khóa
-        } else if (quantity < 1) {
-            quantity = 1;
+            tvQuantity.setText(String.valueOf(quantity));
         }
-        tvQuantity.setText(String.valueOf(quantity));
     }
 
     private void setupColors() {
         layoutColors.removeAllViews();
         List<String> colors = product.getAvailableColors();
         if (colors != null) {
-            int margin = 8;
             for (String color : colors) {
-                TextView colorView = new TextView(getContext());
-                colorView.setText(color);
-                colorView.setTextColor(0xFF000000);
-                colorView.setTextSize(16f);
-                colorView.setPadding(24,12,24,12);
-                colorView.setBackgroundColor(0xFFFFFFFF);
-
-                // Set viền để đẹp hơn (tùy chọn)
-                // colorView.setBackgroundResource(R.drawable.bg_option_item);
-
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params.setMargins(margin,0,0,0);
-                colorView.setLayoutParams(params);
+                TextView colorView = createOptionTextView(color);
                 colorView.setOnClickListener(v -> {
                     selectedColor = color;
                     highlightSelected(layoutColors, colorView);
-                    updateStockDisplay(); // ⭐ GỌI HÀM CẬP NHẬT KHO
+                    updateStockDisplay();
                 });
                 layoutColors.addView(colorView);
             }
@@ -202,84 +180,66 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
         layoutSizes.removeAllViews();
         List<String> sizes = product.getAvailableSizes();
         if (sizes != null) {
-            int margin = 8;
             for (String size : sizes) {
-                TextView sizeView = new TextView(getContext());
-                sizeView.setText(size);
-                sizeView.setTextColor(0xFF000000);
-                sizeView.setTextSize(16f);
-                sizeView.setPadding(24,12,24,12);
-                sizeView.setBackgroundColor(0xFFFFFFFF);
-
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params.setMargins(margin,0,0,0);
-                sizeView.setLayoutParams(params);
+                TextView sizeView = createOptionTextView(size);
                 sizeView.setOnClickListener(v -> {
                     selectedSize = size;
                     highlightSelected(layoutSizes, sizeView);
-                    updateStockDisplay(); // ⭐ GỌI HÀM CẬP NHẬT KHO
+                    updateStockDisplay();
                 });
                 layoutSizes.addView(sizeView);
             }
         }
     }
 
+    private TextView createOptionTextView(String text) {
+        TextView tv = new TextView(getContext());
+        tv.setText(text);
+        tv.setTextColor(0xFF000000);
+        tv.setPadding(30, 15, 30, 15);
+        tv.setBackgroundResource(R.drawable.bg_unselected_option); // Tạo file drawable viền xám
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(10, 0, 10, 0);
+        tv.setLayoutParams(params);
+        return tv;
+    }
+
     private void highlightSelected(LinearLayout parent, View selectedView) {
         for (int i = 0; i < parent.getChildCount(); i++) {
             View child = parent.getChildAt(i);
-            child.setBackgroundColor(0xFFFFFFFF);
+            child.setBackgroundResource(R.drawable.bg_unselected_option);
             if (child instanceof TextView) ((TextView) child).setTextColor(0xFF000000);
         }
-        selectedView.setBackgroundColor(0xFFD17842);
+        selectedView.setBackgroundResource(R.drawable.bg_selected_option); // Viền màu cam/nâu
         if (selectedView instanceof TextView) ((TextView) selectedView).setTextColor(0xFFFFFFFF);
     }
 
     private void setupQuantity() {
         tvQuantity.setText(String.valueOf(quantity));
-
         btnDecrease.setOnClickListener(v -> {
             if (quantity > 1) {
                 quantity--;
                 tvQuantity.setText(String.valueOf(quantity));
             }
         });
-
-        // ⭐ LOGIC MỚI: Không cho tăng quá currentMaxStock
         btnIncrease.setOnClickListener(v -> {
             if (selectedColor == null || selectedSize == null) {
-                Toast.makeText(getContext(), "Vui lòng chọn size và màu trước", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Vui lòng chọn phân loại", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             if (quantity < currentMaxStock) {
                 quantity++;
                 tvQuantity.setText(String.valueOf(quantity));
             } else {
-                Toast.makeText(getContext(), "Đã đạt giới hạn tồn kho: " + currentMaxStock, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Kho chỉ còn: " + currentMaxStock, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    // 1. Lấy toàn bộ danh sách giỏ hàng (Dùng GSON)
-    public static List<LocalCartItem> getCart(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(FilePrefs.LocalCart, Context.MODE_PRIVATE);
-        String json = sharedPreferences.getString(FilePrefs.KEY_CART, null);
-
-        if (json == null) return new ArrayList<>();
-
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<LocalCartItem>>() {}.getType();
-        return gson.fromJson(json, type);
-    }
     private void setupBuyNow() {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(FilePrefs.MyAppPrefs, Context.MODE_PRIVATE);
-        SharedPreferences cart = getContext().getSharedPreferences(FilePrefs.LocalCart, Context.MODE_PRIVATE);
         String isLogin = sharedPreferences.getString("isLogin", "0");
-
-        SharedPreferences.Editor cartEditor     = cart.edit();
-
-
-
 
         btnBuyNow.setOnClickListener(v -> {
             if (selectedColor == null || selectedSize == null) {
@@ -287,82 +247,69 @@ public class SelectOptionsBottomSheetFragment extends BottomSheetDialogFragment 
                 return;
             }
 
-            if (currentMaxStock == 0) {
-                Toast.makeText(getContext(), "Sản phẩm này đã hết hàng", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (product == null || product.getId() == null) {
-                Toast.makeText(getContext(), "Lỗi sản phẩm: Không có ID", Toast.LENGTH_SHORT).show();
+            if (currentMaxStock <= 0) {
+                Toast.makeText(getContext(), "Sản phẩm đã hết hàng", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (isLogin.equals("0")){
-
-
-                // Lấy list cũ ra trước
+                // Xử lý giỏ hàng cục bộ (Local)
                 List<LocalCartItem> cartList = getCart(getContext());
                 boolean isExist = false;
-
-                // Kiểm tra xem đã có sản phẩm này (cùng ID, Size, Màu) chưa
                 for (LocalCartItem item : cartList) {
-                    if (item.getId().equals(product.getId()) &&
-                            item.getSize().equals(selectedSize) &&
-                            item.getColor().equals(selectedColor)) {
-
-                        item.setQuantity(item.getQuantity() + quantity); // Tăng số lượng
+                    if (item.getId().equals(product.getId()) && item.getSize().equals(selectedSize) && item.getColor().equals(selectedColor)) {
+                        item.setQuantity(item.getQuantity() + quantity);
                         isExist = true;
                         break;
                     }
                 }
-
                 if (!isExist) {
-                    product.setQuantity(quantity); // Mặc định lần đầu là 1
-                    cartList.add(new LocalCartItem(product.getId(),product.getName(),product.getPrice(),quantity,product.getImage(),selectedSize,selectedColor));
+                    cartList.add(new LocalCartItem(product.getId(), product.getName(), product.getPrice(), quantity, product.getImage(), selectedSize, selectedColor));
                 }
-
-                // --- LƯU LẠI VÀO SHARED DƯỚI DẠNG GSON ---
                 saveCartList(getContext(), cartList);
-
-
-
-            }else {
-                // ... Logic gọi API giữ nguyên ...
+                Toast.makeText(getContext(), "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                dismiss();
+            } else {
+                // Xử lý gọi API Server
                 CartRequest cartRequest = new CartRequest(product.getId(), product.getName(), selectedSize, selectedColor, quantity, product.getPrice());
-                CartService cartService = ApiClientCart.getCartService(getContext());
                 cartService.addToCart(cartRequest).enqueue(new Callback<CartResponse>() {
                     @Override
                     public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
                         if (response.isSuccessful()) {
-                            if (listener != null) {
-                                listener.onOptionSelected(selectedSize, selectedColor, quantity);
-                            }
+                            if (listener != null) listener.onOptionSelected(selectedSize, selectedColor, quantity);
                             dismiss();
                         } else {
-                            Log.e("CartAPI", "Error Code: " + response.code());
-                            Toast.makeText(getContext(), "Thêm vào giỏ thất bại", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Lỗi từ máy chủ", Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override
                     public void onFailure(Call<CartResponse> call, Throwable t) {
-                        Log.e("CartAPI", "Failure: " + t.getMessage());
                         Toast.makeText(getContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
-
         });
     }
-    // 3. Hàm phụ trợ để đóng gói List thành JSON và lưu
-    // 3. Hàm phụ trợ để đóng gói List thành JSON và lưu
+
+    private void loadProductImage(String imagePath) {
+        String fullUrl = imagePath.startsWith("http") ? imagePath : AppConfig.BASE_URL + imagePath;
+        Glide.with(this).load(fullUrl).placeholder(R.drawable.ic_launcher_background).into(ivProductImage);
+    }
+
+    private String formatPrice(double price) {
+        return String.format("%,.0fđ", price).replace(',', '.');
+    }
+
+    public static List<LocalCartItem> getCart(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(FilePrefs.LocalCart, Context.MODE_PRIVATE);
+        String json = prefs.getString(FilePrefs.KEY_CART, null);
+        if (json == null) return new ArrayList<>();
+        return new Gson().fromJson(json, new TypeToken<List<LocalCartItem>>(){}.getType());
+    }
+
     private static void saveCartList(Context context, List<LocalCartItem> cartList) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(FilePrefs.LocalCart, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        Gson gson = new Gson();
-        String json = gson.toJson(cartList); // Chuyển cả list mới thành 1 chuỗi JSON
-
-        editor.putString(FilePrefs.KEY_CART, json);
+        SharedPreferences.Editor editor = context.getSharedPreferences(FilePrefs.LocalCart, Context.MODE_PRIVATE).edit();
+        editor.putString(FilePrefs.KEY_CART, new Gson().toJson(cartList));
         editor.apply();
     }
 

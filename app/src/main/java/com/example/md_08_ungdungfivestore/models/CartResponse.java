@@ -10,17 +10,23 @@ public class CartResponse {
     @SerializedName("user_id")
     private String userId;
 
-    // items: [ { product_id, name, image, ... } ]
     private List<CartItem> items;
+
+    // ⭐ Thêm trường success để kiểm tra nhanh kết quả API
+    @SerializedName("success")
+    private boolean success;
 
     @SerializedName("message")
     private String message;
 
     // Getters
-    public List<CartItem> getItems() {
-        return items;
-    }
-    public String getMessage() {
-        return message;
-    }
+    public String getId() { return id; }
+    public String getUserId() { return userId; }
+    public List<CartItem> getItems() { return items; }
+    public String getMessage() { return message; }
+    public boolean isSuccess() { return success; }
+
+    // Setters (Nếu cần thiết cho việc unit test hoặc local data)
+    public void setSuccess(boolean success) { this.success = success; }
+    public void setMessage(String message) { this.message = message; }
 }

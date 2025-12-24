@@ -132,20 +132,35 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
     private void setupActionButtons(OrderViewHolder holder, OrderResponse order, int position) {
         holder.btnAction1.setVisibility(View.GONE);
+
         switch (order.getStatus()) {
             case "pending":
+                // Chỉ cho phép User hủy khi đơn đang chờ xác nhận
                 holder.btnAction1.setText("HỦY ĐƠN");
                 holder.btnAction1.setVisibility(View.VISIBLE);
                 holder.btnAction1.setOnClickListener(v -> {
                     if (actionListener != null) actionListener.onCancelClick(order, position);
                 });
                 break;
+
+            case "confirmed":
+            case "processing":
+            case "shipping":
+                // Ẩn nút Hủy vì đơn đã vào luồng vận chuyển và đã trừ kho
+                holder.btnAction1.setVisibility(View.GONE);
+                break;
+
             case "delivered":
                 holder.btnAction1.setText("ĐÁNH GIÁ");
                 holder.btnAction1.setVisibility(View.VISIBLE);
                 holder.btnAction1.setOnClickListener(v -> {
                     if (actionListener != null) actionListener.onRateClick(order);
                 });
+                break;
+
+            case "cancelled":
+                // Có thể thêm nút "MUA LẠI" ở đây nếu muốn
+                holder.btnAction1.setVisibility(View.GONE);
                 break;
         }
     }
