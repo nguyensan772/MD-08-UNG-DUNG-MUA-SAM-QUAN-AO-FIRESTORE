@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:background="#0B0E12"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
+
     tools:context=".ManChinhSach">
 
     <!-- Header (Giữ nguyên cấu trúc và ID btnBack) -->
