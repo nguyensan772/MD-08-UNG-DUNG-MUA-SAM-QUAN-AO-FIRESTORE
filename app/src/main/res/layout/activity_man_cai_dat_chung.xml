@@ -29,7 +29,7 @@
             android:contentDescription="Quay lại"
             android:padding="0dp"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/quay_lai_img"
+            app:srcCompat="@drawable/back_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
