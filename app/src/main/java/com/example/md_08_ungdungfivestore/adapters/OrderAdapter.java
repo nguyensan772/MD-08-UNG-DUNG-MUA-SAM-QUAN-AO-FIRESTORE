@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.md_08_ungdungfivestore.R;
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import com.example.md_08_ungdungfivestore.models.OrderResponse;
 import com.example.md_08_ungdungfivestore.models.OrderItem;
 
@@ -19,9 +20,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
-
-    // ĐỊA CHỈ SERVER
-    private static final String SERVER_BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev";
 
     private final Context context;
     private final List<OrderResponse> orderList;
@@ -80,9 +78,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 } else {
                     String cleanPath = imagePath.startsWith("/") ? imagePath.substring(1) : imagePath;
                     if (cleanPath.startsWith("uploads")) {
-                        fullImageUrl = SERVER_BASE_URL + "/" + cleanPath;
+                        fullImageUrl = AppConfig.BASE_URL + "/" + cleanPath;
                     } else {
-                        fullImageUrl = SERVER_BASE_URL + "/uploads/" + cleanPath;
+                        fullImageUrl = AppConfig.BASE_URL + "/uploads/" + cleanPath;
                     }
                 }
 

@@ -2,6 +2,7 @@ package com.example.md_08_ungdungfivestore.services;
 
 import android.content.Context;
 
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import com.example.md_08_ungdungfivestore.utils.AuthManager;
 
 import java.io.IOException;
@@ -14,8 +15,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClientCaNhan {
-
-    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev/"; // Đã xác nhận cổng
     private static Retrofit retrofit = null;
 
     private static class AuthInterceptor implements Interceptor {
@@ -51,7 +50,7 @@ public class ApiClientCaNhan {
 
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(AppConfig.API_BASE_URL)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();

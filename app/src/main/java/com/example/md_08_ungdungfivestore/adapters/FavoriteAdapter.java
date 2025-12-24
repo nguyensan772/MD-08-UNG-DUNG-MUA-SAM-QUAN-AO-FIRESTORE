@@ -14,15 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.md_08_ungdungfivestore.R;
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import com.example.md_08_ungdungfivestore.models.Product;
 import com.example.md_08_ungdungfivestore.services.YeuThichManager;
 
 import java.util.List;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder> {
-
-    // URL Server gốc
-    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev";
 
     private Context context;
     private List<Product> productList;
@@ -73,10 +71,10 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
                 // Kiểm tra xem trong DB lưu có chữ "uploads" chưa
                 if (cleanPath.startsWith("uploads")) {
                     // Nếu có rồi: http://...:5001/uploads/anh.jpg
-                    fullImageUrl = BASE_URL + "/" + cleanPath;
+                    fullImageUrl = AppConfig.BASE_URL + "/" + cleanPath;
                 } else {
                     // Nếu chưa có: http://...:5001/uploads/anh.jpg
-                    fullImageUrl = BASE_URL + "/uploads/" + cleanPath;
+                    fullImageUrl = AppConfig.BASE_URL + "/uploads/" + cleanPath;
                 }
             }
 

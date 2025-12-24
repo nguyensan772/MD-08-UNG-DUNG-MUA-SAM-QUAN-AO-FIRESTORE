@@ -21,6 +21,7 @@ import com.example.md_08_ungdungfivestore.R;
 import com.example.md_08_ungdungfivestore.XemChiTiet;
 import com.example.md_08_ungdungfivestore.SearchActivity;
 import com.example.md_08_ungdungfivestore.adapters.ProductAdapter;
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import com.example.md_08_ungdungfivestore.models.Product;
 import com.example.md_08_ungdungfivestore.services.ProductApiService;
 import com.example.md_08_ungdungfivestore.services.ApiClientYeuThich;
@@ -177,7 +178,7 @@ public class TrangChuFragment extends Fragment {
 
     private void setupApiService() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://bruce-brutish-duane.ngrok-free.dev/")
+                .baseUrl(AppConfig.API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(ProductApiService.class);

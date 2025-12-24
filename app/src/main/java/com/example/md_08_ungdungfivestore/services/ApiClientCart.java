@@ -2,6 +2,7 @@ package com.example.md_08_ungdungfivestore.services;
 // HOẶC: package com.example.md_08_ungdungfivestore.api;
 
 import android.content.Context;
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import com.example.md_08_ungdungfivestore.utils.AuthManager;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -9,9 +10,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClientCart {
-
-    // Đã sửa cổng từ 5000 thành 5001
-    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev/";
     private static Retrofit retrofit = null;
 
     public static CartService getCartService(Context context) {
@@ -38,7 +36,7 @@ public class ApiClientCart {
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(AppConfig.API_BASE_URL)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();

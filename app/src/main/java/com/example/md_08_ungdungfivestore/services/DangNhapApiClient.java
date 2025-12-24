@@ -1,16 +1,16 @@
 package com.example.md_08_ungdungfivestore.services;
 
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DangNhapApiClient {
-    private static final String BASE_URL = "https://bruce-brutish-duane.ngrok-free.dev/api/auth/";
     private static Retrofit retrofit;
 
     public static Retrofit getClient() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(AppConfig.AUTH_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

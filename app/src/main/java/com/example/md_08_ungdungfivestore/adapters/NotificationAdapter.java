@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.md_08_ungdungfivestore.ManChiTietDonHang;
 import com.example.md_08_ungdungfivestore.R;
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import com.example.md_08_ungdungfivestore.models.Notification;
 import com.example.md_08_ungdungfivestore.services.ThongBaoApiClient;
 import java.text.SimpleDateFormat;
@@ -30,7 +31,6 @@ import retrofit2.Response;
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
     private List<Notification> list;
     private Context context;
-    private final String BASE_URL_IMAGE = "https://bruce-brutish-duane.ngrok-free.dev";
 
     public NotificationAdapter(List<Notification> list, Context context) {
         this.list = list;
@@ -58,9 +58,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 fullUrl = imageUrl;
             } else {
                 if (imageUrl.contains("uploads")) {
-                    fullUrl = "https://bruce-brutish-duane.ngrok-free.dev/" + (imageUrl.startsWith("/") ? imageUrl.substring(1) : imageUrl);
+                    fullUrl = AppConfig.BASE_URL + "/" + (imageUrl.startsWith("/") ? imageUrl.substring(1) : imageUrl);
                 } else {
-                    fullUrl = "https://bruce-brutish-duane.ngrok-free.dev/uploads/" + (imageUrl.startsWith("/") ? imageUrl.substring(1) : imageUrl);
+                    fullUrl = AppConfig.BASE_URL + "/uploads/" + (imageUrl.startsWith("/") ? imageUrl.substring(1) : imageUrl);
                 }
             }
             Log.e("CHECK_ANH", "Link cuoi cung: " + fullUrl);

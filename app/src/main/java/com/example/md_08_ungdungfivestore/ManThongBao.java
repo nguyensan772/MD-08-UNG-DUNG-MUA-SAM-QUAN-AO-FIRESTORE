@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.md_08_ungdungfivestore.adapters.NotificationAdapter;
+import com.example.md_08_ungdungfivestore.config.AppConfig;
 import com.example.md_08_ungdungfivestore.models.Notification;
 import com.example.md_08_ungdungfivestore.services.ThongBaoApiClient;
 import com.google.gson.Gson;
@@ -60,7 +61,7 @@ public class ManThongBao extends AppCompatActivity {
     private void setupSocket() {
         try {
             // URL server của ông
-            mSocket = IO.socket("https://bruce-brutish-duane.ngrok-free.dev");
+            mSocket = IO.socket(AppConfig.BASE_URL);
             mSocket.connect();
 
             // Lắng nghe sự kiện "new_notification" từ server gửi về
