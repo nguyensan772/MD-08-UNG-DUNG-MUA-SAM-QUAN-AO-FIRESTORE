@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0B0E12"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+
+    tools:context=".ManChinhSach">
+
+    <!-- Header (Giữ nguyên cấu trúc và ID btnBack) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_btn_round_dark"
+            android:contentDescription="@string/app_name"
+            app:srcCompat="@drawable/back_icon"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="Chính sách bán hàng"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <!-- Nội dung chính sách (Dùng ScrollView vì nội dung dài) -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
+
+            <!-- Tiêu đề chính -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CHÍNH SÁCH BÁN HÀNG – FIVE STORE"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginBottom="20dp"/>
+
+            <!-- 1. Giới thiệu chung -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. Giới thiệu chung"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#D1D1D1"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp"
+                android:text="FiveStore là ứng dụng thương mại điện tử chuyên cung cấp quần áo và phụ kiện thời trang cho nam và nữ.\nChính sách bán hàng này quy định các điều khoản liên quan đến mua bán, thanh toán và giao nhận sản phẩm khi khách hàng sử dụng ứng dụng FiveStore.\n\nViệc khách hàng đặt hàng trên ứng dụng đồng nghĩa với việc đã đọc, hiểu và đồng ý với toàn bộ nội dung chính sách này."/>
+
+            <!-- 2. Phạm vi áp dụng -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2. Phạm vi áp dụng"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#D1D1D1"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp"
+                android:text="- Áp dụng cho tất cả khách hàng mua sắm thông qua ứng dụng FiveStore\n- Áp dụng cho toàn bộ sản phẩm quần áo và phụ kiện được đăng bán trên hệ thống\n- Áp dụng trên phạm vi toàn quốc"/>
+
+            <!-- 3. Thông tin sản phẩm -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3. Thông tin sản phẩm"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#D1D1D1"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp"
+                android:text="Mỗi sản phẩm trên FiveStore đều được hiển thị đầy đủ:\n- Tên sản phẩm\n- Hình ảnh minh họa\n- Giá bán\n- Size, màu sắc\n- Chất liệu\n- Mô tả chi tiết\n\nHình ảnh sản phẩm mang tính minh họa sát với thực tế, có thể có sai lệch nhỏ do ánh sáng hoặc thiết bị hiển thị.\nFiveStore cam kết cung cấp sản phẩm đúng mô tả, rõ nguồn gốc."/>
+
+            <!-- 4. Giá bán -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="4. Giá bán"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#D1D1D1"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp"
+                android:text="- Giá sản phẩm được hiển thị công khai và minh bạch trên ứng dụng.\n- Giá bán là giá tại thời điểm khách hàng xác nhận đặt hàng.\n- FiveStore không áp dụng mã giảm giá hoặc hình thức ưu đãi bằng mã."/>
+
+            <!-- 5. Quy trình đặt hàng -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5. Quy trình đặt hàng"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#D1D1D1"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp"
+                android:text="Khách hàng thực hiện đặt hàng theo các bước sau:\n1. Đăng nhập hoặc đăng ký tài khoản FiveStore\n2. Chọn sản phẩm, size và màu sắc\n3. Thêm sản phẩm vào giỏ hàng\n4. Kiểm tra giỏ hàng\n5. Nhập thông tin giao hàng\n6. Chọn phương thức thanh toán\n7. Xác nhận đặt hàng\n\nSau khi đặt hàng thành công:\n- Hệ thống tạo mã đơn hàng\n- Đơn hàng được lưu trong mục Lịch sử đơn hàng"/>
+
+            <!-- 6. Phương thức thanh toán -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="6. Phương thức thanh toán"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#D1D1D1"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp"
+                android:text="FiveStore hỗ trợ các phương thức thanh toán sau:\n💳 Thanh toán online (VNPay)\n💵 Thanh toán khi nhận hàng (COD)\n\nNguyên tắc thanh toán:\n- Đơn hàng chỉ được xử lý khi thanh toán thành công hoặc được xác nhận COD.\n- Trường hợp thanh toán không thành công, đơn hàng sẽ không được xử lý."/>
+
+            <!-- 7. Giao hàng & vận chuyển -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="7. Giao hàng &amp; vận chuyển"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#D1D1D1"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp"
+                android:text="Phạm vi giao hàng: Toàn quốc\n\nThời gian giao hàng dự kiến:\n- Nội thành: 1 – 3 ngày làm việc\n- Ngoại tỉnh: 3 – 7 ngày làm việc\n\nPhí vận chuyển:\n- Được hiển thị rõ ràng trước khi khách hàng xác nhận đơn hàng.\n- Thời gian giao hàng có thể thay đổi do điều kiện khách quan hoặc đơn vị vận chuyển."/>
+
+            <!-- 8. Kiểm tra hàng khi nhận -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="8. Kiểm tra hàng khi nhận"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#D1D1D1"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp"
+                android:text="Khách hàng được kiểm tra:\n- Tình trạng đóng gói\n- Số lượng sản phẩm\n\nKhách hàng không được mặc thử hoặc sử dụng sản phẩm trước khi hoàn tất thanh toán (đối với COD)."/>
+
+            <!-- 9. Hủy đơn hàng -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="9. Hủy đơn hàng"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#D1D1D1"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp"
+                android:text="Khách hàng có thể hủy đơn hàng khi:\n- Đơn hàng chưa được bàn giao cho đơn vị vận chuyển.\n\nKhông thể hủy đơn khi:\n- Đơn hàng đang trong quá trình giao.\n- Đơn hàng đã được giao thành công."/>
+
+            <!-- 10. Chính sách bảo mật thông tin -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10. Chính sách bảo mật thông tin"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#D1D1D1"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp"
+                android:text="FiveStore cam kết bảo mật thông tin cá nhân của khách hàng.\n\nThông tin chỉ được sử dụng cho:\n- Xử lý đơn hàng\n- Liên hệ giao hàng\n- Hỗ trợ khách hàng\n\nKhông chia sẻ thông tin khách hàng cho bên thứ ba khi chưa có sự đồng ý."/>
+
+            <!-- 11. Quyền và trách nhiệm -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="11. Quyền và trách nhiệm"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#D1D1D1"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp"
+                android:text="Khách hàng:\n- Cung cấp thông tin chính xác khi đặt hàng\n- Thanh toán đầy đủ theo đơn hàng\n- Phối hợp nhận hàng đúng thời gian\n\nFiveStore:\n- Cung cấp sản phẩm đúng thông tin đã công bố\n- Giao hàng đúng quy trình\n- Hỗ trợ khách hàng trong quá trình mua sắm"/>
+
+            <!-- 12. Điều khoản chung -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="12. Điều khoản chung"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#D1D1D1"
+                android:textSize="14sp"
+                android:layout_marginBottom="24dp"
+                android:text="- FiveStore có quyền cập nhật chính sách bán hàng khi cần thiết.\n- Các thay đổi sẽ được thông báo trên ứng dụng.\n- Việc tiếp tục sử dụng ứng dụng được xem là khách hàng đã đồng ý với các điều khoản mới."/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
